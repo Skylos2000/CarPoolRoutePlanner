@@ -2,4 +2,4 @@
 Kyle Morrison
 Solomon Loche
 Will Duncan
-Leron Prou
+Leron Prout
