@@ -6,4 +6,3 @@ Solomon Loche
 Will Duncan
 
 Leron Prout
-
