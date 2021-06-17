@@ -1,5 +1,8 @@
 # CarPoolRoutePlanner
-Kyle Morrison 2
+Kyle Morrison
+
 Solomon Loche
+
 Will Duncan
+
 Leron Prout
