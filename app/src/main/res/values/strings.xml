@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">CarPoolRoutePlanner</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="button">Sign in</string>
+    <string name="button1">Join Group</string>
+    <string name="button2">Create Group</string>
+    <string name="button3">Manage Group</string>
+    <string name="button4">Remove Group</string>
+    <string name="button5">Invite Member</string>
+    <string name="GroupE">Enter Member Email</string>
+    <string name="GroupN">Create Group Name</string>
+    <string name="GroupP">Create Group Password</string>
+    <string name="GroupR">Enter Group Password</string>
+    <string name="GroupL"> Leave Group</string>
+    <string name="GroupO1">Invite Members</string>
+    <string name="GroupO2">View Current Members</string>
+    <string name="GroupO3">Remove Member</string>
+    <string name="GroupO4">Disband Group</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
+    <string name="host">Host</string>
+    <string name="guest">Guest</string>
+    <string name="logout">Log Out</string>
+    <string name="stay">Stay</string>
 </resources>
