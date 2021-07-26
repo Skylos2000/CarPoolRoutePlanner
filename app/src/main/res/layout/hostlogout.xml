@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TwelfthActivity">
+    tools:context=".HostLogOut">
 
     <Button
         android:id="@+id/stay"
         android:layout_width="239dp"
         android:layout_height="50dp"
         android:layout_marginTop="28dp"
-        android:text="@string/Yes"
+        android:text="@string/stay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
@@ -24,7 +24,7 @@
         android:layout_width="239dp"
         android:layout_height="50dp"
         android:layout_marginTop="28dp"
-        android:text="@string/No"
+        android:text="@string/logout"
         app:layout_constraintEnd_toEndOf="@+id/stay"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/stay"

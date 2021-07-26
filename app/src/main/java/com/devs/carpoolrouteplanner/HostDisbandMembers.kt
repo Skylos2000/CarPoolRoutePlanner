@@ -7,14 +7,14 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 
-class TenthActivity : AppCompatActivity() {
+class HostDisbandMembers : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.tenthactivity)
+        setContentView(R.layout.hostdisbandgroup)
 
         var password = findViewById(R.id.password) as EditText
         val button: Button = findViewById(R.id.button)
-        val intent = Intent(this@TenthActivity, SixthActivity::class.java)
+        val intent = Intent(this@HostDisbandMembers, GroupHostMenu::class.java)
 
         button.setOnClickListener{
             val code = password.text

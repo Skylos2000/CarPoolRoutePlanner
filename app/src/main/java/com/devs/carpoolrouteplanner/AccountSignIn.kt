@@ -19,15 +19,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainActivity : AppCompatActivity() {
+class AccountSignIn : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.accountsignin)
         var email = findViewById(R.id.email) as EditText
         var password = findViewById(R.id.password) as EditText
         var progressBar = findViewById(R.id.progressBar) as ProgressBar
         val button: Button = findViewById(R.id.button)
-        val intent = Intent(this@MainActivity, SecondActivity::class.java)
+        val intent = Intent(this@AccountSignIn, GroupManagementMenu::class.java)
         val loginViewModel: LoginViewModal = ViewModelProvider(this).get(LoginViewModal::class.java)
 
         progressBar.visibility = View.GONE

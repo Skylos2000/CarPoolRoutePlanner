@@ -5,16 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 
-class FifthActivity : AppCompatActivity() {
+class HostLogOut : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fifthactivity)
+        setContentView(R.layout.hostlogout)
 
-        val button1: Button = findViewById(R.id.host)
-        val button2: Button = findViewById(R.id.guest)
+        val button1: Button = findViewById(R.id.stay)
+        val button2: Button = findViewById(R.id.leave)
 
-        val intent1 = Intent(this@FifthActivity, SixthActivity::class.java)
-        val intent2 = Intent(this@FifthActivity, EleventhActivity::class.java)
+        val intent1 = Intent(this@HostLogOut, GroupHostMenu::class.java)
+        val intent2 = Intent(this@HostLogOut, AccountSignIn::class.java)
 
         button1.setOnClickListener {
             startActivity(intent1)
@@ -23,6 +23,5 @@ class FifthActivity : AppCompatActivity() {
         button2.setOnClickListener {
             startActivity(intent2)
         }
-
     }
 }

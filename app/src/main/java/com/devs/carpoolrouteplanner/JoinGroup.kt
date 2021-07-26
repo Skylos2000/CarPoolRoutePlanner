@@ -7,25 +7,26 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 
-class FourthActivity : AppCompatActivity() {
+class JoinGroup : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fourthactivity)
+        setContentView(R.layout.joingroup)
 
-        var email = findViewById(R.id.email) as EditText
         var password = findViewById(R.id.password) as EditText
         val button: Button = findViewById(R.id.button)
-        val intent = Intent(this@FourthActivity, SixthActivity::class.java)
+        val intent = Intent(this@JoinGroup, GuestMenu::class.java)
 
-        button.setOnClickListener {
-            val username = email.text
+        button.setOnClickListener{
             val code = password.text
-            if (username.toString().equals("hello") && code.toString().equals("world")) {
+            if( code.toString().equals("world")){
                 Toast.makeText(this, code, Toast.LENGTH_SHORT).show()
                 startActivity(intent)
-            } else {
-                Toast.makeText(this, username, Toast.LENGTH_SHORT).show()
+            }
+            else{
+                Toast.makeText(this, "Type world", Toast.LENGTH_SHORT).show()
             }
         }
+
+
     }
 }

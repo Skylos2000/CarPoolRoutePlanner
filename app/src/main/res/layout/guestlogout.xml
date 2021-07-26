@@ -4,18 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ThirdActivity">
+    tools:context=".GuestLogOut">
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="338dp"
+    <Button
+        android:id="@+id/stay"
+        android:layout_width="239dp"
         android:layout_height="50dp"
-        android:layout_marginTop="12dp"
-        android:ems="10"
-        android:hint="@string/GroupR"
-        android:inputType="textPassword"
-        android:selectAllOnFocus="true"
-        android:textColor="@color/black"
+        android:layout_marginTop="28dp"
+        android:text="@string/stay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
@@ -24,14 +20,14 @@
         app:layout_constraintVertical_bias="0.318" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/leave"
         android:layout_width="239dp"
         android:layout_height="50dp"
         android:layout_marginTop="28dp"
-        android:text="@string/button1"
-        app:layout_constraintEnd_toEndOf="@+id/password"
-        app:layout_constraintHorizontal_bias="0.421"
-        app:layout_constraintStart_toStartOf="@+id/password"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        android:text="@string/logout"
+        app:layout_constraintEnd_toEndOf="@+id/stay"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/stay"
+        app:layout_constraintTop_toBottomOf="@+id/stay" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,16 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 
-class FifteenthActivity : AppCompatActivity() {
+class GroupManagementType : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fifteenthactivity)
+        setContentView(R.layout.groupmanagementtype)
 
-        val button1: Button = findViewById(R.id.stay)
-        val button2: Button = findViewById(R.id.leave)
+        val button1: Button = findViewById(R.id.host)
+        val button2: Button = findViewById(R.id.guest)
 
-        val intent1 = Intent(this@FifteenthActivity, EleventhActivity::class.java)
-        val intent2 = Intent(this@FifteenthActivity, MainActivity::class.java)
+        val intent1 = Intent(this@GroupManagementType, GroupHostMenu::class.java)
+        val intent2 = Intent(this@GroupManagementType, GuestMenu::class.java)
 
         button1.setOnClickListener {
             startActivity(intent1)
@@ -23,5 +23,6 @@ class FifteenthActivity : AppCompatActivity() {
         button2.setOnClickListener {
             startActivity(intent2)
         }
+
     }
 }

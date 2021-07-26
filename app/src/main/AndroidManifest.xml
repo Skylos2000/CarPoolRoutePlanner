@@ -10,21 +10,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CarPoolRoutePlanner">
-        <activity android:name=".TenthActivity"></activity>
-        <activity android:name=".FifteenthActivity" />
-        <activity android:name=".FourteenthActivity" />
-        <activity android:name=".ThirteenthActivity" />
-        <activity android:name=".TwelfthActivity" />
-        <activity android:name=".NinthActivity" />
-        <activity android:name=".EighthActivity" />
-        <activity android:name=".SeventhActivity" />
-        <activity android:name=".EleventhActivity" />
-        <activity android:name=".SixthActivity" />
-        <activity android:name=".FifthActivity" />
-        <activity android:name=".FourthActivity" />
-        <activity android:name=".ThirdActivity" />
-        <activity android:name=".SecondActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".HostDisbandMembers" />
+        <activity android:name=".GuestLogOut" />
+        <activity android:name=".HostLogOut" />
+        <activity android:name=".MainMenuLogOut" />
+        <activity android:name=".GuestLeaveMembers" />
+        <activity android:name=".HostRemoveMembers" />
+        <activity android:name=".ViewCurrentMembers" />
+        <activity android:name=".HostInviteMembers" />
+        <activity android:name=".GuestMenu" />
+        <activity android:name=".GroupHostMenu" />
+        <activity android:name=".GroupManagementType" />
+        <activity android:name=".CreateGroup" />
+        <activity android:name=".JoinGroup" />
+        <activity android:name=".GroupManagementMenu" />
+        <activity android:name=".AccountSignIn">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -5,16 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 
-class FourteenthActivity : AppCompatActivity() {
+class GuestLeaveMembers : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fourteenthactivity)
+        setContentView(R.layout.guestleavegroup)
 
         val button1: Button = findViewById(R.id.stay)
         val button2: Button = findViewById(R.id.leave)
 
-        val intent1 = Intent(this@FourteenthActivity, SixthActivity::class.java)
-        val intent2 = Intent(this@FourteenthActivity, MainActivity::class.java)
+        val intent1 = Intent(this@GuestLeaveMembers, GuestMenu::class.java)
+        val intent2 = Intent(this@GuestLeaveMembers, GuestMenu::class.java)
 
         button1.setOnClickListener {
             startActivity(intent1)

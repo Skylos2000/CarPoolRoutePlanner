@@ -5,10 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 
-class SixthActivity : AppCompatActivity() {
+class GroupHostMenu : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.sixthactivity)
+        setContentView(R.layout.grouphostmenu)
 
         val button1: Button = findViewById(R.id.button1)
         val button2: Button = findViewById(R.id.button2)
@@ -16,11 +16,11 @@ class SixthActivity : AppCompatActivity() {
         val button4: Button = findViewById(R.id.button4)
         val button5: Button = findViewById(R.id.button5)
 
-        val intent1 = Intent(this@SixthActivity, SeventhActivity::class.java)
-        val intent2 = Intent(this@SixthActivity, EighthActivity::class.java)
-        val intent3 = Intent(this@SixthActivity, NinthActivity::class.java)
-        val intent4 = Intent(this@SixthActivity, TenthActivity::class.java)
-        val intent5 = Intent(this@SixthActivity, FourteenthActivity::class.java)
+        val intent1 = Intent(this@GroupHostMenu, HostInviteMembers::class.java)
+        val intent2 = Intent(this@GroupHostMenu, ViewCurrentMembers::class.java)
+        val intent3 = Intent(this@GroupHostMenu, HostRemoveMembers::class.java)
+        val intent4 = Intent(this@GroupHostMenu, HostDisbandMembers::class.java)
+        val intent5 = Intent(this@GroupHostMenu, HostLogOut::class.java)
 
         button1.setOnClickListener {
             startActivity(intent1)

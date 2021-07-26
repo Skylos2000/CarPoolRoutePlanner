@@ -7,14 +7,14 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 
-class SeventhActivity : AppCompatActivity() {
+class HostInviteMembers : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.seventhactivity)
+        setContentView(R.layout.hostinvitemembers)
 
         var email = findViewById(R.id.email) as EditText
         val button: Button = findViewById(R.id.button)
-        val intent = Intent(this@SeventhActivity, SixthActivity::class.java)
+        val intent = Intent(this@HostInviteMembers, GroupHostMenu::class.java)
 
         button.setOnClickListener{
             val username = email.text

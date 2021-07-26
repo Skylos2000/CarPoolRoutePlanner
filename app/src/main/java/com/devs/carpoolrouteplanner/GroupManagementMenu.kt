@@ -14,7 +14,7 @@ import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
 import java.lang.Exception
 
-class SecondActivity : AppCompatActivity() {
+class GroupManagementMenu : AppCompatActivity() {
     val DEFAULT_UPDATE_INTERVAL: Long = 5
     val FAST_UPDATE_INTERVAL: Long = 5
 
@@ -30,7 +30,7 @@ class SecondActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.secondactivity)
+        setContentView(R.layout.groupmanagementmenu)
 
         locationRequest = LocationRequest.create()
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
@@ -43,10 +43,10 @@ class SecondActivity : AppCompatActivity() {
         val button3: Button = findViewById(R.id.button3)
         val button4: Button = findViewById(R.id.button4)
 
-        val intent1 = Intent(this@SecondActivity, ThirdActivity::class.java)
-        val intent2 = Intent(this@SecondActivity, FourthActivity::class.java)
-        val intent3 = Intent(this@SecondActivity, FifthActivity::class.java)
-        val intent4 = Intent(this@SecondActivity, ThirteenthActivity::class.java)
+        val intent1 = Intent(this@GroupManagementMenu, JoinGroup::class.java)
+        val intent2 = Intent(this@GroupManagementMenu, CreateGroup::class.java)
+        val intent3 = Intent(this@GroupManagementMenu, GroupManagementType::class.java)
+        val intent4 = Intent(this@GroupManagementMenu, MainMenuLogOut::class.java)
 
         // set preferences for locationRequest
         locationRequest.interval = 1000 * DEFAULT_UPDATE_INTERVAL

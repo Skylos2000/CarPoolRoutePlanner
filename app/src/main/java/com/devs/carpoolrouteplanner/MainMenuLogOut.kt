@@ -5,16 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 
-class TwelfthActivity : AppCompatActivity() {
+class MainMenuLogOut : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.twelfthactivity)
+        setContentView(R.layout.mainmenulogout)
 
         val button1: Button = findViewById(R.id.stay)
         val button2: Button = findViewById(R.id.leave)
 
-        val intent1 = Intent(this@TwelfthActivity, EleventhActivity::class.java)
-        val intent2 = Intent(this@TwelfthActivity, EleventhActivity::class.java)
+        val intent1 = Intent(this@MainMenuLogOut, GroupManagementMenu::class.java)
+        val intent2 = Intent(this@MainMenuLogOut, AccountSignIn::class.java)
 
         button1.setOnClickListener {
             startActivity(intent1)
