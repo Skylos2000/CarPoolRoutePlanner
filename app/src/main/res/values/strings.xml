@@ -23,5 +23,13 @@
     <string name="guest">Guest</string>
     <string name="logout">Log Out</string>
     <string name="stay">Stay</string>
-    <string name="GPS">Use GPS Location</string>
+    <string name="GPS">View GPS Location</string>
+    <string name="JoinGroup">Join Group</string>
+    <string name="CreateGroup">Create Group</string>
+    <string name="ManageGroup">Manage Group</string>
+    <string name="StartRoute">Start Route</string>
+    <string name="Submit">Submit</string>
+    <string name="Username">Username</string>
+    <string name="createAcc">Create Account</string>
+
 </resources>

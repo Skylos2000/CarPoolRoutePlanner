@@ -8,6 +8,7 @@ import android.net.Uri
 import android.content.pm.PackageManager
 import android.location.Location
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
 
@@ -21,8 +22,8 @@ class MainMenu : AppCompatActivity() {
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     lateinit var locationCallback: LocationCallback
 
-    lateinit var btn_location: Button
-    lateinit var tv_GPS: TextView
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,14 +33,14 @@ class MainMenu : AppCompatActivity() {
         locationRequest = LocationRequest.create()
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
-        btn_location = findViewById(R.id.button5)
 
 
         val button1: Button = findViewById(R.id.button1)
         val button2: Button = findViewById(R.id.button2)
         val button3: Button = findViewById(R.id.button3)
         val button4: Button = findViewById(R.id.button4)
-        val button5: Button = findViewById(R.id.startRoute)
+        val button5: Button = findViewById(R.id.button5)
+        val button6: Button = findViewById(R.id.startRoute)
 
         val intent1 = Intent(this@MainMenu, JoinGroup::class.java)
         val intent2 = Intent(this@MainMenu, CreateGroup::class.java)
@@ -72,8 +73,11 @@ class MainMenu : AppCompatActivity() {
         button4.setOnClickListener {
             startActivity(intent4)
         }
-
         button5.setOnClickListener {
+            UpdateGPS()
+        }
+
+        button6.setOnClickListener {
             //gmap code here
             val gmmIntentUri =
                 Uri.parse("google.navigation:q=Taronga+Zoo,+Sydney+Australia")
@@ -82,20 +86,17 @@ class MainMenu : AppCompatActivity() {
             startActivity(mapIntent)
 
         }
-
-        btn_location.setOnClickListener {
-            UpdateGPS()
-        }
     }
 
     // grabs the last known location from the phone's "location cache"
     fun UpdateGPS(){
         if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationProviderClient.lastLocation.addOnSuccessListener{ location: Location? -> if(location != null){
-            tv_GPS.text = location.latitude.toString() + ", " +location.longitude.toString()}
+            fusedLocationProviderClient.lastLocation.addOnSuccessListener{ location: Location? -> if(location != null)
+            {
+                Toast.makeText(this, location.latitude.toString() + ", " +location.longitude.toString(), Toast.LENGTH_SHORT).show()
+            }
             }
         }
-
         else {
             if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                 requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), PERMISSIONS_FINE_LOCATION)
