@@ -31,5 +31,7 @@
     <string name="Submit">Submit</string>
     <string name="Username">Username</string>
     <string name="createAcc">Create Account</string>
+    <string name="SetRoute">Set Route</string>
+    <string name="EnterPoi">Enter POI Here</string>
 
 </resources>

@@ -12,9 +12,9 @@
         android:layout_height="56dp"
         android:layout_marginTop="16dp"
         android:text="@string/JoinGroup"
-        app:layout_constraintEnd_toEndOf="@+id/startRoute"
-        app:layout_constraintStart_toStartOf="@+id/startRoute"
-        app:layout_constraintTop_toBottomOf="@+id/startRoute" />
+        app:layout_constraintEnd_toEndOf="@+id/setRoute"
+        app:layout_constraintStart_toStartOf="@+id/setRoute"
+        app:layout_constraintTop_toBottomOf="@+id/setRoute" />
 
     <Button
         android:id="@+id/button2"
@@ -72,7 +72,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0" />
 
-
+    <Button
+        android:id="@+id/setRoute"
+        android:layout_width="362dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/SetRoute"
+        app:layout_constraintEnd_toEndOf="@+id/startRoute"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/startRoute"
+        app:layout_constraintTop_toBottomOf="@+id/startRoute" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

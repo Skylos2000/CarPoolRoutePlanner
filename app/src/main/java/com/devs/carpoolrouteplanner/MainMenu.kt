@@ -42,11 +42,13 @@ class MainMenu : AppCompatActivity() {
         val button4: Button = findViewById(R.id.button4)
         val button5: Button = findViewById(R.id.button5)
         val button6: Button = findViewById(R.id.startRoute)
+        val button7: Button = findViewById(R.id.setRoute)
 
         val intent1 = Intent(this@MainMenu, JoinGroup::class.java)
         val intent2 = Intent(this@MainMenu, CreateGroup::class.java)
         val intent3 = Intent(this@MainMenu, GroupManagementType::class.java)
         val intent4 = Intent(this@MainMenu, MainMenuLogOut::class.java)
+        val intent5 = Intent(this@MainMenu, SetRoute::class.java)
 
         // set preferences for locationRequest
         locationRequest.interval = 1000 * DEFAULT_UPDATE_INTERVAL
@@ -96,6 +98,9 @@ class MainMenu : AppCompatActivity() {
                 }
             }
 
+        }
+        button7.setOnClickListener {
+            startActivity(intent5)
         }
     }
 
