@@ -5,16 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.content.pm.PackageManager
-import android.location.Geocoder
 import android.location.Location
-import android.widget.Switch
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
-import java.lang.Exception
 
-class GroupManagementMenu : AppCompatActivity() {
+class MainMenu : AppCompatActivity() {
     val DEFAULT_UPDATE_INTERVAL: Long = 5
     val FAST_UPDATE_INTERVAL: Long = 5
 
@@ -30,7 +26,7 @@ class GroupManagementMenu : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.groupmanagementmenu)
+        setContentView(R.layout.mainmenu)
 
         locationRequest = LocationRequest.create()
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
@@ -42,11 +38,12 @@ class GroupManagementMenu : AppCompatActivity() {
         val button2: Button = findViewById(R.id.button2)
         val button3: Button = findViewById(R.id.button3)
         val button4: Button = findViewById(R.id.button4)
+        val button5: Button = findViewById(R.id.startRoute)
 
-        val intent1 = Intent(this@GroupManagementMenu, JoinGroup::class.java)
-        val intent2 = Intent(this@GroupManagementMenu, CreateGroup::class.java)
-        val intent3 = Intent(this@GroupManagementMenu, GroupManagementType::class.java)
-        val intent4 = Intent(this@GroupManagementMenu, MainMenuLogOut::class.java)
+        val intent1 = Intent(this@MainMenu, JoinGroup::class.java)
+        val intent2 = Intent(this@MainMenu, CreateGroup::class.java)
+        val intent3 = Intent(this@MainMenu, GroupManagementType::class.java)
+        val intent4 = Intent(this@MainMenu, MainMenuLogOut::class.java)
 
         // set preferences for locationRequest
         locationRequest.interval = 1000 * DEFAULT_UPDATE_INTERVAL
@@ -73,6 +70,10 @@ class GroupManagementMenu : AppCompatActivity() {
 
         button4.setOnClickListener {
             startActivity(intent4)
+        }
+
+        button5.setOnClickListener {
+            //gmap code here
         }
 
         btn_location.setOnClickListener {

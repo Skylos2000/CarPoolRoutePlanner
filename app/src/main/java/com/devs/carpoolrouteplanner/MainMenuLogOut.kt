@@ -13,7 +13,7 @@ class MainMenuLogOut : AppCompatActivity() {
         val button1: Button = findViewById(R.id.stay)
         val button2: Button = findViewById(R.id.leave)
 
-        val intent1 = Intent(this@MainMenuLogOut, GroupManagementMenu::class.java)
+        val intent1 = Intent(this@MainMenuLogOut, MainMenu::class.java)
         val intent2 = Intent(this@MainMenuLogOut, AccountSignIn::class.java)
 
         button1.setOnClickListener {
