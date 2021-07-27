@@ -22,7 +22,9 @@ class AccountSignIn : AppCompatActivity() {
         var password = findViewById(R.id.password) as EditText
         var progressBar = findViewById(R.id.progressBar) as ProgressBar
         val button: Button = findViewById(R.id.button)
+        val button2: Button = findViewById(R.id.createAccButton)
         val intent = Intent(this@AccountSignIn, MainMenu::class.java)
+        val intent2 = Intent(this@AccountSignIn, CreateAccount::class.java)
         val loginViewModel: LoginViewModal = ViewModelProvider(this).get(LoginViewModal::class.java)
 
         progressBar.visibility = View.GONE
@@ -54,5 +56,10 @@ class AccountSignIn : AppCompatActivity() {
                 Toast.makeText(this, "One or two fields are empty", Toast.LENGTH_SHORT).show()
             }
         }
+        button2.setOnClickListener{
+            startActivity(intent2)
+        }
+
+
     }
 }
