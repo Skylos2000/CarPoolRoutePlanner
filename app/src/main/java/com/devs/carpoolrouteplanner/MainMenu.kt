@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.net.Uri
 import android.content.pm.PackageManager
 import android.location.Location
 import android.widget.TextView
@@ -74,6 +75,12 @@ class MainMenu : AppCompatActivity() {
 
         button5.setOnClickListener {
             //gmap code here
+            val gmmIntentUri =
+                Uri.parse("google.navigation:q=Taronga+Zoo,+Sydney+Australia")
+            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            mapIntent.setPackage("com.google.android.apps.maps")
+            startActivity(mapIntent)
+
         }
 
         btn_location.setOnClickListener {
