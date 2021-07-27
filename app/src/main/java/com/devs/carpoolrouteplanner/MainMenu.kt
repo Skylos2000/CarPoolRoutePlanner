@@ -1,16 +1,17 @@
 package com.devs.carpoolrouteplanner
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.widget.Button
-import android.net.Uri
 import android.content.pm.PackageManager
 import android.location.Location
-import android.widget.TextView
+import android.net.Uri
+import android.os.Bundle
+import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
+
 
 class MainMenu : AppCompatActivity() {
     val DEFAULT_UPDATE_INTERVAL: Long = 5
@@ -80,10 +81,20 @@ class MainMenu : AppCompatActivity() {
         button6.setOnClickListener {
             //gmap code here
             val gmmIntentUri =
-                Uri.parse("google.navigation:q=Taronga+Zoo,+Sydney+Australia")
-            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-            mapIntent.setPackage("com.google.android.apps.maps")
-            startActivity(mapIntent)
+                Uri.parse("https://www.google.com/maps/dir/?api=1&origin=18.519513,73.868315&destination=18.518496,73.879259&waypoints=18.520561,73.872435|18.519254,73.876614|18.52152,73.877327|18.52019,73.879935&travelmode=driving")
+            val intent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            intent.setPackage("com.google.android.apps.maps")
+            try {
+                startActivity(intent)
+            } catch (ex: ActivityNotFoundException) {
+                try {
+                    val unrestrictedIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                    startActivity(unrestrictedIntent)
+                } catch (innerEx: ActivityNotFoundException) {
+                    Toast.makeText(this, "Please install a maps application", Toast.LENGTH_LONG)
+                        .show()
+                }
+            }
 
         }
     }
