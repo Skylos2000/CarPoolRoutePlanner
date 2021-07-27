@@ -8,24 +8,21 @@
 
     <Button
         android:id="@+id/button1"
-        android:layout_width="356dp"
-        android:layout_height="57dp"
+        android:layout_width="362dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
         android:text="@string/button1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.318" />
+        app:layout_constraintEnd_toEndOf="@+id/startRoute"
+        app:layout_constraintStart_toStartOf="@+id/startRoute"
+        app:layout_constraintTop_toBottomOf="@+id/startRoute" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="362dp"
         android:layout_height="56dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:text="@string/button2"
         app:layout_constraintEnd_toEndOf="@+id/button1"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/button1"
         app:layout_constraintTop_toBottomOf="@+id/button1" />
 
@@ -33,7 +30,7 @@
         android:id="@+id/button3"
         android:layout_width="362dp"
         android:layout_height="56dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:text="@string/button3"
         app:layout_constraintEnd_toEndOf="@+id/button2"
         app:layout_constraintHorizontal_bias="1.0"
@@ -42,8 +39,9 @@
 
     <Button
         android:id="@+id/button4"
-        android:layout_width="356dp"
-        android:layout_height="57dp"
+        android:layout_width="362dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
         android:text="@string/logout"
         app:layout_constraintEnd_toEndOf="@+id/button3"
         app:layout_constraintHorizontal_bias="1.0"
@@ -52,8 +50,9 @@
 
     <Button
         android:id="@+id/button5"
-        android:layout_width="356dp"
-        android:layout_height="57dp"
+        android:layout_width="362dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
         android:text="@string/GPS"
         app:layout_constraintEnd_toEndOf="@+id/button4"
         app:layout_constraintHorizontal_bias="1.0"
@@ -62,26 +61,18 @@
 
     <Button
         android:id="@+id/startRoute"
-        android:layout_width="356dp"
-        android:layout_height="57dp"
+        android:layout_width="362dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
         android:text="Start Route"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.192" />
+        app:layout_constraintVertical_bias="0" />
 
-    <TextView
-        android:id="@+id/tv_GPS"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:text=""
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/button5"
-        app:layout_constraintTop_toBottomOf="@+id/button5" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -33,7 +33,7 @@ class MainMenu : AppCompatActivity() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
         btn_location = findViewById(R.id.button5)
-        tv_GPS = findViewById(R.id.tv_GPS)
+
 
         val button1: Button = findViewById(R.id.button1)
         val button2: Button = findViewById(R.id.button2)
