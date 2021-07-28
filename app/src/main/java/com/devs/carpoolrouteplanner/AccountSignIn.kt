@@ -9,10 +9,15 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.devs.carpoolrouteplanner.utils.ApiService
+import com.devs.carpoolrouteplanner.utils.LoginResult
 import com.devs.carpoolrouteplanner.viewmodals.LoginViewModal
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AccountSignIn : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +48,6 @@ class AccountSignIn : AppCompatActivity() {
         })
 
         button.setOnClickListener {
-            startActivity(intent)
             val username = email.getText()
             val code = password.getText()
             if (!username.toString().equals("") && !code.toString().equals("")) {

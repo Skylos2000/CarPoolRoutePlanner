@@ -1,5 +1,12 @@
 package com.devs.carpoolrouteplanner
 
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.features.auth.*
+import io.ktor.client.features.auth.providers.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -37,14 +44,22 @@ class CreateAccount : AppCompatActivity() {
                 progressBar.visibility = View.VISIBLE
                 button.isClickable = false
                 lifecycleScope.launch {
-                    //TODO send info to backend
-                    //if (success) {
+                    try {
+                        val client = HttpClient(CIO)
+                        client.post<String>("http://10.158.1.128:8080/signup_text/") {
+                                body = "%s,%s,%s".format(username.toString(),code.toString(),email.toString())
+                        }
+                        Toast.makeText(this@CreateAccount, "Account Created Successfully, Please log in.", Toast.LENGTH_SHORT).show()
+                    }
+                    catch (e: Exception) {
+                        Toast.makeText(this@CreateAccount, "Account Creation Failed, Please Try Again.", Toast.LENGTH_SHORT).show()
+                    }//if (success) {
                     startActivity(intent)
                     finish()
                     progressBar.visibility= View.GONE
                     button.isClickable = true
                 }
-                Toast.makeText(this, "Account Created Successfully, Please log in.", Toast.LENGTH_SHORT).show()
+
             }
             else {
                 Toast.makeText(this, "One or more fields are empty", Toast.LENGTH_SHORT).show()
