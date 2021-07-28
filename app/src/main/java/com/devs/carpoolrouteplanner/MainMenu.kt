@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
+import com.devs.carpoolrouteplanner.utils.getConfigValue
 import com.google.android.gms.location.*
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -39,7 +40,7 @@ class MainMenu : AppCompatActivity() {
     lateinit var locationRequest: LocationRequest
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
-
+    val my_url = getConfigValue("backend_url")
 
 
 
@@ -111,9 +112,9 @@ class MainMenu : AppCompatActivity() {
                         }
                     }
 
-                    val httpResponse: List<Int> = client.get("http://10.0.0.53:8080/list_my_groups/")
+                    val httpResponse: List<Int> = client.get(my_url + "list_my_groups/")
                     //val stringBody: String = httpResponse.receive()
-                    destinationString += client.get<String>("http://10.0.0.53:8080/get_group_routes/${httpResponse.first()}").toString()
+                    destinationString += client.get<String>(my_url + "get_group_routes/${httpResponse.first()}").toString()
 
                     client.close()
 
@@ -170,7 +171,7 @@ class MainMenu : AppCompatActivity() {
                             }
                         }
                         //try {
-                        val response: HttpResponse = client.post("http://10.0.0.53:8080/set_my_pickup_location_by_text") {
+                        val response: HttpResponse = client.post(my_url + "set_my_pickup_location_by_text") {
                                 body = location.latitude.toString() + "," + location.longitude.toString()
                         }
                         if (response.status.value == 404) {
