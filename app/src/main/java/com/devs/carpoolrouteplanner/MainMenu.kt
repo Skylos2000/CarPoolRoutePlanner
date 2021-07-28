@@ -10,23 +10,23 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.liveData
 import com.google.android.gms.location.*
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
+import io.ktor.client.features.*
 import io.ktor.client.features.auth.*
 import io.ktor.client.features.auth.providers.*
+import io.ktor.client.features.json.*
+import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.*
-import kotlin.coroutines.CoroutineContext
 
 
 class MainMenu : AppCompatActivity() {
@@ -95,8 +95,36 @@ class MainMenu : AppCompatActivity() {
         }
 
         button6.setOnClickListener {
+            var destinationString : String = "";
+            //lifecycleScope.launch {
+            runBlocking {
+                launch {
+                    val client = HttpClient(CIO) {
+                        install(Auth) {
+                            basic {
+                                credentials {
+                                    BasicAuthCredentials(username = "aaa", password = "eee")
+                                }
+                            }
+                        }
+                        install(JsonFeature) {
+                            serializer = KotlinxSerializer()
+                        }
+                    }
+
+                    val httpResponse: List<Int> = client.get("http://192.168.0.15:8080/list_my_groups/")
+                    //val stringBody: String = httpResponse.receive()
+                    destinationString += client.get<String>("http://192.168.0.15:8080/get_group_routes/${httpResponse.first()}").toString()
+
+                    client.close()
+
+                    //tv.text = byteArrayBody.decodeToString() //# if you want the response decoded to a string
+                }
+            }
+            //18.520561,73.872435
             //gmap code here
             val gmmIntentUri =
+                Uri.parse("https://www.google.com/maps/dir/?api=1&destination=18.518496,73.879259&travelmode=driving&waypoints=$destinationString")
                 Uri.parse("https://www.google.com/maps/dir/?api=1&destination=shreveport,la&travelmode=driving&waypoints=monroe,la|louisana+tech")
             val intent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
             intent.setPackage("com.google.android.apps.maps")
@@ -111,6 +139,13 @@ class MainMenu : AppCompatActivity() {
                         .show()
                 }
             }
+/**
+            val gmmIntentUri =
+                Uri.parse("google.navigation:q=Taronga+Zoo,+Sydney+Australia")
+            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            mapIntent.setPackage("com.google.android.apps.maps")
+            startActivity(mapIntent)
+**/
 
         }
         button7.setOnClickListener {
