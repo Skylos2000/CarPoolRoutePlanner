@@ -10,7 +10,18 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.*
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.features.*
+import io.ktor.client.features.auth.*
+import io.ktor.client.features.auth.providers.*
+import io.ktor.client.features.get
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import kotlinx.coroutines.launch
 
 
 class MainMenu : AppCompatActivity() {
@@ -81,9 +92,28 @@ class MainMenu : AppCompatActivity() {
         }
 
         button6.setOnClickListener {
+
+            lifecycleScope.launch {
+                val client = HttpClient(CIO) {
+                    install(Auth) {
+                        basic {
+                            credentials {
+                                BasicAuthCredentials(username = "aaa", password = "eee")
+                            }
+                        }
+                    }
+                }
+                //val httpResponse: HttpResponse = client.get("http://192.168.0.15:8080")
+                val httpResponse2: HttpResponse = client.get("http://192.168.0.15:8080/example/what_is_my_name/")
+                val byteArrayBody: ByteArray = httpResponse2.receive()
+                client.close()
+
+                //tv.text = byteArrayBody.decodeToString() //# if you want the response decoded to a string
+            }
+
             //gmap code here
             val gmmIntentUri =
-                Uri.parse("https://www.google.com/maps/dir/?api=1&origin=18.519513,73.868315&destination=18.518496,73.879259&waypoints=18.520561,73.872435|18.519254,73.876614|18.52152,73.877327|18.52019,73.879935&travelmode=driving")
+                Uri.parse("https://www.google.com/maps/dir/?api=1&destination=18.518496,73.879259&travelmode=driving&waypoints=18.520561,73.872435")
             val intent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
             intent.setPackage("com.google.android.apps.maps")
             try {
@@ -97,6 +127,13 @@ class MainMenu : AppCompatActivity() {
                         .show()
                 }
             }
+/**
+            val gmmIntentUri =
+                Uri.parse("google.navigation:q=Taronga+Zoo,+Sydney+Australia")
+            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            mapIntent.setPackage("com.google.android.apps.maps")
+            startActivity(mapIntent)
+**/
 
         }
         button7.setOnClickListener {
