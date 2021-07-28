@@ -135,10 +135,12 @@ class MainMenu : AppCompatActivity() {
                                 }
                             }
                         }
-                        client.post<String>("http://10.0.0.53:8080/set_my_pickup_location_by_text") {
-                            //contentType(ContentType.Text.Plain)
-                            body = location.latitude.toString() + "," + location.longitude.toString()
-                        }
+                        try {
+                            client.post<String>("http://10.0.0.53:8080/set_my_pickup_location_by_text") {
+                                    body = location.latitude.toString() + "," + location.longitude.toString()
+                            }
+                        } catch (e: Exception) {}
+                        client.close()
                     }
                 }
             }
