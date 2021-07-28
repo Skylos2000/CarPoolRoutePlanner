@@ -31,7 +31,7 @@
     <string name="Submit">Submit</string>
     <string name="Username">Username</string>
     <string name="createAcc">Create Account</string>
-    <string name="SetRoute">Set Route</string>
+    <string name="SetRoute">Set Destination For Group</string>
     <string name="EnterPoi">Enter Lat and Long Here (Lat,Long)</string>
     <string name="EnterGid">Enter Group ID Here (ex.456)</string>
 
