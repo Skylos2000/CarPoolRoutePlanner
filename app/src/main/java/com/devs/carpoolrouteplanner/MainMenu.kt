@@ -38,7 +38,6 @@ class MainMenu : AppCompatActivity() {
 
     lateinit var locationRequest: LocationRequest
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    lateinit var locationCallback: LocationCallback
 
 
 
@@ -112,9 +111,9 @@ class MainMenu : AppCompatActivity() {
                         }
                     }
 
-                    val httpResponse: List<Int> = client.get("http://192.168.0.15:8080/list_my_groups/")
+                    val httpResponse: List<Int> = client.get("http://10.0.0.53:8080/list_my_groups/")
                     //val stringBody: String = httpResponse.receive()
-                    destinationString += client.get<String>("http://192.168.0.15:8080/get_group_routes/${httpResponse.first()}").toString()
+                    destinationString += client.get<String>("http://10.0.0.53:8080/get_group_routes/${httpResponse.first()}").toString()
 
                     client.close()
 
@@ -170,11 +169,17 @@ class MainMenu : AppCompatActivity() {
                                 }
                             }
                         }
-                        try {
-                            client.post<String>("http://10.0.0.53:8080/set_my_pickup_location_by_text") {
-                                    body = location.latitude.toString() + "," + location.longitude.toString()
-                            }
-                        } catch (e: Exception) {}
+                        //try {
+                        val response: HttpResponse = client.post("http://10.0.0.53:8080/set_my_pickup_location_by_text") {
+                                body = location.latitude.toString() + "," + location.longitude.toString()
+                        }
+                        if (response.status.value == 404) {
+                            Toast.makeText(this@MainMenu, "404 not found", Toast.LENGTH_SHORT).show()
+                        }
+                        else {
+                            Toast.makeText(this@MainMenu, "Success!", Toast.LENGTH_SHORT).show()
+                        }
+                        //} catch (e: Exception) {}
                         client.close()
                     }
                 }
