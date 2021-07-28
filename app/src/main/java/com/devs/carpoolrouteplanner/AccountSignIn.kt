@@ -1,7 +1,9 @@
 package com.devs.carpoolrouteplanner
 
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -41,6 +43,10 @@ class AccountSignIn : AppCompatActivity() {
             if (loginResult.success) {
                 startActivity(intent)
                 //TODO save the loginResult.value somewhere for access
+                with(this.getPreferences(Context.MODE_PRIVATE).edit()){
+                    putString("uid",loginResult.user.uid)
+                    apply()
+                }
                 finish()
             }
             progressBar.visibility= View.GONE
@@ -50,15 +56,17 @@ class AccountSignIn : AppCompatActivity() {
         button.setOnClickListener {
             val username = email.getText()
             val code = password.getText()
-            if (!username.toString().equals("") && !code.toString().equals("")) {
-                progressBar.visibility = View.VISIBLE
-                button.isClickable = false
-                lifecycleScope.launch{
-                    loginViewModel.login(username.toString(), code.toString())
-                }
-            } else {
-                Toast.makeText(this, "One or two fields are empty", Toast.LENGTH_SHORT).show()
-            }
+            startActivity(intent)
+
+//            if (!username.toString().equals("") && !code.toString().equals("")) {
+//                progressBar.visibility = View.VISIBLE
+//                button.isClickable = false
+//                lifecycleScope.launch{
+//                    loginViewModel.login(username.toString(), code.toString())
+//                }
+//            } else {
+//                Toast.makeText(this, "One or two fields are empty", Toast.LENGTH_SHORT).show()
+//            }
         }
         button2.setOnClickListener{
             startActivity(intent2)
