@@ -22,6 +22,9 @@ import io.ktor.client.features.get
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import kotlinx.coroutines.launch
+import io.ktor.client.features.json.*
+import io.ktor.client.features.json.serializer.*
+import kotlinx.coroutines.runBlocking
 
 
 class MainMenu : AppCompatActivity() {
@@ -92,28 +95,36 @@ class MainMenu : AppCompatActivity() {
         }
 
         button6.setOnClickListener {
-
-            lifecycleScope.launch {
-                val client = HttpClient(CIO) {
-                    install(Auth) {
-                        basic {
-                            credentials {
-                                BasicAuthCredentials(username = "aaa", password = "eee")
+            var destinationString : String = "";
+            //lifecycleScope.launch {
+            runBlocking {
+                launch {
+                    val client = HttpClient(CIO) {
+                        install(Auth) {
+                            basic {
+                                credentials {
+                                    BasicAuthCredentials(username = "aaa", password = "eee")
+                                }
                             }
                         }
+                        install(JsonFeature) {
+                            serializer = KotlinxSerializer()
+                        }
                     }
+
+                    val httpResponse: List<Int> = client.get("http://192.168.0.15:8080/list_my_groups/")
+                    //val stringBody: String = httpResponse.receive()
+                    destinationString += client.get<String>("http://192.168.0.15:8080/get_group_routes/${httpResponse.first()}").toString()
+
+                    client.close()
+
+                    //tv.text = byteArrayBody.decodeToString() //# if you want the response decoded to a string
                 }
-                //val httpResponse: HttpResponse = client.get("http://192.168.0.15:8080")
-                val httpResponse2: HttpResponse = client.get("http://192.168.0.15:8080/example/what_is_my_name/")
-                val byteArrayBody: ByteArray = httpResponse2.receive()
-                client.close()
-
-                //tv.text = byteArrayBody.decodeToString() //# if you want the response decoded to a string
             }
-
+            //18.520561,73.872435
             //gmap code here
             val gmmIntentUri =
-                Uri.parse("https://www.google.com/maps/dir/?api=1&destination=18.518496,73.879259&travelmode=driving&waypoints=18.520561,73.872435")
+                Uri.parse("https://www.google.com/maps/dir/?api=1&destination=18.518496,73.879259&travelmode=driving&waypoints=$destinationString")
             val intent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
             intent.setPackage("com.google.android.apps.maps")
             try {
