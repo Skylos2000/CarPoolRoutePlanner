@@ -11,7 +11,22 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.liveData
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.*
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.features.auth.*
+import io.ktor.client.features.auth.providers.*
+import io.ktor.client.request.*
+import io.ktor.client.request.forms.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.coroutines.CoroutineContext
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
@@ -28,6 +43,7 @@ import kotlinx.coroutines.runBlocking
 
 
 class MainMenu : AppCompatActivity() {
+
     val DEFAULT_UPDATE_INTERVAL: Long = 5
     val FAST_UPDATE_INTERVAL: Long = 5
 
@@ -69,11 +85,7 @@ class MainMenu : AppCompatActivity() {
         locationRequest.fastestInterval = 1000 * FAST_UPDATE_INTERVAL
         locationRequest.priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY // determines how location obtained (by default i think)
 
-        locationCallback = object: LocationCallback(){
-            override fun onLocationResult(locationResult: LocationResult) {
-                super.onLocationResult(locationResult)
-            }
-        }
+
 
         button1.setOnClickListener {
             startActivity(intent1)
@@ -92,6 +104,7 @@ class MainMenu : AppCompatActivity() {
         }
         button5.setOnClickListener {
             UpdateGPS()
+
         }
 
         button6.setOnClickListener {
@@ -125,6 +138,7 @@ class MainMenu : AppCompatActivity() {
             //gmap code here
             val gmmIntentUri =
                 Uri.parse("https://www.google.com/maps/dir/?api=1&destination=18.518496,73.879259&travelmode=driving&waypoints=$destinationString")
+                Uri.parse("https://www.google.com/maps/dir/?api=1&destination=shreveport,la&travelmode=driving&waypoints=monroe,la|louisana+tech")
             val intent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
             intent.setPackage("com.google.android.apps.maps")
             try {
@@ -155,10 +169,28 @@ class MainMenu : AppCompatActivity() {
     // grabs the last known location from the phone's "location cache"
     fun UpdateGPS(){
         if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationProviderClient.lastLocation.addOnSuccessListener{ location: Location? -> if(location != null)
-            {
-                Toast.makeText(this, location.latitude.toString() + ", " +location.longitude.toString(), Toast.LENGTH_SHORT).show()
-            }
+            fusedLocationProviderClient.lastLocation.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    Toast.makeText(this, location.latitude.toString() + ", " + location.longitude.toString(), Toast.LENGTH_SHORT).show()
+
+                    lifecycleScope.launch {
+                        val client = HttpClient(CIO) {
+                            install(Auth) {
+                                basic {
+                                    credentials {
+                                        BasicAuthCredentials(username = "aaa", password = "eee")
+                                    }
+                                }
+                            }
+                        }
+                        try {
+                            client.post<String>("http://10.0.0.53:8080/set_my_pickup_location_by_text") {
+                                    body = location.latitude.toString() + "," + location.longitude.toString()
+                            }
+                        } catch (e: Exception) {}
+                        client.close()
+                    }
+                }
             }
         }
         else {

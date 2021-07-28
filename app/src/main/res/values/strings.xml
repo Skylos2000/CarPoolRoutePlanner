@@ -23,7 +23,7 @@
     <string name="guest">Guest</string>
     <string name="logout">Log Out</string>
     <string name="stay">Stay</string>
-    <string name="GPS">View GPS Location</string>
+    <string name="GPS">Set GPS Location</string>
     <string name="JoinGroup">Join Group</string>
     <string name="CreateGroup">Create Group</string>
     <string name="ManageGroup">Manage Group</string>
