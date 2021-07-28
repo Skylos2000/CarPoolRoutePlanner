@@ -17,6 +17,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.devs.carpoolrouteplanner.utils.getConfigValue
 import com.devs.carpoolrouteplanner.viewmodals.LoginViewModal
 import kotlinx.coroutines.launch
 
@@ -46,7 +47,8 @@ class CreateAccount : AppCompatActivity() {
                 lifecycleScope.launch {
                     try {
                         val client = HttpClient(CIO)
-                        client.post<String>("http://10.158.1.128:8080/signup_text/") {
+                        val url = getConfigValue("backend_url")
+                        client.post<String>(url + "signup_text/") {
                                 body = "%s,%s,%s".format(username.toString(),code.toString(),email.toString())
                         }
                         Toast.makeText(this@CreateAccount, "Account Created Successfully, Please log in.", Toast.LENGTH_SHORT).show()

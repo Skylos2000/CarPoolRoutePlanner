@@ -32,6 +32,7 @@
     <string name="Username">Username</string>
     <string name="createAcc">Create Account</string>
     <string name="SetRoute">Set Route</string>
-    <string name="EnterPoi">Enter POI Here</string>
+    <string name="EnterPoi">Enter Lat and Long Here (Lat,Long)</string>
+    <string name="EnterGid">Enter Group ID Here (ex.456)</string>
 
 </resources>
