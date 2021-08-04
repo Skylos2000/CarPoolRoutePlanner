@@ -83,5 +83,24 @@
         app:layout_constraintStart_toStartOf="@+id/startRoute"
         app:layout_constraintTop_toBottomOf="@+id/startRoute" />
 
+    <Button
+        android:id="@+id/btn_RegDest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Send reg Dest"
+        app:layout_constraintStart_toStartOf="@+id/button5"
+        app:layout_constraintTop_toBottomOf="@+id/button5" />
+
+    <Button
+        android:id="@+id/btn_PriorityDest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Send Priority Dest"
+        app:layout_constraintStart_toEndOf="@+id/btn_RegDest"
+        app:layout_constraintTop_toBottomOf="@+id/button5" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,8 +26,11 @@ import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.* //////////////////
 import kotlinx.coroutines.runBlocking
 import java.util.*
+import kotlin.coroutines.coroutineContext
+
 
 
 class MainMenu : AppCompatActivity() {
@@ -41,6 +44,7 @@ class MainMenu : AppCompatActivity() {
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     val my_url = getConfigValue("backend_url")
+    //val my_url = "http://10.0.0.53:8080/"
 
 
 
@@ -60,6 +64,8 @@ class MainMenu : AppCompatActivity() {
         val button5: Button = findViewById(R.id.button5)
         val button6: Button = findViewById(R.id.startRoute)
         val button7: Button = findViewById(R.id.setRoute)
+        val btn_RegDest: Button = findViewById(R.id.btn_RegDest)
+        val btn_PriorityDest: Button = findViewById(R.id.btn_PriorityDest)
 
         val intent1 = Intent(this@MainMenu, JoinGroup::class.java)
         val intent2 = Intent(this@MainMenu, CreateGroup::class.java)
@@ -150,6 +156,31 @@ class MainMenu : AppCompatActivity() {
         }
         button7.setOnClickListener {
             startActivity(intent5)
+        }
+
+        btn_RegDest.setOnClickListener {
+            lifecycleScope.launch { SetRegDest(69.00, 96.00, false) }
+        }
+
+        btn_PriorityDest.setOnClickListener {
+            lifecycleScope.launch { SetRegDest(69.00, 96.00, true) }
+        }
+    }
+
+
+    suspend fun SetRegDest(lat: Double, long: Double, isPriority: Boolean){
+        val client = HttpClient(CIO) {
+            install(Auth) {
+                basic {
+                    credentials {
+                        BasicAuthCredentials(username = "aaa", password = "eee")
+                    }
+                }
+            }
+        }
+
+        val response: HttpResponse = client.post(my_url + "submit_location") {
+            body = "456,$lat,$long,$isPriority,"
         }
     }
 
