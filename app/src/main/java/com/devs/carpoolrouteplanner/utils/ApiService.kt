@@ -10,7 +10,7 @@ import io.ktor.client.statement.*
 
 class ApiService {
     companion object {
-        val apiUrl = "http://192.168.0.126:8080/"
+        val apiUrl = "http://10.0.0.53:8080/"
         suspend fun login(username: String, password: String): LoginResult {
             val client = HttpClient(CIO) {
                 install(Auth) {

@@ -1,18 +1,23 @@
 package com.devs.carpoolrouteplanner
 
+import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
+import android.os.Looper
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import com.devs.carpoolrouteplanner.utils.getConfigValue
+import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
+import com.google.android.gms.tasks.Task
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
@@ -32,19 +37,20 @@ import java.util.*
 import kotlin.coroutines.coroutineContext
 
 
-
 class MainMenu : AppCompatActivity() {
 
-    val DEFAULT_UPDATE_INTERVAL: Long = 5
+    val DEFAULT_UPDATE_INTERVAL: Long = 10
     val FAST_UPDATE_INTERVAL: Long = 5
 
     val PERMISSIONS_FINE_LOCATION = 69
+    val REQUEST_CHECK_SETTINGS = 201
 
     lateinit var locationRequest: LocationRequest
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    lateinit var locationCallback: LocationCallback
 
-    val my_url = getConfigValue("backend_url")
-    //val my_url = "http://10.0.0.53:8080/"
+    //val my_url = getConfigValue("backend_url")
+    val my_url = "http://10.0.0.53:8080/"
 
 
 
@@ -54,7 +60,6 @@ class MainMenu : AppCompatActivity() {
 
         locationRequest = LocationRequest.create()
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-
 
 
         val button1: Button = findViewById(R.id.button1)
@@ -76,9 +81,44 @@ class MainMenu : AppCompatActivity() {
         // set preferences for locationRequest
         locationRequest.interval = 1000 * DEFAULT_UPDATE_INTERVAL
         locationRequest.fastestInterval = 1000 * FAST_UPDATE_INTERVAL
-        locationRequest.priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY // determines how location obtained (by default i think)
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY // determines how location obtained (by default i think)
+        val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
+        val client: SettingsClient = LocationServices.getSettingsClient(this)
+        val task: Task<LocationSettingsResponse> = client.checkLocationSettings(builder.build())
 
+        /*locationCallback = object: LocationCallback(){
+            override fun onLocationResult(locationResult: LocationResult) {
+                super.onLocationResult(locationResult)
 
+                //UpdateUIVals(locationResult.lastLocation)
+                //UpdateGPS()
+            }
+        }*/
+
+        locationCallback = object : LocationCallback(){
+            override fun onLocationResult(locationResult: LocationResult?) {
+                locationResult ?: return
+                for (location in locationResult.locations){
+                    // Update UI with location data
+                    // ...
+                    lifecycleScope.launch {
+                        val client = HttpClient(CIO) {
+                            install(Auth) {
+                                basic {
+                                    credentials {
+                                        BasicAuthCredentials(username = "aaa", password = "eee")
+                                    }
+                                }
+                            }
+                        }
+                        val response: HttpResponse = client.post(my_url + "set_my_pickup_location_by_text") {
+                            body = location.latitude.toString() + "," + location.longitude.toString()
+                        }
+                    }
+                    //fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+                }
+            }
+        }
 
         button1.setOnClickListener {
             startActivity(intent1)
@@ -96,8 +136,13 @@ class MainMenu : AppCompatActivity() {
             startActivity(intent4)
         }
         button5.setOnClickListener {
-            UpdateGPS()
-
+            //UpdateGPS()
+            if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null)
+            }
+            else if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), PERMISSIONS_FINE_LOCATION)
+            }
         }
 
         button6.setOnClickListener {
@@ -187,7 +232,7 @@ class MainMenu : AppCompatActivity() {
     // grabs the last known location from the phone's "location cache"
     fun UpdateGPS(){
         if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationProviderClient.lastLocation.addOnSuccessListener { location: Location? ->
+            /*fusedLocationProviderClient.lastLocation.addOnSuccessListener { location: Location? ->
                 if (location != null) {
                     Toast.makeText(this, location.latitude.toString() + ", " + location.longitude.toString(), Toast.LENGTH_SHORT).show()
 
@@ -215,7 +260,14 @@ class MainMenu : AppCompatActivity() {
                         client.close()
                     }
                 }
-            }
+                else{
+                    Toast.makeText(this, "your location is null", Toast.LENGTH_SHORT).show()
+                    fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null)
+                    UpdateGPS()
+                    //fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+
+                }
+            }*/
         }
         else {
             if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {

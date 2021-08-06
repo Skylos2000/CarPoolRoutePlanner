@@ -56,17 +56,17 @@ class AccountSignIn : AppCompatActivity() {
         button.setOnClickListener {
             val username = email.getText()
             val code = password.getText()
-            startActivity(intent)
+            //startActivity(intent)
 
-//            if (!username.toString().equals("") && !code.toString().equals("")) {
-//                progressBar.visibility = View.VISIBLE
-//                button.isClickable = false
-//                lifecycleScope.launch{
-//                    loginViewModel.login(username.toString(), code.toString())
-//                }
-//            } else {
-//                Toast.makeText(this, "One or two fields are empty", Toast.LENGTH_SHORT).show()
-//            }
+            if (!username.toString().equals("") && !code.toString().equals("")) {
+                progressBar.visibility = View.VISIBLE
+                button.isClickable = false
+                lifecycleScope.launch{
+                    loginViewModel.login(username.toString(), code.toString())
+                }
+            } else {
+                Toast.makeText(this, "One or two fields are empty", Toast.LENGTH_SHORT).show()
+            }
         }
         button2.setOnClickListener{
             startActivity(intent2)
