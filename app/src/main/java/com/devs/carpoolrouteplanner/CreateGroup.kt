@@ -3,29 +3,47 @@ package com.devs.carpoolrouteplanner
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import com.devs.carpoolrouteplanner.utils.getConfigValue
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.features.auth.*
+import io.ktor.client.features.auth.providers.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import kotlinx.coroutines.launch
 
 class CreateGroup : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.creategroup)
 
-        var email = findViewById(R.id.email) as EditText
-        var password = findViewById(R.id.password) as EditText
         val button: Button = findViewById(R.id.button)
-        val intent = Intent(this@CreateGroup, GroupHostMenu::class.java)
+        val my_url = getConfigValue("backend_url")
 
         button.setOnClickListener {
-            val username = email.text
-            val code = password.text
-            if (username.toString().equals("hello") && code.toString().equals("world")) {
-                Toast.makeText(this, code, Toast.LENGTH_SHORT).show()
-                startActivity(intent)
-            } else {
-                Toast.makeText(this, username, Toast.LENGTH_SHORT).show()
+            button.isClickable = false
+            lifecycleScope.launch {
+                val client = HttpClient(CIO) {
+                    install(Auth) {
+                        basic {
+                            credentials {
+                                BasicAuthCredentials(username = "aaa", password = "eee")
+                            }
+                        }
+                    }
+                }
+
+                val response: HttpResponse = client.post(my_url + "create_group/") {
+                }
             }
-        }
+                    finish()
+                    button.isClickable = true
+                }
     }
 }
