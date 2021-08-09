@@ -35,6 +35,7 @@ import kotlinx.coroutines.* //////////////////
 import kotlinx.coroutines.runBlocking
 import java.util.*
 import kotlin.coroutines.coroutineContext
+import com.devs.carpoolrouteplanner.AccountSignIn.Companion.creds
 
 
 class MainMenu : AppCompatActivity() {
@@ -52,7 +53,8 @@ class MainMenu : AppCompatActivity() {
     //val my_url = getConfigValue("backend_url")
     val my_url = "http://10.0.0.53:8080/"
 
-
+    val userN = creds[0]
+    val passW = creds[1]
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +62,6 @@ class MainMenu : AppCompatActivity() {
 
         locationRequest = LocationRequest.create()
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-
 
         val button1: Button = findViewById(R.id.button1)
         val button2: Button = findViewById(R.id.button2)
@@ -78,35 +79,24 @@ class MainMenu : AppCompatActivity() {
         val intent4 = Intent(this@MainMenu, MainMenuLogOut::class.java)
         val intent5 = Intent(this@MainMenu, SetRoute::class.java)
 
-        // set preferences for locationRequest
+        // sets the update intervals for the location requests
         locationRequest.interval = 1000 * DEFAULT_UPDATE_INTERVAL
         locationRequest.fastestInterval = 1000 * FAST_UPDATE_INTERVAL
-        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY // determines how location obtained (by default i think)
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY // sets the location request to use the GPS
         val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
         val client: SettingsClient = LocationServices.getSettingsClient(this)
-        val task: Task<LocationSettingsResponse> = client.checkLocationSettings(builder.build())
-
-        /*locationCallback = object: LocationCallback(){
-            override fun onLocationResult(locationResult: LocationResult) {
-                super.onLocationResult(locationResult)
-
-                //UpdateUIVals(locationResult.lastLocation)
-                //UpdateGPS()
-            }
-        }*/
 
         locationCallback = object : LocationCallback(){
             override fun onLocationResult(locationResult: LocationResult?) {
                 locationResult ?: return
+                /* loop "cycles" through all the newly generated locations */
                 for (location in locationResult.locations){
-                    // Update UI with location data
-                    // ...
                     lifecycleScope.launch {
                         val client = HttpClient(CIO) {
                             install(Auth) {
                                 basic {
                                     credentials {
-                                        BasicAuthCredentials(username = "aaa", password = "eee")
+                                        BasicAuthCredentials(username = userN, password = passW)
                                     }
                                 }
                             }
@@ -115,7 +105,7 @@ class MainMenu : AppCompatActivity() {
                             body = location.latitude.toString() + "," + location.longitude.toString()
                         }
                     }
-                    //fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+                    fusedLocationProviderClient.removeLocationUpdates(locationCallback)
                 }
             }
         }
@@ -154,7 +144,7 @@ class MainMenu : AppCompatActivity() {
                         install(Auth) {
                             basic {
                                 credentials {
-                                    BasicAuthCredentials(username = "aaa", password = "eee")
+                                    BasicAuthCredentials(username = userN, password = passW)
                                 }
                             }
                         }
@@ -218,7 +208,7 @@ class MainMenu : AppCompatActivity() {
             install(Auth) {
                 basic {
                     credentials {
-                        BasicAuthCredentials(username = "aaa", password = "eee")
+                        BasicAuthCredentials(username = userN, password = passW)
                     }
                 }
             }

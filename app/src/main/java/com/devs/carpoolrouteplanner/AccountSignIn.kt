@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.devs.carpoolrouteplanner.AccountSignIn.Companion.creds
 import com.devs.carpoolrouteplanner.utils.ApiService
 import com.devs.carpoolrouteplanner.utils.LoginResult
 import com.devs.carpoolrouteplanner.viewmodals.LoginViewModal
@@ -22,6 +23,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AccountSignIn : AppCompatActivity() {
+
+    // companion object that will hold the user credentials and can be accessed from anywhere
+    companion object { val creds = arrayOf("", "") }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.accountsignin)
@@ -57,6 +62,8 @@ class AccountSignIn : AppCompatActivity() {
             val username = email.getText()
             val code = password.getText()
             //startActivity(intent)
+            creds[0] = username.toString()
+            creds[1] = code.toString()
 
             if (!username.toString().equals("") && !code.toString().equals("")) {
                 progressBar.visibility = View.VISIBLE
