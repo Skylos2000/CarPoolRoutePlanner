@@ -44,7 +44,6 @@ class MainMenu : AppCompatActivity() {
     val FAST_UPDATE_INTERVAL: Long = 5
 
     val PERMISSIONS_FINE_LOCATION = 69
-    val REQUEST_CHECK_SETTINGS = 201
 
     lateinit var locationRequest: LocationRequest
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -53,6 +52,7 @@ class MainMenu : AppCompatActivity() {
     //val my_url = getConfigValue("backend_url")
     val my_url = "http://10.0.0.53:8080/"
 
+    // username and password from companion object
     val userN = creds[0]
     val passW = creds[1]
 
@@ -83,15 +83,15 @@ class MainMenu : AppCompatActivity() {
         locationRequest.interval = 1000 * DEFAULT_UPDATE_INTERVAL
         locationRequest.fastestInterval = 1000 * FAST_UPDATE_INTERVAL
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY // sets the location request to use the GPS
-        val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
-        val client: SettingsClient = LocationServices.getSettingsClient(this)
 
-        locationCallback = object : LocationCallback(){
+        locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 locationResult ?: return
-                /* loop "cycles" through all the newly generated locations */
-                for (location in locationResult.locations){
+                // loop "cycles" through all the newly generated locations
+                for (location in locationResult.locations) {
                     lifecycleScope.launch {
+
+                        // authenticates user
                         val client = HttpClient(CIO) {
                             install(Auth) {
                                 basic {
@@ -101,10 +101,13 @@ class MainMenu : AppCompatActivity() {
                                 }
                             }
                         }
+
+                        // sends location to backend
                         val response: HttpResponse = client.post(my_url + "set_my_pickup_location_by_text") {
                             body = location.latitude.toString() + "," + location.longitude.toString()
                         }
                     }
+                    // turns off location updates after 1st location is generated (thus ended the loop)
                     fusedLocationProviderClient.removeLocationUpdates(locationCallback)
                 }
             }
@@ -125,9 +128,10 @@ class MainMenu : AppCompatActivity() {
         button4.setOnClickListener {
             startActivity(intent4)
         }
+
+        // pulls user's currnet GPS location and sends it to the backend
         button5.setOnClickListener {
-            //UpdateGPS()
-            if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null)
             }
             else if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
@@ -216,53 +220,6 @@ class MainMenu : AppCompatActivity() {
 
         val response: HttpResponse = client.post(my_url + "submit_location") {
             body = "456,$lat,$long,$isPriority,"
-        }
-    }
-
-    // grabs the last known location from the phone's "location cache"
-    fun UpdateGPS(){
-        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            /*fusedLocationProviderClient.lastLocation.addOnSuccessListener { location: Location? ->
-                if (location != null) {
-                    Toast.makeText(this, location.latitude.toString() + ", " + location.longitude.toString(), Toast.LENGTH_SHORT).show()
-
-                    lifecycleScope.launch {
-                        val client = HttpClient(CIO) {
-                            install(Auth) {
-                                basic {
-                                    credentials {
-                                        BasicAuthCredentials(username = "aaa", password = "eee")
-                                    }
-                                }
-                            }
-                        }
-                        //try {
-                        val response: HttpResponse = client.post(my_url + "set_my_pickup_location_by_text") {
-                                body = location.latitude.toString() + "," + location.longitude.toString()
-                        }
-                        if (response.status.value == 404) {
-                            Toast.makeText(this@MainMenu, "404 not found", Toast.LENGTH_SHORT).show()
-                        }
-                        else {
-                            Toast.makeText(this@MainMenu, "Success!", Toast.LENGTH_SHORT).show()
-                        }
-                        //} catch (e: Exception) {}
-                        client.close()
-                    }
-                }
-                else{
-                    Toast.makeText(this, "your location is null", Toast.LENGTH_SHORT).show()
-                    fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null)
-                    UpdateGPS()
-                    //fusedLocationProviderClient.removeLocationUpdates(locationCallback)
-
-                }
-            }*/
-        }
-        else {
-            if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), PERMISSIONS_FINE_LOCATION)
-            }
         }
     }
 }
