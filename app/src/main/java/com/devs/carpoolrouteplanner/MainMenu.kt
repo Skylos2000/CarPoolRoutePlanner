@@ -1,23 +1,17 @@
 package com.devs.carpoolrouteplanner
 
-import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.content.IntentSender
 import android.content.pm.PackageManager
-import android.location.Location
 import android.net.Uri
 import android.os.Bundle
-import android.os.Looper
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
-import com.devs.carpoolrouteplanner.utils.getConfigValue
-import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
-import com.google.android.gms.tasks.Task
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
@@ -34,11 +28,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.* //////////////////
 import kotlinx.coroutines.runBlocking
 import java.util.*
-import kotlin.coroutines.coroutineContext
 import com.devs.carpoolrouteplanner.AccountSignIn.Companion.creds
+import com.devs.carpoolrouteplanner.utils.NoticeDialogFragment
 
 
-class MainMenu : AppCompatActivity() {
+class MainMenu : AppCompatActivity(),// FragmentActivity(),
+    NoticeDialogFragment.NoticeDialogListener {
 
     val DEFAULT_UPDATE_INTERVAL: Long = 10
     val FAST_UPDATE_INTERVAL: Long = 5
@@ -142,6 +137,7 @@ class MainMenu : AppCompatActivity() {
         button6.setOnClickListener {
             var destinationString : String = "";
             //lifecycleScope.launch {
+            //showNoticeDialog()
             runBlocking {
                 launch {
                     val client = HttpClient(CIO) {
@@ -184,6 +180,7 @@ class MainMenu : AppCompatActivity() {
                         .show()
                 }
             }
+            showNoticeDialog()
 /**
             val gmmIntentUri =
                 Uri.parse("google.navigation:q=Taronga+Zoo,+Sydney+Australia")
@@ -220,6 +217,44 @@ class MainMenu : AppCompatActivity() {
 
         val response: HttpResponse = client.post(my_url + "submit_location") {
             body = "456,$lat,$long,$isPriority,"
+        }
+    }
+
+    fun showNoticeDialog() {
+        // Create an instance of the dialog fragment and show it
+        val dialog = NoticeDialogFragment()
+        dialog.show(supportFragmentManager, "NoticeDialogFragment")
+    }
+
+    // The dialog fragment receives a reference to this Activity through the
+    // Fragment.onAttach() callback, which it uses to call the following methods
+    // defined by the NoticeDialogFragment.NoticeDialogListener interface
+    override fun onDialogPositiveClick(dialog: DialogFragment) { // SAVE
+        // User touched the dialog's positive button
+        //Toast.makeText(this@MainMenu, "positive button pressed", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onDialogNegativeClick(dialog: DialogFragment) { // DELETE
+        // User touched the dialog's negative button
+        //Toast.makeText(this@MainMenu, "negative button pressed", Toast.LENGTH_LONG).show()
+        lifecycleScope.launch {
+
+            // authenticates user
+            val client = HttpClient(CIO) {
+                install(Auth) {
+                    basic {
+                        credentials {
+                            BasicAuthCredentials(username = userN, password = passW)
+                        }
+                    }
+                }
+            }
+
+            // sends location to backend
+            val response: HttpResponse = client.post(my_url + "delete_group") {
+                body = "505"
+            }
+            client.close()
         }
     }
 }

@@ -34,5 +34,8 @@
     <string name="SetRoute">Set Destination For Group</string>
     <string name="EnterPoi">Enter Lat and Long Here (Lat,Long)</string>
     <string name="EnterGid">Enter Group ID Here (ex.456)</string>
+    <string name="Save">Save</string>
+    <string name="Delete">Delete</string>
+    <string name="DeleteGroupDialog">Would you like to delete this group or save it for later use?</string>
 
 </resources>
