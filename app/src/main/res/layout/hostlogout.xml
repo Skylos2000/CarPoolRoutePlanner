@@ -7,27 +7,111 @@
     tools:context=".HostLogOut">
 
     <Button
-        android:id="@+id/stay"
-        android:layout_width="239dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="28dp"
-        android:text="@string/stay"
+        android:id="@+id/CreateGroup"
+        android:layout_width="358dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/button2"
+        android:textSize="20sp"
+        app:backgroundTint="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.318" />
+        app:layout_constraintVertical_bias="0.128" />
 
     <Button
-        android:id="@+id/leave"
-        android:layout_width="239dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="28dp"
+        android:id="@+id/SetRoute"
+        android:layout_width="174dp"
+        android:layout_height="85dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/JoinGroup"
+        android:textSize="20sp"
+        app:backgroundTint="@color/blue"
+        app:layout_constraintStart_toStartOf="@+id/CreateGroup"
+        app:layout_constraintTop_toBottomOf="@+id/CreateGroup" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="160dp"
+        android:layout_height="88dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/GroupO2"
+        android:textSize="20sp"
+        app:backgroundTint="@color/blue"
+        app:layout_constraintStart_toEndOf="@+id/SetRoute"
+        app:layout_constraintTop_toBottomOf="@+id/CreateGroup" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="172dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/button5"
+        android:textSize="20sp"
+        app:backgroundTint="@color/blue"
+        app:layout_constraintStart_toStartOf="@+id/SetRoute"
+        app:layout_constraintTop_toBottomOf="@+id/SetRoute" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="158dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/GroupL"
+        android:textSize="20sp"
+        app:backgroundTint="@color/blue"
+        app:layout_constraintStart_toEndOf="@+id/button2"
+        app:layout_constraintTop_toBottomOf="@+id/button1" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="172dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/GroupO3"
+        android:textSize="20sp"
+        app:backgroundTint="@color/blue"
+        app:layout_constraintStart_toStartOf="@+id/button2"
+        app:layout_constraintTop_toBottomOf="@+id/button2" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="174dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/GroupO4"
+        android:textSize="20sp"
+        app:backgroundTint="@color/blue"
+        app:layout_constraintStart_toEndOf="@+id/button4"
+        app:layout_constraintTop_toBottomOf="@+id/button3" />
+
+    <Button
+        android:id="@+id/btn_RegDest"
+        android:layout_width="173dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/ManageRoute"
+        app:layout_constraintStart_toStartOf="@+id/button4"
+        app:layout_constraintTop_toBottomOf="@+id/button4"
+        android:textSize="20sp"
+        app:backgroundTint="@color/green"/>
+
+    <Button
+        android:id="@+id/btn_PriorityDest"
+        android:layout_width="169dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
         android:text="@string/logout"
-        app:layout_constraintEnd_toEndOf="@+id/stay"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/stay"
-        app:layout_constraintTop_toBottomOf="@+id/stay" />
+        app:layout_constraintStart_toEndOf="@+id/btn_RegDest"
+        app:layout_constraintTop_toBottomOf="@+id/button5"
+        android:textSize="20sp"
+        app:backgroundTint="@color/red"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

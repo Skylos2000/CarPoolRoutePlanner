@@ -7,27 +7,43 @@
     tools:context=".MainMenuLogOut">
 
     <Button
-        android:id="@+id/stay"
-        android:layout_width="239dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="28dp"
-        android:text="@string/stay"
+        android:id="@+id/button1"
+        android:layout_width="362dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/ManageGroup"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.318" />
+        app:layout_constraintVertical_bias="0.28"
+        app:backgroundTint="@color/blue"
+        android:textSize="20sp" />
 
     <Button
-        android:id="@+id/leave"
-        android:layout_width="239dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="28dp"
+        android:id="@+id/button2"
+        android:layout_width="362dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/ManageRoute"
+        app:layout_constraintEnd_toEndOf="@+id/button1"
+        app:layout_constraintStart_toStartOf="@+id/button1"
+        app:layout_constraintTop_toBottomOf="@+id/button1"
+        app:backgroundTint="@color/green"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="362dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
         android:text="@string/logout"
-        app:layout_constraintEnd_toEndOf="@+id/stay"
+        app:layout_constraintEnd_toEndOf="@+id/button2"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/stay"
-        app:layout_constraintTop_toBottomOf="@+id/stay" />
+        app:layout_constraintStart_toStartOf="@+id/button2"
+        app:layout_constraintTop_toBottomOf="@+id/button2"
+        app:backgroundTint="@color/red"
+        android:textSize="20sp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,6 +27,7 @@
     <string name="JoinGroup">Join Group</string>
     <string name="CreateGroup">Create Group</string>
     <string name="ManageGroup">Manage Group</string>
+    <string name="ManageRoute">Manage Route</string>
     <string name="StartRoute">Start Route</string>
     <string name="Submit">Submit</string>
     <string name="Username">Username</string>
@@ -37,5 +38,7 @@
     <string name="Save">Save</string>
     <string name="Delete">Delete</string>
     <string name="DeleteGroupDialog">Would you like to delete this group or save it for later use?</string>
+    <string name="SendRegDest">Send Reg Dest</string>
+    <string name="SendPriorityDest">Send Priority Dest</string>
 
 </resources>

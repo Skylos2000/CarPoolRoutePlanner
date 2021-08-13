@@ -45,7 +45,7 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
     lateinit var locationCallback: LocationCallback
 
     //val my_url = getConfigValue("backend_url")
-    val my_url = "http://10.0.0.53:8080/"
+    val my_url = "http://10.45.228.103:8080/"
 
     // username and password from companion object
     val userN = creds[0]
@@ -67,12 +67,14 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
         val button7: Button = findViewById(R.id.setRoute)
         val btn_RegDest: Button = findViewById(R.id.btn_RegDest)
         val btn_PriorityDest: Button = findViewById(R.id.btn_PriorityDest)
+        val btn_ViewCurrentMembers: Button = findViewById(R.id.ViewCurrentMembers)
 
         val intent1 = Intent(this@MainMenu, JoinGroup::class.java)
         val intent2 = Intent(this@MainMenu, CreateGroup::class.java)
         val intent3 = Intent(this@MainMenu, GroupManagementType::class.java)
         val intent4 = Intent(this@MainMenu, MainMenuLogOut::class.java)
         val intent5 = Intent(this@MainMenu, SetRoute::class.java)
+        val intent6 = Intent(this@MainMenu, ViewCurrentMembers::class.java)
 
         // sets the update intervals for the location requests
         locationRequest.interval = 1000 * DEFAULT_UPDATE_INTERVAL
@@ -200,6 +202,10 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
 
         btn_PriorityDest.setOnClickListener {
             lifecycleScope.launch { SetRegDest(69.00, 96.00, true) }
+        }
+
+        btn_ViewCurrentMembers.setOnClickListener {
+            startActivity(intent6)
         }
     }
 
