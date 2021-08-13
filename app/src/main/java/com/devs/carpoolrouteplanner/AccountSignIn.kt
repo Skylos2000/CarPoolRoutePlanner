@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import com.devs.carpoolrouteplanner.AccountSignIn.Companion.creds
 import com.devs.carpoolrouteplanner.utils.ApiService
 import com.devs.carpoolrouteplanner.utils.LoginResult
+import com.devs.carpoolrouteplanner.utils.getConfigValue
 import com.devs.carpoolrouteplanner.viewmodals.LoginViewModal
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,7 +26,9 @@ import kotlinx.coroutines.withContext
 class AccountSignIn : AppCompatActivity() {
 
     // companion object that will hold the user credentials and can be accessed from anywhere
-    companion object { val creds = arrayOf("", "") }
+    companion object {
+        val creds = arrayOf("", "")
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,19 +51,22 @@ class AccountSignIn : AppCompatActivity() {
             if (loginResult.success) {
                 startActivity(intent)
                 //TODO save the loginResult.value somewhere for access
-                with(this.getPreferences(Context.MODE_PRIVATE).edit()){
-                    putString("uid",loginResult.user.uid)
+                with(this.getPreferences(Context.MODE_PRIVATE).edit()) {
+                    putString("uid", loginResult.user.uid)
+                    putString("username",loginResult.user.name)
+                    putString("password",loginResult.user.password)
                     apply()
                 }
                 finish()
             }
-            progressBar.visibility= View.GONE
+            progressBar.visibility = View.GONE
             button.isClickable = true
         })
 
         button.setOnClickListener {
             val username = email.getText()
             val code = password.getText()
+            val apiUrl = getConfigValue("backend_url");
             //startActivity(intent)
             creds[0] = username.toString()
             creds[1] = code.toString()
@@ -68,14 +74,18 @@ class AccountSignIn : AppCompatActivity() {
             if (!username.toString().equals("") && !code.toString().equals("")) {
                 progressBar.visibility = View.VISIBLE
                 button.isClickable = false
-                lifecycleScope.launch{
-                    loginViewModel.login(username.toString(), code.toString())
+                lifecycleScope.launch {
+                    apiUrl?.let {
+                        loginViewModel.login(it, username.toString(), code.toString())
+
+                    }
+
                 }
             } else {
                 Toast.makeText(this, "One or two fields are empty", Toast.LENGTH_SHORT).show()
             }
         }
-        button2.setOnClickListener{
+        button2.setOnClickListener {
             startActivity(intent2)
         }
 

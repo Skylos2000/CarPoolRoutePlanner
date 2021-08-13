@@ -18,7 +18,9 @@ class GuestMenu : AppCompatActivity() {
         val intent2 = Intent(this@GuestMenu, GuestLeaveMembers::class.java)
         val intent3 = Intent(this@GuestMenu, GuestLogOut::class.java)
 
+        val gid = intent.getStringExtra("GID")
         button1.setOnClickListener {
+            intent1.putExtra("GID",gid)
             startActivity(intent1)
         }
 

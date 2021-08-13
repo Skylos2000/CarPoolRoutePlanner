@@ -10,8 +10,7 @@ import io.ktor.client.statement.*
 
 class ApiService {
     companion object {
-        val apiUrl = "http://10.0.0.53:8080/"
-        suspend fun login(username: String, password: String): LoginResult {
+        suspend fun login(apiUrl:String,username: String, password: String): LoginResult {
             val client = HttpClient(CIO) {
                 install(Auth) {
                     basic {
@@ -27,14 +26,14 @@ class ApiService {
                     return LoginResult(
                         success = false,
                         message = "User/Password is wrong",
-                        user = LoggedInUser(uid = "", name = "")
+                        user = LoggedInUser(uid = "", name = "",password="",username="")
                     )
                 }
                 val name: String = response.receive()
                 return LoginResult(
                     success = true,
                     message = "Welcome " + name,
-                    LoggedInUser(uid = username + "|" + password, name = name)
+                    LoggedInUser(uid = username + "|" + password, name = name,username = username,password=password)
                 )
             } catch (e: Exception) {
                 return LoginResult(success = false, message = "Wrong Username/Password")
