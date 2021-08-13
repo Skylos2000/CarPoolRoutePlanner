@@ -7,27 +7,92 @@
     tools:context=".GuestLogOut">
 
     <Button
-        android:id="@+id/stay"
-        android:layout_width="239dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="28dp"
-        android:text="@string/stay"
+        android:id="@+id/startRoute"
+        android:layout_width="362dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/StartRoute"
+        android:textSize="20sp"
+        app:backgroundTint="@color/green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.318" />
+        app:layout_constraintVertical_bias="0.126" />
 
     <Button
-        android:id="@+id/leave"
-        android:layout_width="239dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="28dp"
-        android:text="@string/logout"
-        app:layout_constraintEnd_toEndOf="@+id/stay"
+        android:id="@+id/setRoute"
+        android:layout_width="362dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/SetRoute"
+        app:layout_constraintEnd_toEndOf="@+id/startRoute"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/startRoute"
+        app:layout_constraintTop_toBottomOf="@+id/startRoute"
+        app:backgroundTint="@color/green"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="362dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/GPS"
+        app:layout_constraintEnd_toEndOf="@+id/setRoute"
+        app:layout_constraintStart_toStartOf="@+id/setRoute"
+        app:layout_constraintTop_toBottomOf="@+id/setRoute"
+        app:backgroundTint="@color/green"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="362dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/SendRegDest"
+        app:layout_constraintEnd_toEndOf="@+id/button1"
+        app:layout_constraintStart_toStartOf="@+id/button1"
+        app:layout_constraintTop_toBottomOf="@+id/button1"
+        app:backgroundTint="@color/green"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="362dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/SendPriorityDest"
+        app:layout_constraintEnd_toEndOf="@+id/button2"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/stay"
-        app:layout_constraintTop_toBottomOf="@+id/stay" />
+        app:layout_constraintStart_toStartOf="@+id/button2"
+        app:layout_constraintTop_toBottomOf="@+id/button2"
+        app:backgroundTint="@color/green"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/btn_RegDest"
+        android:layout_width="173dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/ManageGroup"
+        app:layout_constraintStart_toStartOf="@+id/button3"
+        app:layout_constraintTop_toBottomOf="@+id/button3"
+        android:textSize="20sp"
+        app:backgroundTint="@color/blue"/>
+
+    <Button
+        android:id="@+id/btn_PriorityDest"
+        android:layout_width="169dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/logout"
+        app:layout_constraintStart_toEndOf="@+id/btn_RegDest"
+        app:layout_constraintTop_toBottomOf="@+id/button3"
+        android:textSize="20sp"
+        app:backgroundTint="@color/red"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

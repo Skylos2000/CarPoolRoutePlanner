@@ -26,14 +26,14 @@ class ApiService {
                     return LoginResult(
                         success = false,
                         message = "User/Password is wrong",
-                        user = LoggedInUser(uid = "", name = "",password="",username="")
+                        user = LoggedInUser(uid = "", name = "")
                     )
                 }
                 val name: String = response.receive()
                 return LoginResult(
                     success = true,
                     message = "Welcome " + name,
-                    LoggedInUser(uid = username + "|" + password, name = name,username = username,password=password)
+                    LoggedInUser(uid = username + "|" + password, name = name)
                 )
             } catch (e: Exception) {
                 return LoginResult(success = false, message = "Wrong Username/Password")

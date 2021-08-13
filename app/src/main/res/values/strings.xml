@@ -14,7 +14,7 @@
     <string name="GroupR">Enter Group Password</string>
     <string name="GroupL"> Leave Group</string>
     <string name="GroupO1">Invite Members</string>
-    <string name="GroupO2">View Current Members</string>
+    <string name="GroupO2">View Current Groups</string>
     <string name="GroupO3">Remove Member</string>
     <string name="GroupO4">Disband Group</string>
     <string name="Yes">Yes</string>
@@ -27,6 +27,7 @@
     <string name="JoinGroup">Join Group</string>
     <string name="CreateGroup">Create Group</string>
     <string name="ManageGroup">Manage Group</string>
+    <string name="ManageRoute">Manage Route</string>
     <string name="StartRoute">Start Route</string>
     <string name="Submit">Submit</string>
     <string name="Username">Username</string>
@@ -37,5 +38,7 @@
     <string name="Save">Save</string>
     <string name="Delete">Delete</string>
     <string name="DeleteGroupDialog">Would you like to delete this group or save it for later use?</string>
+    <string name="SendRegDest">Send Reg Dest</string>
+    <string name="SendPriorityDest">Send Priority Dest</string>
 
 </resources>
