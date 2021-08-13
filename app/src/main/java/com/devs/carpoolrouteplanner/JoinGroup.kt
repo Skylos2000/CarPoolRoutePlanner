@@ -65,6 +65,8 @@ class JoinGroup : AppCompatActivity() {
                             startActivity(intent)
                         }
                     } catch (e: Exception) {
+                        button.isClickable = false
+
                         Toast.makeText(applicationContext, "No group with the given invite code", Toast.LENGTH_SHORT).show()
                     }
                 }

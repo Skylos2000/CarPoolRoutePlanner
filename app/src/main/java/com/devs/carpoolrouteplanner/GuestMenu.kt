@@ -1,9 +1,22 @@
 package com.devs.carpoolrouteplanner
 
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputType
 import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
+import com.devs.carpoolrouteplanner.utils.getConfigValue
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.features.auth.*
+import io.ktor.client.features.auth.providers.*
+import io.ktor.client.request.*
+import kotlinx.coroutines.launch
 
 class GuestMenu : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,6 +26,7 @@ class GuestMenu : AppCompatActivity() {
         val button1: Button = findViewById(R.id.button1)
         val button2: Button = findViewById(R.id.button2)
         val button3: Button = findViewById(R.id.button3)
+        val deleteGroup:Button = findViewById<Button>(R.id.button6)
 
         val intent1 = Intent(this@GuestMenu, ViewCurrentMembers::class.java)
         val intent2 = Intent(this@GuestMenu, GuestLeaveMembers::class.java)
@@ -31,5 +45,56 @@ class GuestMenu : AppCompatActivity() {
         button3.setOnClickListener {
             startActivity(intent3)
         }
+
+        deleteGroup.setOnClickListener{
+            showdialog()
+        }
+    }
+
+    fun showdialog(){
+        val builder: android.app.AlertDialog.Builder = android.app.AlertDialog.Builder(this)
+        builder.setTitle("Input GID to delete")
+
+// Set up the input
+        val input = EditText(this)
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setHint("Enter Id")
+        input.inputType = InputType.TYPE_CLASS_TEXT
+        builder.setView(input)
+
+// Set up the buttons
+        builder.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
+            // Here you get get input text from the Edittext
+            var m_Text = input.text.toString()
+            val my_url = getConfigValue("backend_url") ?: return@OnClickListener
+            lifecycleScope.launch {
+
+                val client = HttpClient(CIO) {
+                    install(Auth) {
+                        basic {
+                            credentials {
+                                BasicAuthCredentials(username = AccountSignIn.creds[0], password = AccountSignIn.creds[1])
+                            }
+                        }
+                    }
+                }
+
+                try{
+                    val response: String = client.post(my_url + "delete_group"){
+
+                        body = m_Text
+                    }
+                    val data = response
+                    Toast.makeText(applicationContext, "Successfully performed delete action", Toast.LENGTH_LONG).show()
+                    dialog.cancel()
+                }catch (E:Exception){
+                    Toast.makeText(applicationContext,"Failed to delete. Wrong Group Id?",Toast.LENGTH_LONG)
+                    dialog.cancel()
+                }
+            }
+        })
+        builder.setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which -> dialog.cancel() })
+
+        builder.show()
     }
 }

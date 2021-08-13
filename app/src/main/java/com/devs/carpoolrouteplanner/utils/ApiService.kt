@@ -33,7 +33,7 @@ class ApiService {
                 return LoginResult(
                     success = true,
                     message = "Welcome " + name,
-                    LoggedInUser(uid = username + "|" + password, name = name)
+                    LoggedInUser(uid = username + "|" + password, name = name,username=username,password=password)
                 )
             } catch (e: Exception) {
                 return LoginResult(success = false, message = "Wrong Username/Password")

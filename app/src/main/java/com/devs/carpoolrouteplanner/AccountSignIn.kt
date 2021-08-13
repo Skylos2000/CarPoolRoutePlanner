@@ -50,7 +50,8 @@ class AccountSignIn : AppCompatActivity() {
             Toast.makeText(this, loginResult.message, Toast.LENGTH_SHORT).show()
             if (loginResult.success) {
                 //TODO save the loginResult.value somewhere for access
-
+                creds[0] = loginResult.user.username;
+                creds[1] = loginResult.user.password;
                 with(this.getSharedPreferences("login_details",Context.MODE_PRIVATE).edit()) {
                     putString("uid", loginResult.user.uid)
                     putString("username",loginResult.user.username)
