@@ -11,7 +11,7 @@ class LoginViewModal: ViewModel() {
     public val loginResult: MutableLiveData<LoginResult> = MutableLiveData<LoginResult>()
     suspend fun login(apiUrl:String,username:String,password:String)
     {
-        val result: LoginResult = ApiService.login(apiUrl,username.toString(), password.toString())
+        val result: LoginResult = ApiService.login(username.toString(), password.toString())
         loginResult.value = result
     }
 }

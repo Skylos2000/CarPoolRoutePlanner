@@ -44,8 +44,8 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     lateinit var locationCallback: LocationCallback
 
-    //val my_url = getConfigValue("backend_url")
-    val my_url = "http://10.45.228.103:8080/"
+    val my_url = "http://192.168.1.4:8080/"
+
 
     // username and password from companion object
     val userN = creds[0]

@@ -4,80 +4,104 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
+import android.widget.AdapterView
+import android.widget.ListView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import com.devs.carpoolrouteplanner.utils.ApiService
+import com.devs.carpoolrouteplanner.adapters.ItemAdapters
+import com.devs.carpoolrouteplanner.adapters.ItemList
 import com.devs.carpoolrouteplanner.utils.getConfigValue
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.auth.*
 import io.ktor.client.features.auth.providers.*
+import io.ktor.client.features.json.*
+import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
-import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import kotlinx.coroutines.launch
 
-class SetRoute : AppCompatActivity() {
+
+class SetRoute : AppCompatActivity() , AdapterView.OnItemClickListener{
+    private var listView: ListView? =null
+    private var itemAdapters:ItemAdapters ? =null
+    private var arrayList:ArrayList<ItemList> ? =null
+
+    private var data = "n/a"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_route)
-        var poi = findViewById(R.id.POI) as EditText
-        var gid = findViewById(R.id.GID) as EditText
-        val button: Button = findViewById(R.id.button1)
-        val intent = Intent(this@SetRoute, MainMenu::class.java)
-        var progressBar = findViewById(R.id.progressBar) as ProgressBar
-        progressBar.visibility = View.GONE
-        button.setOnClickListener {
-            val poi = poi.getText()
-            val gid = gid.getText()
-            val (lat,long) = poi.split(",")
-            val url = getConfigValue("backend_url")
-            if (!poi.toString().equals("") && !gid.toString().equals("")) {
-                progressBar.visibility = View.VISIBLE
-                button.isClickable = false
-                lifecycleScope.launch {
-                    val client = HttpClient(CIO) {
-                        install(Auth) {
-                            basic {
-                                credentials {
-                                    BasicAuthCredentials(username = "ttt", password = "ttt")
-                                }
-                            }
-                        }
-                    }
-                    try {
-                        val response: HttpResponse = client.get("$url/set_group_destination/$gid"){
-                            parameter("newLat",lat)
-                            parameter("newLong",long)
-                        }
-                        if (response.status.value == 404) {
-                            Toast.makeText(this@SetRoute, "404 not found", Toast.LENGTH_SHORT).show()
-                        }
-                        else {
-                            Toast.makeText(this@SetRoute, "Success!", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                    catch (e: Exception) {
-                        Toast.makeText(
-                            this@SetRoute,
-                            "Invalid Input",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }//if (success) {
-                    startActivity(intent)
-                    finish()
-                    progressBar.visibility = View.GONE
-                    button.isClickable = true
-                }
 
-            } else {
-                Toast.makeText(this, "One or more fields are empty", Toast.LENGTH_SHORT).show()
+        listView = findViewById(R.id.cardview_list_view)
+        arrayList = ArrayList()
+        arrayList = setDataItem()
+        itemAdapters = ItemAdapters(applicationContext,arrayList!!)
+        listView?.adapter = itemAdapters
+        listView?.onItemClickListener = this
+        getData("")
+
+    }
+    private fun setDataItem() :ArrayList<ItemList>{
+        var listItem:ArrayList<ItemList> = ArrayList()
+        listItem.add(
+            ItemList(
+                "Final Destination", data
+            )
+        )
+
+        return listItem
+    }
+    private fun getData(verb:String?){//:String?
+        val userN = AccountSignIn.creds[0]
+        val passW = AccountSignIn.creds[1]
+        val url = getConfigValue("backend_url")
+        val gid = 456
+        lifecycleScope.launch {
+            val client = HttpClient(CIO) {
+                install(Auth) {
+                    basic {
+                        credentials {
+                            BasicAuthCredentials(username = userN, password = passW)
+                        }
+                    }
+                }
+                install(JsonFeature) {
+                    serializer = KotlinxSerializer()
+                }
             }
+            var destinationString = ""
+            try {
+                val response: HttpResponse = client.get("$url/get_group_routes/$gid")
+                destinationString += client.get<String>(url + "/get_group_routes/$gid").toString()
+                var data = response.toString()
+                if (response.status.value == 404) {
+                    Toast.makeText(this@SetRoute, "404 not found", Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    Toast.makeText(this@SetRoute, "Success!", Toast.LENGTH_SHORT).show()
+                    var items: ItemList = arrayList?.get(0)!!
+                    items.description = destinationString
+                }
+            }
+            catch (e: Exception) {
+                Toast.makeText(
+                    this@SetRoute,
+                    "Problem Communicating With Server",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            //finish()
         }
 
+        return
+    }
+
+    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        //if item.title == verb then open intent
+        //startActivity(intentSetGroupDest)
+        var items: ItemList = arrayList?.get(position)!!
+        Toast.makeText(applicationContext,items.title,Toast.LENGTH_LONG).show()
+        startActivity(Intent(this@SetRoute, SetGroupDest::class.java))
     }
 }
 

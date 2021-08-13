@@ -47,7 +47,7 @@ class ViewCurrentMembers : AppCompatActivity() {
                 val data = response
                 Toast.makeText(this@ViewCurrentMembers, data, LENGTH_LONG).show()
             }
-            finish()
+            //finish()
             button.isClickable = true
         }
     }

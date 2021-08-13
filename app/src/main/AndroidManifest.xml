@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CarPoolRoutePlanner">
         <activity android:name=".SetRoute"/>
+        <activity android:name=".SetGroupDest"/>
         <activity android:name=".CreateAccount" />
         <activity android:name=".HostDisbandMembers" />
         <activity android:name=".GuestLogOut" />

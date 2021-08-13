@@ -14,7 +14,7 @@
     <string name="GroupR">Enter Group Password</string>
     <string name="GroupL"> Leave Group</string>
     <string name="GroupO1">Invite Members</string>
-    <string name="GroupO2">View Current Members</string>
+    <string name="GroupO2">View Current Groups</string>
     <string name="GroupO3">Remove Member</string>
     <string name="GroupO4">Disband Group</string>
     <string name="Yes">Yes</string>
