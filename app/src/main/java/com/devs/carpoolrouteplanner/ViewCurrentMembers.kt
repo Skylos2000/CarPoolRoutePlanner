@@ -42,12 +42,12 @@ class ViewCurrentMembers : AppCompatActivity() {
                     }
                 }
 
-                val response: HttpResponse = client.get(my_url + "list_my_groups/"){
+                val response: String = client.get(my_url + "list_my_groups/"){
                 }
-                val data = response.toString()
+                val data = response
                 Toast.makeText(this@ViewCurrentMembers, data, LENGTH_LONG).show()
             }
-            //finish()
+            finish()
             button.isClickable = true
         }
     }
