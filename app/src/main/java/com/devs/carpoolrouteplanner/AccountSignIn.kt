@@ -49,14 +49,15 @@ class AccountSignIn : AppCompatActivity() {
             val loginResult = it
             Toast.makeText(this, loginResult.message, Toast.LENGTH_SHORT).show()
             if (loginResult.success) {
-                startActivity(intent)
                 //TODO save the loginResult.value somewhere for access
-                with(this.getPreferences(Context.MODE_PRIVATE).edit()) {
+
+                with(this.getSharedPreferences("login_details",Context.MODE_PRIVATE).edit()) {
                     putString("uid", loginResult.user.uid)
-                    putString("username",loginResult.user.name)
+                    putString("username",loginResult.user.username)
                     putString("password",loginResult.user.password)
                     apply()
                 }
+                startActivity(intent)
                 finish()
             }
             progressBar.visibility = View.GONE

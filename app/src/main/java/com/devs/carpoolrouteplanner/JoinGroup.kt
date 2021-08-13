@@ -33,8 +33,8 @@ class JoinGroup : AppCompatActivity() {
             val code = password.text
             button.isClickable = false
 
-            val username = this.getPreferences(Context.MODE_PRIVATE).getString("username","");
-            val password = this.getPreferences(Context.MODE_PRIVATE).getString("password","");
+            val username = this.getSharedPreferences("login_details",Context.MODE_PRIVATE).getString("username","");
+            val password = this.getSharedPreferences("login_details",Context.MODE_PRIVATE).getString("password","");
 
             lifecycleScope.launch{
                 val apiUrl = getConfigValue("backend_url")
