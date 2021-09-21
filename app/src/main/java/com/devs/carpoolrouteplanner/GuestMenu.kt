@@ -26,6 +26,7 @@ class GuestMenu : AppCompatActivity() {
         val button1: Button = findViewById(R.id.button1)
         val button2: Button = findViewById(R.id.button2)
         val button3: Button = findViewById(R.id.button3)
+        val inviteOthers: Button = findViewById(R.id.inviteOthers)
         val deleteGroup:Button = findViewById<Button>(R.id.button6)
 
         val intent1 = Intent(this@GuestMenu, ViewCurrentMembers::class.java)
@@ -48,6 +49,16 @@ class GuestMenu : AppCompatActivity() {
 
         deleteGroup.setOnClickListener{
             showdialog()
+        }
+
+        inviteOthers.setOnClickListener{
+            var inviteCode = "invitecode";
+            var dummyLink = "https://coolrouteplanner.test/join/${inviteCode}";
+            val shareIntent = Intent()
+            shareIntent.action = Intent.ACTION_SEND
+            shareIntent.type="text/plain"
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "Please join my group using this invite code: ${inviteCode}")
+            startActivity(Intent.createChooser(shareIntent,"Send To"))
         }
     }
 
