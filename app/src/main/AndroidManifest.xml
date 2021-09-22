@@ -29,6 +29,8 @@
         <activity android:name=".CreateGroup" />
         <activity android:name=".JoinGroup" />
         <activity android:name=".MainMenu" />
+        <activity android:name=".Solomon" />
+        <activity android:name=".SolomonGroupVote" />
         <activity android:name=".AccountSignIn">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

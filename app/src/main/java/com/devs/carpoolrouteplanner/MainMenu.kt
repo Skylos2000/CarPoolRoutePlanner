@@ -44,7 +44,7 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     lateinit var locationCallback: LocationCallback
 
-    val my_url = "http://192.168.1.4:8080/"
+    val my_url = "http://192.168.1.104:8080/"
 
 
     // username and password from companion object
@@ -75,6 +75,12 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
         val intent4 = Intent(this@MainMenu, MainMenuLogOut::class.java)
         val intent5 = Intent(this@MainMenu, SetRoute::class.java)
         val intent6 = Intent(this@MainMenu, ViewCurrentMembers::class.java)
+
+        val solo: Button = findViewById(R.id.solomon)
+        val solomonIntent = Intent(this@MainMenu, Solomon::class.java)
+        solo.setOnClickListener {
+            startActivity(solomonIntent)
+        }
 
         // sets the update intervals for the location requests
         locationRequest.interval = 1000 * DEFAULT_UPDATE_INTERVAL
