@@ -58,6 +58,9 @@ class SolomonGroupVote: AppCompatActivity() {
             }
         }
 
+        if (locationOptions == "-1"){
+            locationOptions = ""
+        }
         locationOptions = locationOptions.replace("[", "")
         locationOptions = locationOptions.replace("]", "")
         locationOptions = locationOptions.replace(34.toChar().toString(), "")
@@ -66,6 +69,8 @@ class SolomonGroupVote: AppCompatActivity() {
         var listAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, locationOptionsList)
         lvVotingOptions.adapter = listAdapter
 
+        // -1: There is no active voting for this group
+        // -2: Only the group leader can start/end a poll
 
         btnStartVote.setOnClickListener {
             runBlocking {
@@ -80,8 +85,11 @@ class SolomonGroupVote: AppCompatActivity() {
                     }
                 }
 
-                val response: HttpResponse = client.post(my_url + "startVote") {
+                val response: String = client.post(my_url + "startVote") {
                     body = gid.toString()
+                }
+                if (response == "-2"){
+                    Toast.makeText(this@SolomonGroupVote, "Only the group leader can start/end a poll", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -99,30 +107,43 @@ class SolomonGroupVote: AppCompatActivity() {
                     }
                 }
 
-                val response: HttpResponse = client.post(my_url + "voteResult") {
+                val response: String = client.post(my_url + "voteResult") {
                     body = gid.toString()
+                }
+                if (response == "-1"){
+                    Toast.makeText(this@SolomonGroupVote, "There is no active voting for this group", Toast.LENGTH_SHORT).show()
+                }
+                if (response == "-2"){
+                    Toast.makeText(this@SolomonGroupVote, "Only the group leader can end a poll", Toast.LENGTH_SHORT).show()
                 }
             }
         }
 
         btnSubmitLocation.setOnClickListener {
-            runBlocking {
-                // authenticates user
-                val client = HttpClient(CIO) {
-                    install(Auth) {
-                        basic {
-                            credentials {
-                                BasicAuthCredentials(username = userN, password = passW)
+            if (txtEnterLocation.text != ""){
+                Toast.makeText(this@SolomonGroupVote, "Location field cannot be empty", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                runBlocking {
+                    // authenticates user
+                    val client = HttpClient(CIO) {
+                        install(Auth) {
+                            basic {
+                                credentials {
+                                    BasicAuthCredentials(username = userN, password = passW)
+                                }
                             }
                         }
                     }
-                }
 
-                val response: String = client.post(my_url + "addVotingLocation") {
-                    body = gid.toString() + "," + txtEnterLocation.text
-                }
-                if (response.toString() == "Voting has not started"){
-                    Toast.makeText(this@SolomonGroupVote, response.toString(), Toast.LENGTH_SHORT).show()
+                    val response: String = client.post(my_url + "addVotingLocation") {
+                        body = gid.toString() + "," + txtEnterLocation.text
+                    }
+                    if (response == "-1") {
+                        Toast.makeText(this@SolomonGroupVote,
+                            "Voting has not started",
+                            Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
@@ -152,13 +173,18 @@ class SolomonGroupVote: AppCompatActivity() {
                     }
                 }
             }
-            locationOptions = locationOptions.replace("[", "")
-            locationOptions = locationOptions.replace("]", "")
-            locationOptions = locationOptions.replace(34.toChar().toString(), "")
-            locationOptionsList = locationOptions.split(",")
+            if (locationOptions == "-1"){
+                Toast.makeText(this@SolomonGroupVote, "There is no active voting for this group", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                locationOptions = locationOptions.replace("[", "")
+                locationOptions = locationOptions.replace("]", "")
+                locationOptions = locationOptions.replace(34.toChar().toString(), "")
+                locationOptionsList = locationOptions.split(",")
 
-            listAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, locationOptionsList)
-            lvVotingOptions.adapter = listAdapter
+                listAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, locationOptionsList)
+                lvVotingOptions.adapter = listAdapter
+            }
         }
 
         // fuuuuucckk, make a new route for this too
@@ -175,24 +201,34 @@ class SolomonGroupVote: AppCompatActivity() {
                     }
                 }
 
-                val response: HttpResponse = client.post(my_url + "castVote") {
-                    body = gid.toString() + "," + locationOptionsList[i]
-                }
+                if(locationOptionsList[i] == "") { locationOptions = "-3" }
+                else {
 
-                locationOptions = client.post(my_url + "votingScores") {
-                    body = gid.toString()
+                    val response: HttpResponse = client.post(my_url + "castVote") {
+                        body = gid.toString() + "," + locationOptionsList[i]
+                    }
+
+                    locationOptions = client.post(my_url + "votingScores") {
+                        body = gid.toString()
+                    }
                 }
             }
-            locationOptions = locationOptions.replace("[", "")
-            locationOptions = locationOptions.replace("]", "")
-            locationOptions = locationOptions.replace(34.toChar().toString(), "")
-            locationOptionsList = locationOptions.split(",")
+            if (locationOptions == "-3"){
+                Toast.makeText(this@SolomonGroupVote, "There are no voting locations, try refreshing", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                locationOptions = locationOptions.replace("[", "")
+                locationOptions = locationOptions.replace("]", "")
+                locationOptions = locationOptions.replace(34.toChar().toString(), "")
+                locationOptionsList = locationOptions.split(",")
 
-            listAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, locationOptionsList)
-            lvVotingOptions.adapter = listAdapter
+                listAdapter =
+                    ArrayAdapter(this, android.R.layout.simple_list_item_1, locationOptionsList)
+                lvVotingOptions.adapter = listAdapter
 
-            lvVotingOptions.isClickable = false
-            lvVotingOptions.isEnabled = false
+                lvVotingOptions.isClickable = false
+                lvVotingOptions.isEnabled = false
+            }
         }
     }
 }
