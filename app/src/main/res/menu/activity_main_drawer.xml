@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/mainmenu"
+            android:title="Main Menu" />
+
+    </group>
+
+    <group
+        android:id="@+id/navgroup"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/creategroup"
+            android:title="Create Group"
+            android:textColor="@color/blue"/>
+
+        <item
+            android:id="@+id/joingroup"
+            android:title="Join Group" />
+        <item
+            android:id="@+id/viewcurrentmembers"
+            android:title="View Current Members" />
+
+        <item
+            android:id="@+id/invitemember"
+            android:title="Invite Members" />
+        <item
+            android:id="@+id/removemember"
+            android:title="Remove Members" />
+
+    </group>
+    <group
+        android:id="@+id/navroute"
+        android:checkableBehavior="single">
+
+
+        <item
+            android:id="@+id/startroute"
+            android:title="Start Route" />
+
+        <item
+            android:id="@+id/setdestination"
+            android:title="Set Destination" />
+
+        <item
+            android:id="@+id/setgps"
+            android:title="Set GPS Location" />
+
+        <item
+            android:id="@+id/setregroute"
+            android:title="Set Regular Route" />
+
+        <item
+            android:id="@+id/setproroute"
+            android:title="Set Proority Route" />
+    </group>
+
+    <group
+        android:id="@+id/navlogout"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/logout"
+            android:title="Log Out" />
+    </group>
+
+</menu>
