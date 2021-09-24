@@ -8,8 +8,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import com.devs.carpoolrouteplanner.utils.LoggedInUser
-import com.devs.carpoolrouteplanner.utils.LoginResult
 import com.devs.carpoolrouteplanner.utils.getConfigValue
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -25,7 +23,7 @@ class JoinGroup : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.joingroup)
 
-        var password = findViewById(R.id.password) as EditText
+        val password: EditText = findViewById(R.id.password)
         val button: Button = findViewById(R.id.button)
         val intent = Intent(this@JoinGroup, GuestMenu::class.java)
 
@@ -33,8 +31,8 @@ class JoinGroup : AppCompatActivity() {
             val code = password.text
             button.isClickable = false
 
-            val username = this.getSharedPreferences("login_details",Context.MODE_PRIVATE).getString("username","");
-            val password = this.getSharedPreferences("login_details",Context.MODE_PRIVATE).getString("password","");
+            val username = this.getSharedPreferences("login_details",Context.MODE_PRIVATE).getString("username","")
+            val password = this.getSharedPreferences("login_details",Context.MODE_PRIVATE).getString("password","")
 
             lifecycleScope.launch{
                 val apiUrl = getConfigValue("backend_url")

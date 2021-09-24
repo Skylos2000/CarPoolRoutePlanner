@@ -3,35 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/drawable/side_nav_bar.xml" value="0.19144144144144143" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/accountsignin.xml" value="0.1" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/activity_create_account.xml" value="0.17792792792792791" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/activity_main.xml" value="0.17747747747747747" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/activity_mainmenu.xml" value="0.17792792792792791" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/activity_set_group_dest.xml" value="0.3171171171171171" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/app_bar_main.xml" value="0.25" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/content_main.xml" value="0.17747747747747747" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/creategroup.xml" value="0.2056159420289855" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/fragment_gallery.xml" value="0.17702702702702702" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/fragment_home.xml" value="0.17702702702702702" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/fragment_slideshow.xml" value="0.17702702702702702" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/grouphostmenu.xml" value="0.2056159420289855" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/groupmanagementtype.xml" value="0.2056159420289855" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/guestleavegroup.xml" value="0.1" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/guestmenu.xml" value="0.2056159420289855" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/joingroup.xml" value="0.2056159420289855" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/list_item_member.xml" value="0.2056159420289855" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/mainmenu.xml" value="0.2056159420289855" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/mainmenulogout.xml" value="0.2056159420289855" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/nav_header_main.xml" value="0.33" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/solomon.xml" value="0.3171171171171171" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/testing.xml" value="0.17792792792792791" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/viewcurrentmembers.xml" value="0.2056159420289855" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/menu/activity_main2.xml" value="0.3171171171171171" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/menu/activity_main_drawer.xml" value="0.33" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/menu/app_bar_main.xml" value="0.3171171171171171" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/menu/main.xml" value="0.3171171171171171" />
-        <entry key="..\:/Users/Leron/StudioProjects/CarPoolRoutePlanner/app/src/main/res/menu/mobile_navigation.xml" value="0.17792792792792791" />
         <entry key="..\:/Users/Solo/StudioProjects/CarPoolRoutePlanner/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/Solo/StudioProjects/CarPoolRoutePlanner/app/src/main/res/drawable/ic_launcher_background.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/Solo/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/activity_set_group_dest.xml" value="0.36666666666666664" />
@@ -47,6 +18,12 @@
         <entry key="..\:/Users/Solo/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/solomon.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Solo/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/solomon_group_vote.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Solo/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/viewcurrentmembers.xml" value="0.36666666666666664" />
+        <entry key="app/src/main/res/layout/accountsignin.xml" value="0.20677083333333332" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.36875" />
+        <entry key="app/src/main/res/layout/content_main.xml" value="0.36875" />
+        <entry key="app/src/main/res/layout/creategroup.xml" value="0.221875" />
+        <entry key="app/src/main/res/layout/joingroup.xml" value="0.36875" />
+        <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.36875" />
       </map>
     </option>
   </component>

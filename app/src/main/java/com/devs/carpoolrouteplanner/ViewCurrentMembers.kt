@@ -2,17 +2,11 @@ package com.devs.carpoolrouteplanner
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.ListView
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.devs.carpoolrouteplanner.adapters.MemberListAdapter
 import com.devs.carpoolrouteplanner.utils.getConfigValue
-import com.devs.carpoolrouteplanner.viewmodals.LoginViewModal
-import com.devs.carpoolrouteplanner.viewmodals.ViewCurrentMembersViewModal
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.auth.*
