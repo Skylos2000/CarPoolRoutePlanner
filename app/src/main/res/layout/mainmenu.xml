@@ -50,8 +50,8 @@
 
     <Button
         android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="56dp"
+        android:layout_width="153dp"
+        android:layout_height="63dp"
         android:layout_marginTop="16dp"
         android:text="@string/GPS"
         app:layout_constraintEnd_toEndOf="@+id/button4"
@@ -85,8 +85,8 @@
 
     <Button
         android:id="@+id/btn_RegDest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="155dp"
+        android:layout_height="57dp"
         android:layout_marginTop="16dp"
         android:text="Send reg Dest"
         app:layout_constraintStart_toStartOf="@+id/button5"
@@ -94,9 +94,9 @@
 
     <Button
         android:id="@+id/btn_PriorityDest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_width="158dp"
+        android:layout_height="62dp"
+        android:layout_marginStart="48dp"
         android:layout_marginTop="16dp"
         android:text="Send Priority Dest"
         app:layout_constraintStart_toEndOf="@+id/btn_RegDest"
@@ -104,8 +104,8 @@
 
     <Button
         android:id="@+id/ViewCurrentMembers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="158dp"
+        android:layout_height="65dp"
         android:layout_marginTop="16dp"
         android:text="@string/GroupO2"
         app:layout_constraintEnd_toEndOf="@+id/btn_RegDest"
@@ -115,13 +115,23 @@
 
     <Button
         android:id="@+id/solomon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="solomon"
+        android:layout_width="142dp"
+        android:layout_height="71dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="8dp"
+        android:text="View Group AND Voting"
         app:layout_constraintStart_toEndOf="@+id/button5"
         app:layout_constraintTop_toBottomOf="@+id/button4" />
+
+    <Button
+        android:id="@+id/preview"
+        android:layout_width="160dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="8dp"
+        android:text="Preview"
+        app:layout_constraintStart_toEndOf="@+id/ViewCurrentMembers"
+        app:layout_constraintTop_toBottomOf="@+id/btn_PriorityDest" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

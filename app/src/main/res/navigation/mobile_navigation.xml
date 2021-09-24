@@ -11,15 +11,48 @@
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
+</navigation>
+
+    <!--
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.devs.carpoolrouteplanner.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+    android:id="@+id/joingroup"
+    android:name="com.devs.carpoolrouteplanner.JoinGroup"
+    android:label="Join Group"
+    tools:layout="@layout/joingroup" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.devs.carpoolrouteplanner.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
-</navigation>
+    android:id="@+id/creategroup"
+    android:name="com.devs.carpoolrouteplanner.CreateGroup"
+    android:label="Create Group"
+    tools:layout="@layout/creategroup" />
+
+    <fragment
+    android:id="@+id/viewcurrentmembers"
+    android:name="com.devs.carpoolrouteplanner.CreateGroup"
+    android:label="Create Group"
+    tools:layout="@layout/creategroup" />
+
+    <fragment
+    android:id="@+id/invitemember"
+    android:name="com.devs.carpoolrouteplanner.HostInviteMembers"
+    android:label="Main Menu"
+    tools:layout="@layout/mainmenu" />
+
+    <fragment
+    android:id="@+id/removemember"
+    android:name="com.devs.carpoolrouteplanner.HostRemoveMembers"
+    android:label="Create Group"
+    tools:layout="@layout/creategroup" />
+
+    <fragment
+    android:id="@+id/leavegroup"
+    android:name="com.devs.carpoolrouteplanner.GuestLeaveMembers"
+    android:label="Main Menu"
+    tools:layout="@layout/mainmenu" />
+
+    <fragment
+    android:id="@+id/disbandgroup"
+    android:name="com.devs.carpoolrouteplanner.HostDisbandMembers"
+    android:label="Create Group"
+    tools:layout="@layout/creategroup" />
+    -->

@@ -1,5 +1,6 @@
 package com.devs.carpoolrouteplanner.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +9,10 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.devs.carpoolrouteplanner.CreateAccount
 import com.devs.carpoolrouteplanner.R
 import com.devs.carpoolrouteplanner.databinding.FragmentHomeBinding
+import com.devs.carpoolrouteplanner.viewmodals.LoginViewModal
 
 class HomeFragment : Fragment() {
 

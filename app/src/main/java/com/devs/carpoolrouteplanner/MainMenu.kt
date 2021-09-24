@@ -82,6 +82,12 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
             startActivity(solomonIntent)
         }
 
+        val pre: Button = findViewById(R.id.preview)
+        val preview = Intent(this@MainMenu, MainActivity::class.java)
+        pre.setOnClickListener {
+            startActivity(preview)
+        }
+
         // sets the update intervals for the location requests
         locationRequest.interval = 1000 * DEFAULT_UPDATE_INTERVAL
         locationRequest.fastestInterval = 1000 * FAST_UPDATE_INTERVAL
