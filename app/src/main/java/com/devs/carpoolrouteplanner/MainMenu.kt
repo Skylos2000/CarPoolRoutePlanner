@@ -44,7 +44,7 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     lateinit var locationCallback: LocationCallback
 
-    val my_url = "http://192.168.1.104:8080/"
+    val my_url = "http://138.47.144.91:8080/"
 
 
     // username and password from companion object
@@ -169,7 +169,7 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
 
                     val httpResponse: List<Int> = client.get(my_url + "list_my_groups/")
                     //val stringBody: String = httpResponse.receive()
-                    destinationString += client.get<String>(my_url + "get_group_routes/${httpResponse.first()}").toString()
+                    destinationString = client.get<List<Pair<Double,Double>>>(my_url + "get_group_routes/${httpResponse.first()}").joinToString("|"){ "${it.first},${it.second}" }
 
                     client.close()
 
