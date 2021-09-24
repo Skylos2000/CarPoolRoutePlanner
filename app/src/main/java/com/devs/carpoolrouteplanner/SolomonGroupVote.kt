@@ -120,7 +120,7 @@ class SolomonGroupVote: AppCompatActivity() {
         }
 
         btnSubmitLocation.setOnClickListener {
-            if (txtEnterLocation.text != ""){
+            if (txtEnterLocation.text == ""){
                 Toast.makeText(this@SolomonGroupVote, "Location field cannot be empty", Toast.LENGTH_SHORT).show()
             }
             else {
