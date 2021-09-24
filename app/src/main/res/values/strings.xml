@@ -40,7 +40,7 @@
     <string name="DeleteGroupDialog">Would you like to delete this group or save it for later use?</string>
     <string name="SendRegDest">Send Reg Dest</string>
     <string name="SendPriorityDest">Send Priority Dest</string>
-    <string name="title_activity_drawer_main">DrawerMain</string>
+    <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
