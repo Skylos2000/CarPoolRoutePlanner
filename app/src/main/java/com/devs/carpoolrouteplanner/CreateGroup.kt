@@ -6,7 +6,6 @@ import android.widget.Button
 import androidx.lifecycle.lifecycleScope
 import com.devs.carpoolrouteplanner.utils.getConfigValue
 import io.ktor.client.*
-import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.auth.*
 import io.ktor.client.features.auth.providers.*
@@ -19,11 +18,11 @@ class CreateGroup : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.creategroup)
 
-        val button: Button = findViewById(R.id.button)
-        val my_url = getConfigValue("backend_url")
+        val createGroupButton: Button = findViewById(R.id.createGroupButton)
+        val myUrl = getConfigValue("backend_url")
 
-        button.setOnClickListener {
-            button.isClickable = false
+        createGroupButton.setOnClickListener {
+            createGroupButton.isClickable = false
             lifecycleScope.launch {
                 val client = HttpClient(CIO) {
                     install(Auth) {
@@ -35,11 +34,10 @@ class CreateGroup : AppCompatActivity() {
                     }
                 }
 
-                val response: HttpResponse = client.post(my_url + "create_group/") {
-                }
+                val response: HttpResponse = client.post(myUrl + "create_group/") {}
             }
-                    finish()
-                    button.isClickable = true
-                }
+            finish()
+            createGroupButton.isClickable = true
+        }
     }
 }
