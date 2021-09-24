@@ -38,7 +38,7 @@ class AccountSignIn : AppCompatActivity() {
         var progressBar = findViewById(R.id.progressBar) as ProgressBar
         val button: Button = findViewById(R.id.button)
         val button2: Button = findViewById(R.id.createAccButton)
-        val intent = Intent(this@AccountSignIn, MainMenu::class.java)
+        val intent = Intent(this@AccountSignIn, MainMenuLogOut::class.java)
         val intent2 = Intent(this@AccountSignIn, CreateAccount::class.java)
         val loginViewModel: LoginViewModal = ViewModelProvider(this).get(LoginViewModal::class.java)
 

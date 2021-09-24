@@ -1,0 +1,29 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="example.javatpoint.com.kotlinoptionsmenu.MainActivity">
+    <item
+        android:id="@+id/action_create"
+        android:title="Create Group"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_join"
+        android:title="Join Group"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_manage"
+        android:orderInCategory="100"
+        android:title="Manage Groups" />
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="Settings" />
+
+    <item
+        android:id="@+id/action_logout"
+        android:orderInCategory="100"
+        android:title="Logout" />
+
+
+</menu>

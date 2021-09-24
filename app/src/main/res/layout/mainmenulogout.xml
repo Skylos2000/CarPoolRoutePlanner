@@ -6,44 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".MainMenuLogOut">
 
+
+    <TextView
+        android:id="@+id/welcome_text"
+        android:layout_width="315dp"
+        android:layout_height="144dp"
+        android:layout_marginTop="44dp"
+        android:text="Welcome to CarRoutePlanner Application.\n Press menu to view more options."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.291"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
-        android:id="@+id/button1"
-        android:layout_width="362dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/ManageGroup"
+        android:id="@+id/dev_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Developer Menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintHorizontal_bias="0.116"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.28"
-        app:backgroundTint="@color/blue"
-        android:textSize="20sp" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="362dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/ManageRoute"
-        app:layout_constraintEnd_toEndOf="@+id/button1"
-        app:layout_constraintStart_toStartOf="@+id/button1"
-        app:layout_constraintTop_toBottomOf="@+id/button1"
-        app:backgroundTint="@color/green"
-        android:textSize="20sp" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="362dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/logout"
-        app:layout_constraintEnd_toEndOf="@+id/button2"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/button2"
-        app:layout_constraintTop_toBottomOf="@+id/button2"
-        app:backgroundTint="@color/red"
-        android:textSize="20sp" />
-
+        app:layout_constraintTop_toBottomOf="@+id/welcome_text"
+        app:layout_constraintVertical_bias="0.059" />
 </androidx.constraintlayout.widget.ConstraintLayout>
