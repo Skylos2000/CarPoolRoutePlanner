@@ -15,51 +15,47 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.devs.carpoolrouteplanner.utils.getConfigValue
-import com.devs.carpoolrouteplanner.viewmodals.LoginViewModal
 import kotlinx.coroutines.launch
 
 class CreateAccount : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_account)
-        var username = findViewById(R.id.username) as EditText
-        var email = findViewById(R.id.email) as EditText
-        var password = findViewById(R.id.password) as EditText
-        var progressBar = findViewById(R.id.progressBar) as ProgressBar
-        val button: Button = findViewById(R.id.submitButton)
-        val intent = Intent(this@CreateAccount, AccountSignIn::class.java)
-
+        val usernameTextBox = findViewById<EditText>(R.id.createAccount_usernameTextBox)
+        val emailTextBox = findViewById<EditText>(R.id.createAccount_emailTextBox)
+        val passwordTextBox = findViewById<EditText>(R.id.createAccount_passwordTextBox)
+        val progressBar = findViewById<ProgressBar>(R.id.createAccount_progressBar)
+        val submitButton = findViewById<Button>(R.id.submitButton)
+        val accountSignInIntent = Intent(this@CreateAccount, AccountSignIn::class.java)
 
         progressBar.visibility = View.GONE
 
+        submitButton.setOnClickListener {
+            val username = usernameTextBox.text.toString()
+            val email = emailTextBox.text.toString()
+            val password = passwordTextBox.text.toString()
 
-
-        button.setOnClickListener {
-            val username = username.getText()
-            val email = email.getText()
-            val code = password.getText()
-            if (!username.toString().equals("") && !email.toString().equals("") && !code.toString().equals("")) {
+            if (username != "" && email != "" && password != "") {
                 progressBar.visibility = View.VISIBLE
-                button.isClickable = false
+                submitButton.isClickable = false
                 lifecycleScope.launch {
                     try {
                         val client = HttpClient(CIO)
                         val url = getConfigValue("backend_url")
                         client.post<String>(url + "signup_text/") {
-                                body = "%s,%s,%s".format(username.toString(),code.toString(),email.toString())
+                                body = "%s,%s,%s".format(username, password, email)
                         }
                         Toast.makeText(this@CreateAccount, "Account Created Successfully, Please log in.", Toast.LENGTH_SHORT).show()
                     }
                     catch (e: Exception) {
                         Toast.makeText(this@CreateAccount, "Account Creation Failed, Please Try Again.", Toast.LENGTH_SHORT).show()
                     }//if (success) {
-                    startActivity(intent)
+                    startActivity(accountSignInIntent)
                     finish()
                     progressBar.visibility= View.GONE
-                    button.isClickable = true
+                    submitButton.isClickable = true
                 }
 
             }
