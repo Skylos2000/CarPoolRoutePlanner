@@ -7,7 +7,7 @@
     tools:context=".AccountSignIn">
 
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/signIn_emailTextBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -24,7 +24,7 @@
         app:layout_constraintVertical_bias="0.228" />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/signIn_passwordTextBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -33,21 +33,21 @@
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
         android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/email"
+        app:layout_constraintEnd_toEndOf="@+id/signIn_emailTextBox"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/email"
-        app:layout_constraintTop_toBottomOf="@+id/email" />
+        app:layout_constraintStart_toStartOf="@+id/signIn_emailTextBox"
+        app:layout_constraintTop_toBottomOf="@+id/signIn_emailTextBox" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/signInButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="124dp"
-        android:text="@string/button"
-        app:layout_constraintEnd_toEndOf="@+id/password"
+        android:text="@string/signInButton"
+        app:layout_constraintEnd_toEndOf="@+id/signIn_passwordTextBox"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/password"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintStart_toStartOf="@+id/signIn_passwordTextBox"
+        app:layout_constraintTop_toBottomOf="@+id/signIn_passwordTextBox" />
 
     <Button
         android:id="@+id/createAccountButton"
@@ -55,13 +55,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/createAcc"
-        app:layout_constraintEnd_toEndOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="@+id/signIn_passwordTextBox"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/password"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintStart_toStartOf="@+id/signIn_passwordTextBox"
+        app:layout_constraintTop_toBottomOf="@+id/signInButton" />
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/signInProgressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,6 +69,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintTop_toBottomOf="@+id/signIn_passwordTextBox" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
