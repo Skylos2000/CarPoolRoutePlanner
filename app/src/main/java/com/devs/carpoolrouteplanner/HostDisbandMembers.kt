@@ -12,17 +12,16 @@ class HostDisbandMembers : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.hostdisbandgroup)
 
-        var password = findViewById(R.id.password) as EditText
-        val button: Button = findViewById(R.id.button)
+        val password = findViewById<EditText>(R.id.password)
+        val button = findViewById<Button>(R.id.button)
         val intent = Intent(this@HostDisbandMembers, GroupHostMenu::class.java)
 
-        button.setOnClickListener{
+        button.setOnClickListener {
             val code = password.text
-            if(code.toString().equals("world")){
+            if (code.toString() == "world") {
                 Toast.makeText(this, code, Toast.LENGTH_SHORT).show()
                 startActivity(intent)
-            }
-            else{
+            } else {
                 Toast.makeText(this, "Wrong Password", Toast.LENGTH_SHORT).show()
             }
         }
