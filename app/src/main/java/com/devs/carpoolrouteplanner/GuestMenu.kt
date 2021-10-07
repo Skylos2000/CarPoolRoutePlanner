@@ -55,55 +55,58 @@ class GuestMenu : AppCompatActivity() {
         }
 
         inviteOthers.setOnClickListener {
-            val myurl = getConfigValue("backend_url") ?: return@setOnClickListener
-            val gid = "123"
-            inviteOthers.isClickable = false
-            lifecycleScope.launch {
-
-                val client = HttpClient(CIO) {
-                    install(Auth) {
-                        basic {
-                            credentials {
-                                BasicAuthCredentials(username = AccountSignIn.creds[0],
-                                    password = AccountSignIn.creds[1])
-                            }
-
-                        }
-                    }
-                }
-
-                try {
-                    val response: String = client.submitForm (
-                        url = myurl+ "create_invite/",
-                        formParameters = Parameters.build {
-                            append("gid",gid)
-                        }
-                    )
-                    val data = response
-                    Toast.makeText(applicationContext,
-                        data,
-                        Toast.LENGTH_LONG).show()
-                    var inviteCode = data;
-                    inviteOthers.isClickable = true
-
-                    var dummyLink = "https://coolrouteplanner.test/join/${inviteCode}";
-                    val shareIntent = Intent()
-                    shareIntent.action = Intent.ACTION_SEND
-                    shareIntent.type = "text/plain"
-                    shareIntent.putExtra(Intent.EXTRA_TEXT,
-                        "Please join my group using this invite code: ${inviteCode}")
-                    startActivity(Intent.createChooser(shareIntent, "Send To"))
-
-//                    Toast.makeText(applicationContext, "Successfully created invite link.${data}", Toast.LENGTH_LONG).show()
-                } catch (E: Exception) {
-                    Toast.makeText(applicationContext,
-                        "Exception: No group with gid 123 or ${E.message}",
-                        Toast.LENGTH_LONG).show()
-                    inviteOthers.isClickable = true
-                }
-
-
-            }
+            val qrIntent = Intent(this@GuestMenu, InviteByQR::class.java)
+            startActivity(qrIntent)
+//            return@setOnClickListener
+//            val myurl = getConfigValue("backend_url") ?: return@setOnClickListener
+//            val gid = "123"
+//            inviteOthers.isClickable = false
+//            lifecycleScope.launch {
+//
+//                val client = HttpClient(CIO) {
+//                    install(Auth) {
+//                        basic {
+//                            credentials {
+//                                BasicAuthCredentials(username = AccountSignIn.creds[0],
+//                                    password = AccountSignIn.creds[1])
+//                            }
+//
+//                        }
+//                    }
+//                }
+//
+//                try {
+//                    val response: String = client.submitForm (
+//                        url = myurl+ "create_invite/",
+//                        formParameters = Parameters.build {
+//                            append("gid",gid)
+//                        }
+//                    )
+//                    val data = response
+//                    Toast.makeText(applicationContext,
+//                        data,
+//                        Toast.LENGTH_LONG).show()
+//                    var inviteCode = data;
+//                    inviteOthers.isClickable = true
+//
+//                    var dummyLink = "https://coolrouteplanner.test/join/${inviteCode}";
+//                    val shareIntent = Intent()
+//                    shareIntent.action = Intent.ACTION_SEND
+//                    shareIntent.type = "text/plain"
+//                    shareIntent.putExtra(Intent.EXTRA_TEXT,
+//                        "Please join my group using this invite code: ${inviteCode} or click on this link: {$dummyLink}")
+//                    startActivity(Intent.createChooser(shareIntent, "Send To"))
+//
+////                    Toast.makeText(applicationContext, "Successfully created invite link.${data}", Toast.LENGTH_LONG).show()
+//                } catch (E: Exception) {
+//                    Toast.makeText(applicationContext,
+//                        "Exception: No group with gid 123 or ${E.message}",
+//                        Toast.LENGTH_LONG).show()
+//                    inviteOthers.isClickable = true
+//                }
+//
+//
+//            }
         }
     }
 

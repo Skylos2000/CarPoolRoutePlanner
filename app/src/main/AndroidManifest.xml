@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CarPoolRoutePlanner">
         <activity
-
+            android:name=".InviteByQR"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/title_activity_main"
@@ -33,7 +35,26 @@
         <activity android:name=".GroupHostMenu" />
         <activity android:name=".GroupManagementType" />
         <activity android:name=".CreateGroup" />
-        <activity android:name=".JoinGroup" />
+        <activity android:name=".JoinGroup">
+            <intent-filter android:label="Join Group">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="coolrouteplanner.test"
+                    android:pathPrefix="/join"
+                    android:scheme="http" />
+                <data
+                    android:host="coolrouteplanner.test"
+                    android:pathPrefix="/join"
+                    android:scheme="https" />
+                <data
+                    android:host="join"
+                    android:scheme="routeplanner" />
+            </intent-filter>
+        </activity>
         <activity android:name=".MainMenu" />
         <activity android:name=".Solomon" />
         <activity android:name=".SolomonGroupVote" />

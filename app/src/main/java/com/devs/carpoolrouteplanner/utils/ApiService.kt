@@ -21,7 +21,7 @@ class ApiService {
                 }
             }
             try {
-                val response: HttpResponse = client.get(apiUrl + "example/what_is_my_name/")
+                val response: HttpResponse = client.get(apiUrl + "users/me")
                 if (response.status.value == 401) {
                     return LoginResult(
                         success = false,
