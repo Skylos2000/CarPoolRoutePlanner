@@ -48,8 +48,8 @@ class MainMenuLogOut : AppCompatActivity() {
             }
 
             R.id.action_logout->{
-                AccountSignIn.creds[0]=""
-                AccountSignIn.creds[1]=""
+//                AccountSignIn.creds[0]=""
+//                AccountSignIn.creds[1]=""
                 val intent2 = Intent(this@MainMenuLogOut, AccountSignIn::class.java)
                 startActivity(intent2)
                 true

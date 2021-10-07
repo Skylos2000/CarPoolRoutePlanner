@@ -11,12 +11,14 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.devs.carpoolrouteplanner.ui.AccountSignIn
 import com.devs.carpoolrouteplanner.utils.getConfigValue
+import com.devs.carpoolrouteplanner.utils.httpClient
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.auth.*
 import io.ktor.client.features.auth.providers.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.launch
 
@@ -54,35 +56,22 @@ class GuestMenu : AppCompatActivity() {
         }
 
         inviteOthers.setOnClickListener {
-            val myurl = getConfigValue("backend_url") ?: return@setOnClickListener
+            val backendUrl = getConfigValue("backend_url") ?: return@setOnClickListener
             val gid = "123"
             inviteOthers.isClickable = false
             lifecycleScope.launch {
 
-                val client = HttpClient(CIO) {
-                    install(Auth) {
-                        basic {
-                            credentials {
-                                BasicAuthCredentials(username = AccountSignIn.creds[0],
-                                    password = AccountSignIn.creds[1])
-                            }
-
-                        }
-                    }
-                }
-
                 try {
-                    val response: String = client.submitForm (
-                        url = myurl+ "create_invite/",
+                    val response: String = httpClient.submitForm(
+                        url = backendUrl + "create_invite/",
                         formParameters = Parameters.build {
-                            append("gid",gid)
+                            append("gid", gid)
                         }
                     )
-                    val data = response
                     Toast.makeText(applicationContext,
-                        data,
+                        response,
                         Toast.LENGTH_LONG).show()
-                    var inviteCode = data;
+                    var inviteCode = response;
                     inviteOthers.isClickable = true
 
                     var dummyLink = "https://coolrouteplanner.test/join/${inviteCode}";
@@ -123,26 +112,13 @@ class GuestMenu : AppCompatActivity() {
             var m_Text = input.text.toString()
             val my_url = getConfigValue("backend_url") ?: return@OnClickListener
             lifecycleScope.launch {
-
-                val client = HttpClient(CIO) {
-                    install(Auth) {
-                        basic {
-                            credentials {
-                                BasicAuthCredentials(username = AccountSignIn.creds[0], password = AccountSignIn.creds[1])
-                            }
-                        }
-                    }
-                }
-
-                try{
-                    val response: String = client.post(my_url + "delete_group"){
-
+                try {
+                    httpClient.post<HttpResponse>(my_url + "delete_group") {
                         body = m_Text
                     }
-                    val data = response
                     Toast.makeText(applicationContext, "Successfully performed delete action", Toast.LENGTH_LONG).show()
                     dialog.cancel()
-                }catch (E:Exception){
+                } catch (E:Exception) {
                     Toast.makeText(applicationContext,"Failed to delete. Wrong Group Id?",Toast.LENGTH_LONG).show()
                     dialog.cancel()
                 }

@@ -13,6 +13,7 @@ import io.ktor.http.*
 import kotlinx.serialization.Serializable
 
 // TODO: Find a better place to put this
+@Serializable
 data class RowUser(
     val id: Int,
     val email: String,
@@ -22,24 +23,35 @@ data class RowUser(
     val defaultPickupLongitude: Double?,
 )
 
+private var authCredentials: BasicAuthCredentials? = null
+
 val httpClient = HttpClient(CIO) {
     install(JsonFeature) {
         serializer = KotlinxSerializer() // TODO: Is this needed?
     }
-}
 
-suspend fun installAuth(apiUrl: String, username: String, password: String): LoginResult {
-    // Load the Auth plugin with the given credentials
-    httpClient.config {
-        install(Auth) {
-            basic {
-                BasicAuthCredentials(username, password)
+    install(Auth) {
+        basic {
+            credentials {
+                // This lambda is ran every time a request is made so it will update whenever
+                //     `authCredentials` is changed.
+
+                if (authCredentials == null) {
+                    // TODO: Should the android logging be used here?
+                    println("WARNING: Attempting to make an http call without authentication")
+                }
+                authCredentials
             }
         }
     }
+}
+
+suspend fun installAuth(apiUrl: String, username: String, password: String): LoginResult {
+    // Load credentials
+    authCredentials = BasicAuthCredentials(username, password)
 
     // Test the credentials
-    val response = httpClient.get<HttpResponse>("$apiUrl/my_user_info/")
+    val response = httpClient.get<HttpResponse>(apiUrl + "my_user_info/")
 
     if (response.status == HttpStatusCode.OK) {
         val userData = response.receive<RowUser>()
