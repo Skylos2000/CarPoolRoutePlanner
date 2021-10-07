@@ -29,6 +29,7 @@ class InviteByQR : AppCompatActivity() {
         setContentView(R.layout.activity_invite_by_qr)
         val buttonShare: Button = findViewById(R.id.btnShare)
         val txtShareText: EditText = findViewById(R.id.shareText)
+        val btnReloadQr: Button  = findViewById(R.id.btnReloadQr)
         var gid = intent.getStringExtra("GID")
         if (gid == null) gid = "0"
 
@@ -44,6 +45,10 @@ class InviteByQR : AppCompatActivity() {
                 shareText)
             startActivity(Intent.createChooser(shareIntent, "Send To"))
 
+        }
+
+        btnReloadQr.setOnClickListener{
+            loadQR(gid)
         }
 
     }
