@@ -12,50 +12,47 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.serialization.Serializable
 
-// TODO: Find a better place to put this
 @Serializable
-data class RowUser(
-    val id: Int,
-    val email: String,
-    val username: String,
-    val password: String, // This should never get used
-    val defaultPickupLatitude: Double?,
-    val defaultPickupLongitude: Double?,
-)
+data class User(val userId: Int, val email: String, val username: String, val groupIds: List<Int>)
 
 private var authCredentials: BasicAuthCredentials? = null
+private var bearerToken: BearerTokens? = null
 
-val httpClient = HttpClient(CIO) {
-    install(JsonFeature) {
-        serializer = KotlinxSerializer() // TODO: Is this needed?
-    }
-
-    install(Auth) {
-        basic {
-            credentials {
-                // This lambda is ran every time a request is made so it will update whenever
-                //     `authCredentials` is changed.
-
-                if (authCredentials == null) {
-                    // TODO: Should the android logging be used here?
-                    println("WARNING: Attempting to make an http call without authentication")
-                }
-                authCredentials
-            }
-        }
-    }
-}
+lateinit var httpClient: HttpClient
 
 suspend fun installAuth(apiUrl: String, username: String, password: String): LoginResult {
     // Load credentials
-    authCredentials = BasicAuthCredentials(username, password)
+//    authCredentials = BasicAuthCredentials(username, password)
+    val loginClient = HttpClient(CIO) {
+        install(JsonFeature) {
+            serializer = KotlinxSerializer() // TODO: Is this needed?
+        }
+    }
+    val token = loginClient.post<String>("$apiUrl/login") {
+        contentType(ContentType.Application.Json)
+        body = hashMapOf("username" to username, "password" to password)
+    }
 
+    httpClient = HttpClient(CIO) {
+        install(JsonFeature) {
+            serializer = KotlinxSerializer() // TODO: Is this needed?
+        }
+        install(Auth) {
+            bearer {
+                loadTokens {
+                    BearerTokens(token, "")
+                }
+            }
+        }
+    }
     // Test the credentials
-    val response = httpClient.get<HttpResponse>(apiUrl + "my_user_info/")
+    val response = httpClient.get<HttpResponse>(apiUrl + "/users/me") {
+
+    }
 
     if (response.status == HttpStatusCode.OK) {
-        val userData = response.receive<RowUser>()
-        return LoginResult(true, LoggedInUser(userData.id, userData.username))
+        val userData = response.receive<User>()
+        return LoginResult(true, LoggedInUser(userData.userId, userData.username))
     }
 
     return LoginResult(false, null)
