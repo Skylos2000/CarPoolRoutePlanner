@@ -1,17 +1,19 @@
-package com.devs.carpoolrouteplanner.ui.home
+package com.devs.carpoolrouteplanner.ui.viewcurrentmembers
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.RatingBar
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.devs.carpoolrouteplanner.R
-import com.devs.carpoolrouteplanner.databinding.FragmentHomeBinding
+import com.devs.carpoolrouteplanner.utils.getConfigValue
 import io.ktor.client.*
-import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.auth.*
 import io.ktor.client.features.auth.providers.*
@@ -19,24 +21,14 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import kotlinx.coroutines.launch
 
-
-
-class HomeFragment : Fragment(){
-
-    private lateinit var homeViewModel: HomeViewModel
-    private var _binding: FragmentHomeBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+class NewViewCurrentMembers : Fragment(){
     //val my_url = getConfigValue("backend_url")
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val root = inflater.inflate(R.layout.fragment_slideshow, container, false)
+        val root = inflater.inflate(R.layout.viewcurrentmembers, container, false)
         //val my_url = getConfigValue("backend_url")
         val my_url = "http://10.45.228.103:3306/"
+        val button: Button = root.findViewById(R.id.button)
 
-        var button = root.findViewById<View>(R.id.button) as Button
         button.setOnClickListener {
             button.isClickable = false
             lifecycleScope.launch {
@@ -50,18 +42,14 @@ class HomeFragment : Fragment(){
                     }
                 }
 
-                val response: HttpResponse = client.post(my_url + "create_group/") {
+                val response: String = client.get(my_url + "list_my_groups/"){
                 }
+                val data = response
+                Toast.makeText(activity?.applicationContext, data, Toast.LENGTH_LONG).show()
             }
             //finish()
             button.isClickable = true
         }
         return root
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

@@ -9,17 +9,58 @@
         android:id="@+id/nav_home"
         android:name="com.devs.carpoolrouteplanner.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/joingroup"
+        android:name="com.devs.carpoolrouteplanner.ui.joingroup.NewJoinGroup"
+        android:label="Join Group"
+        tools:layout="@layout/joingroup" />
+
+    <fragment
+        android:id="@+id/creategroup"
+        android:name="com.devs.carpoolrouteplanner.ui.creategroup.NewCreateGroup"
+        android:label="Create Group"
+        tools:layout="@layout/creategroup"/>
+
+    <fragment
+        android:id="@+id/viewcurrentmembers"
+        android:name="com.devs.carpoolrouteplanner.ui.viewcurrentmembers.NewViewCurrentMembers"
+        android:label="View Current Members"
+        tools:layout="@layout/viewcurrentmembers" />
+
+    <fragment
+        android:id="@+id/invitemember"
+        android:name="com.devs.carpoolrouteplanner.ui.invitemembers.NewInviteMembers"
+        android:label="Invite Members"
+        tools:layout="@layout/hostinvitemembers" />
+
+    <fragment
+        android:id="@+id/removemember"
+        android:name="com.devs.carpoolrouteplanner.ui.removegroup.NewRemoveGroup"
+        android:label="Remove Members"
+        tools:layout="@layout/hostremovemembers" />
+
+    <fragment
+        android:id="@+id/startroute"
+        android:name="com.devs.carpoolrouteplanner.ui.startroute.NewSetDestination"
+        android:label="Create Group"
+        tools:layout="@layout/startroute" />
+
+    <fragment
+        android:id="@+id/setdestination"
+        android:name="com.devs.carpoolrouteplanner.ui.startroute.NewSetDestination"
+        android:label="Create Group"
+        tools:layout="@layout/activity_set_route" />
+
+    <fragment
+        android:id="@+id/setgps"
+        android:name="com.devs.carpoolrouteplanner.ui.NewSetGroupRoute.NewSetGroupRoute"
+        android:label="Create Group"
+        tools:layout="@layout/activity_set_group_dest" />
 
 </navigation>
-
-    <!--
-    <fragment
-    android:id="@+id/joingroup"
-    android:name="com.devs.carpoolrouteplanner.JoinGroup"
-    android:label="Join Group"
-    tools:layout="@layout/joingroup" />
-
+<!--
     <fragment
     android:id="@+id/creategroup"
     android:name="com.devs.carpoolrouteplanner.CreateGroup"

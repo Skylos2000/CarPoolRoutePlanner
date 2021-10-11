@@ -61,6 +61,10 @@
                 <item
                     android:id="@+id/setproroute"
                     android:title="Set Priority Route" />
+
+                <item
+                    android:id="@+id/groupvote"
+                    android:title="Group Vote" />
             </menu>
         </item>
     </group>

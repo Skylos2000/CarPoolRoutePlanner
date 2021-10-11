@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".SolomonGroupVote">
 
     <EditText
         android:id="@+id/txtEnterLocation"
@@ -55,7 +56,8 @@
         android:layout_marginTop="8dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintTop_toBottomOf="@+id/btnEndVote"
-        tools:layout_editor_absoluteX="1dp" />
+        tools:layout_editor_absoluteX="1dp"
+        tools:ignore="MissingConstraints" />
 
     <View
         android:id="@+id/divider2"
@@ -64,7 +66,8 @@
         android:layout_marginTop="8dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintTop_toBottomOf="@+id/btnSubmitLocation"
-        tools:layout_editor_absoluteX="1dp" />
+        tools:layout_editor_absoluteX="1dp"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/textView"
@@ -83,7 +86,8 @@
         android:layout_marginTop="8dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintTop_toBottomOf="@+id/btnRefresh"
-        tools:layout_editor_absoluteX="8dp" />
+        tools:layout_editor_absoluteX="8dp"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/btnRefresh"

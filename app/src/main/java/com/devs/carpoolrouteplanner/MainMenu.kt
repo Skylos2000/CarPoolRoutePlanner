@@ -44,7 +44,7 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     lateinit var locationCallback: LocationCallback
 
-    val my_url = "http://138.47.144.91:8080/"
+    val my_url = "http://10.45.228.103:3306/"
 
 
     // username and password from companion object
@@ -83,6 +83,7 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
         }
 
         val pre: Button = findViewById(R.id.preview)
+
         val preview = Intent(this@MainMenu, MainActivity::class.java)
         pre.setOnClickListener {
             startActivity(preview)

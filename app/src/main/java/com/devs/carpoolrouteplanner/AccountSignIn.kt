@@ -45,6 +45,8 @@ class AccountSignIn : AppCompatActivity() {
         progressBar.visibility = View.GONE
         val context = this
 
+        startActivity(intent)
+
         loginViewModel.loginResult.observe(this, {
             val loginResult = it
             Toast.makeText(this, loginResult.message, Toast.LENGTH_SHORT).show()
