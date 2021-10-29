@@ -62,5 +62,5 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0-alpha02"
     implementation("io.ktor:ktor-client-serialization:1.6.1")
 
-
+    implementation 'com.facebook.android:facebook-login:latest.release'
 }
