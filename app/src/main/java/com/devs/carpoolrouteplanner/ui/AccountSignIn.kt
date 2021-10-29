@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.devs.carpoolrouteplanner.CreateAccount
+import com.devs.carpoolrouteplanner.MainMenu
 import com.devs.carpoolrouteplanner.R
 import com.devs.carpoolrouteplanner.utils.getConfigValue
 import com.devs.carpoolrouteplanner.viewmodals.LoginViewModel
@@ -30,7 +31,8 @@ class AccountSignIn : AppCompatActivity() {
         val signInButton = findViewById<Button>(R.id.signInButton)
         val createAccountButton = findViewById<Button>(R.id.createAccountButton)
 
-        val mainActivityIntent = Intent(this, MainActivity::class.java)
+        //val mainActivityIntent = Intent(this, MainActivity::class.java)
+        val mainActivityIntent = Intent(this, MainMenu::class.java)
         val createAccountIntent = Intent(this, CreateAccount::class.java)
 
         val loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)

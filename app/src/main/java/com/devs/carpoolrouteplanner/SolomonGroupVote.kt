@@ -37,7 +37,7 @@ class SolomonGroupVote: AppCompatActivity() {
         var lvVotingOptions: ListView = findViewById(R.id.lvVotingOptions)
 
         runBlocking {
-            locationOptions = httpClient.post(my_url + "votingOptions") {
+            locationOptions = httpClient.post(my_url + "/votingOptions") {
                 body = gid.toString()
             }
         }
@@ -58,7 +58,7 @@ class SolomonGroupVote: AppCompatActivity() {
 
         btnStartVote.setOnClickListener {
             runBlocking {
-                val response: String = httpClient.post(my_url + "startVote") {
+                val response: String = httpClient.post(my_url + "/startVote") {
                     body = gid.toString()
                 }
                 if (response == "-2"){
@@ -69,7 +69,7 @@ class SolomonGroupVote: AppCompatActivity() {
 
         btnEndVote.setOnClickListener {
             runBlocking {
-                val response: String = httpClient.post(my_url + "voteResult") {
+                val response: String = httpClient.post(my_url + "/voteResult") {
                     body = gid.toString()
                 }
                 if (response == "-1"){
@@ -87,7 +87,7 @@ class SolomonGroupVote: AppCompatActivity() {
             }
             else {
                 runBlocking {
-                    val response: String = httpClient.post(my_url + "addVotingLocation") {
+                    val response: String = httpClient.post(my_url + "/addVotingLocation") {
                         body = gid.toString() + "," + txtEnterLocation.text
                     }
                     if (response == "-1") {
@@ -104,12 +104,12 @@ class SolomonGroupVote: AppCompatActivity() {
             runBlocking {
                 // authenticates user
                 if (lvVotingOptions.isEnabled) {
-                    locationOptions = httpClient.post(my_url + "votingOptions") {
+                    locationOptions = httpClient.post(my_url + "/votingOptions") {
                         body = gid.toString()
                     }
                 }
                 else{
-                    locationOptions = httpClient.post(my_url + "votingScores") {
+                    locationOptions = httpClient.post(my_url + "/votingScores") {
                         body = gid.toString()
                     }
                 }
@@ -135,11 +135,11 @@ class SolomonGroupVote: AppCompatActivity() {
                 if(locationOptionsList[i] == "") { locationOptions = "-3" }
                 else {
 
-                    val response: HttpResponse = httpClient.post(my_url + "castVote") {
+                    val response: HttpResponse = httpClient.post(my_url + "/castVote") {
                         body = gid.toString() + "," + locationOptionsList[i]
                     }
 
-                    locationOptions = httpClient.post(my_url + "votingScores") {
+                    locationOptions = httpClient.post(my_url + "/votingScores") {
                         body = gid.toString()
                     }
                 }
