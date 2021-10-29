@@ -58,6 +58,7 @@ class SetRoute : AppCompatActivity() , AdapterView.OnItemClickListener{
         lifecycleScope.launch {
             var destinationString = ""
             try {
+                // i dont think there is a route to get the group routes?? or should this be destinations??
                 val response: HttpResponse = httpClient.get("$url/get_group_routes/$gid")
                 destinationString += httpClient.get<String>("$url/get_group_routes/$gid").toString()
                 var data = response.toString()

@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
 import androidx.lifecycle.lifecycleScope
 import com.devs.carpoolrouteplanner.utils.getConfigValue
+import com.devs.carpoolrouteplanner.utils.httpClient
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.auth.*
@@ -29,17 +30,18 @@ class Solomon: AppCompatActivity() {
         val my_url = getConfigValue("backend_url")
 
         runBlocking {
-            val client = HttpClient(CIO) {
-                install(Auth) {
-                    basic {
-                        credentials {
-                            BasicAuthCredentials(username = "aaa", password = "eee")
-                        }
-                    }
-                }
-            }
+//            val client = HttpClient(CIO) {
+//                install(Auth) {
+//                    basic {
+//                        credentials {
+//                            BasicAuthCredentials(username = "aaa", password = "eee")
+//                        }
+//                    }
+//                }
+//            }
 
-            val response: String = client.get(my_url + "list_my_groups/") {}
+            // WHAT IS THIS ROUTE
+            val response: String = httpClient.get(my_url + "list_my_groups/") {}
             groups = response
         }
         groups = groups.replace("[", "")

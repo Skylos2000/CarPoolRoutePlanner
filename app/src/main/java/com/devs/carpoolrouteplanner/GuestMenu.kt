@@ -63,7 +63,8 @@ class GuestMenu : AppCompatActivity() {
 
                 try {
                     val response: String = httpClient.submitForm(
-                        url = backendUrl + "create_invite/",
+                        //url = backendUrl + "create_invite/",
+                        url = "$backendUrl/groups/invites/get_invite",
                         formParameters = Parameters.build {
                             append("gid", gid)
                         }
@@ -113,8 +114,8 @@ class GuestMenu : AppCompatActivity() {
             val my_url = getConfigValue("backend_url") ?: return@OnClickListener
             lifecycleScope.launch {
                 try {
-                    httpClient.post<HttpResponse>(my_url + "delete_group") {
-                        body = m_Text
+                    httpClient.post<HttpResponse>("$my_url/groups/$m_Text/delete") {
+                        //body = m_Text
                     }
                     Toast.makeText(applicationContext, "Successfully performed delete action", Toast.LENGTH_LONG).show()
                     dialog.cancel()

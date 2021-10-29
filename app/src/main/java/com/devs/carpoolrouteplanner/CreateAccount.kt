@@ -45,7 +45,7 @@ class CreateAccount : AppCompatActivity() {
                     try {
                         val client = HttpClient(CIO)
                         val url = getConfigValue("backend_url")
-                        client.post<String>(url + "signup_text/") {
+                        client.post<String>("$url/users/signup") {
                                 body = "%s,%s,%s".format(username, password, email)
                         }
                         Toast.makeText(this@CreateAccount, "Account Created Successfully, Please log in.", Toast.LENGTH_SHORT).show()

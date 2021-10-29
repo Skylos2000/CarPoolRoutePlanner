@@ -40,7 +40,8 @@ class SetGroupDest : AppCompatActivity() {
                 button.isClickable = false
                 lifecycleScope.launch {
                     try {
-                        val response: HttpResponse = httpClient.get("$url/set_group_destination/$gid"){
+                        val response: HttpResponse = httpClient.get("$url/$gid/add_destinations"){
+                        //val response: HttpResponse = httpClient.get("$url/set_group_destination/$gid"){
                             parameter("newLat",lat)
                             parameter("newLong",long)
                             parameter("label","FinalDestination")

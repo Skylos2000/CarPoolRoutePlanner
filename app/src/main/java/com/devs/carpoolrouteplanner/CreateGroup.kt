@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.lifecycle.lifecycleScope
 import com.devs.carpoolrouteplanner.utils.getConfigValue
+import com.devs.carpoolrouteplanner.utils.httpClient
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.auth.*
@@ -24,17 +25,7 @@ class CreateGroup : AppCompatActivity() {
         createGroupButton.setOnClickListener {
             createGroupButton.isClickable = false
             lifecycleScope.launch {
-                val client = HttpClient(CIO) {
-                    install(Auth) {
-                        basic {
-                            credentials {
-                                BasicAuthCredentials(username = "aaa", password = "eee")
-                            }
-                        }
-                    }
-                }
-
-                val response: HttpResponse = client.post(myUrl + "create_group/") {}
+                val response: HttpResponse = httpClient.post("$myUrl/groups/create") {}
             }
             finish()
             createGroupButton.isClickable = true

@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.devs.carpoolrouteplanner.utils.getConfigValue
+import com.devs.carpoolrouteplanner.utils.httpClient
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
@@ -38,18 +39,21 @@ class JoinGroup : AppCompatActivity() {
                 val apiUrl = getConfigValue("backend_url")
 
                 apiUrl?.let{
-                    val client = HttpClient(CIO)
-                    {
-                        install(Auth) {
-                            basic {
-                                credentials {
-                                    BasicAuthCredentials(username = username!!, password = password!!)
-                                }
-                            }
-                        }
-                    }
+//                    val client = HttpClient(CIO)
+//                    {
+//                        install(Auth) {
+//                            basic {
+//                                credentials {
+//                                    BasicAuthCredentials(username = username!!, password = password!!)
+//                                }
+//                            }
+//                        }
+//                    }
                     try {
-                        val response: HttpResponse = client.get(apiUrl + "join_group/$code")
+                        //val response: HttpResponse = httpClient.get(apiUrl + "join_group/$code")
+                        val response: HttpResponse = httpClient.post(apiUrl + "/groups/invites/join_group"){
+                            body = code.toString()
+                        }
 
                         val gid: String = response.receive()
                         button.isClickable = true

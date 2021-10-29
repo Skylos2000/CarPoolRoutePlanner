@@ -36,6 +36,7 @@ class ViewCurrentMembers : AppCompatActivity() {
                     }
                 }
 
+                // this route must not exist anymore..
                 val response: String = client.get(my_url + "list_my_groups/"){
                 }
                 val data = response

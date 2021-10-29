@@ -126,7 +126,7 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
             startActivity(intent4)
         }
 
-        // pulls user's currnet GPS location and sends it to the backend
+        // pulls user's current GPS location and sends it to the backend
         button5.setOnClickListener {
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null)
@@ -142,7 +142,7 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
             //showNoticeDialog()
             runBlocking {
                 launch {
-                    val httpResponse: List<Int> = httpClient.get(backendUrl + "list_my_groups/")
+                    val httpResponse: List<Int> = httpClient.get(backendUrl + "list_my_groups/") // i have no idea what this routes to now
                     //val stringBody: String = httpResponse.receive()
                     destinationString = httpClient.get<List<Pair<Double,Double>>>(backendUrl + "get_group_routes/${httpResponse.first()}").joinToString("|"){ "${it.first},${it.second}" }
 
@@ -196,7 +196,7 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
 
 
     suspend fun setRegDest(lat: Double, long: Double, isPriority: Boolean){
-        httpClient.post<HttpResponse>(backendUrl + "submit_location") {
+        httpClient.post<HttpResponse>(backendUrl + "submit_location") { // cant find the route for this
             body = "456,$lat,$long,$isPriority,"
         }
     }
