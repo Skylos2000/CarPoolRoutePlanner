@@ -10,18 +10,18 @@ class GroupManagementType : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.groupmanagementtype)
 
-        val button1: Button = findViewById(R.id.host)
-        val button2: Button = findViewById(R.id.guest)
+        val hostManagementButton = findViewById<Button>(R.id.host)
+        val guestManagementButton = findViewById<Button>(R.id.guest)
 
-        val intent1 = Intent(this@GroupManagementType, GroupHostMenu::class.java)
-        val intent2 = Intent(this@GroupManagementType, GuestMenu::class.java)
+        val groupHostMenu = Intent(this@GroupManagementType, GroupHostMenu::class.java)
+        val groupGuestMenu = Intent(this@GroupManagementType, GuestMenu::class.java)
 
-        button1.setOnClickListener {
-            startActivity(intent1)
+        hostManagementButton.setOnClickListener {
+            startActivity(groupHostMenu)
         }
 
-        button2.setOnClickListener {
-            startActivity(intent2)
+        guestManagementButton.setOnClickListener {
+            startActivity(groupGuestMenu)
         }
 
     }

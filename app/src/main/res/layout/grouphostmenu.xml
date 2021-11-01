@@ -7,58 +7,58 @@
     tools:context=".GroupHostMenu">
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/groupHostMenu_inviteMembersButton"
         android:layout_width="362dp"
         android:layout_height="56dp"
         android:layout_marginTop="16dp"
-        android:text="@string/GroupO1"
+        android:text="@string/inviteMembers"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/groupHostMenu_viewCurrrentGroupsButton"
         android:layout_width="362dp"
         android:layout_height="56dp"
         android:layout_marginTop="16dp"
-        android:text="@string/GroupO2"
-        app:layout_constraintEnd_toEndOf="@+id/button1"
+        android:text="@string/viewCurrentGroups"
+        app:layout_constraintEnd_toEndOf="@+id/groupHostMenu_inviteMembersButton"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/button1"
-        app:layout_constraintTop_toBottomOf="@+id/button1" />
+        app:layout_constraintStart_toStartOf="@+id/groupHostMenu_inviteMembersButton"
+        app:layout_constraintTop_toBottomOf="@+id/groupHostMenu_inviteMembersButton" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/groupHostMenu_removeMemberButton"
         android:layout_width="362dp"
         android:layout_height="56dp"
         android:layout_marginTop="16dp"
-        android:text="@string/GroupO3"
-        app:layout_constraintEnd_toEndOf="@+id/button2"
+        android:text="@string/removeMember"
+        app:layout_constraintEnd_toEndOf="@+id/groupHostMenu_viewCurrrentGroupsButton"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/button2"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintStart_toStartOf="@+id/groupHostMenu_viewCurrrentGroupsButton"
+        app:layout_constraintTop_toBottomOf="@+id/groupHostMenu_viewCurrrentGroupsButton" />
 
     <Button
-        android:id="@+id/buttton4"
+        android:id="@+id/groupHostMenu_disbandGroupButton"
         android:layout_width="362dp"
         android:layout_height="56dp"
         android:layout_marginTop="16dp"
-        android:text="@string/GroupO4"
-        app:layout_constraintEnd_toEndOf="@+id/button3"
+        android:text="@string/disbandGroups"
+        app:layout_constraintEnd_toEndOf="@+id/groupHostMenu_removeMemberButton"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/button3"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        app:layout_constraintStart_toStartOf="@+id/groupHostMenu_removeMemberButton"
+        app:layout_constraintTop_toBottomOf="@+id/groupHostMenu_removeMemberButton" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/groupHostMenu_logOutButton"
         android:layout_width="362dp"
         android:layout_height="56dp"
         android:layout_marginTop="16dp"
         android:text="@string/logout"
-        app:layout_constraintEnd_toEndOf="@+id/buttton4"
+        app:layout_constraintEnd_toEndOf="@+id/groupHostMenu_disbandGroupButton"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/buttton4"
-        app:layout_constraintTop_toBottomOf="@+id/buttton4" />
+        app:layout_constraintStart_toStartOf="@+id/groupHostMenu_disbandGroupButton"
+        app:layout_constraintTop_toBottomOf="@+id/groupHostMenu_disbandGroupButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

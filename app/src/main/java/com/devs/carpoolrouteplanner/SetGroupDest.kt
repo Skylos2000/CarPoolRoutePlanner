@@ -9,8 +9,8 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import com.devs.carpoolrouteplanner.utils.ApiService
 import com.devs.carpoolrouteplanner.utils.getConfigValue
+import com.devs.carpoolrouteplanner.utils.httpClient
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.auth.*
@@ -26,8 +26,6 @@ class SetGroupDest : AppCompatActivity() {
         setContentView(R.layout.activity_set_group_dest)
         var poi = findViewById(R.id.POI) as EditText
         var gid = findViewById(R.id.GID) as EditText
-        val userN = AccountSignIn.creds[0]
-        val passW = AccountSignIn.creds[1]
         val button: Button = findViewById(R.id.button1)
         val intent = Intent(this@SetGroupDest, MainMenu::class.java)
         var progressBar = findViewById(R.id.progressBar) as ProgressBar
@@ -41,17 +39,8 @@ class SetGroupDest : AppCompatActivity() {
                 progressBar.visibility = View.VISIBLE
                 button.isClickable = false
                 lifecycleScope.launch {
-                    val client = HttpClient(CIO) {
-                        install(Auth) {
-                            basic {
-                                credentials {
-                                    BasicAuthCredentials(username = userN, password = passW)
-                                }
-                            }
-                        }
-                    }
                     try {
-                        val response: HttpResponse = client.get("$url/set_group_destination/$gid"){
+                        val response: HttpResponse = httpClient.get("$url/set_group_destination/$gid"){
                             parameter("newLat",lat)
                             parameter("newLong",long)
                             parameter("label","FinalDestination")

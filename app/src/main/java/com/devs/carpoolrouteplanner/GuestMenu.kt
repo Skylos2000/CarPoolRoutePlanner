@@ -8,16 +8,17 @@ import android.text.InputType
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import com.devs.carpoolrouteplanner.ui.AccountSignIn
 import com.devs.carpoolrouteplanner.utils.getConfigValue
+import com.devs.carpoolrouteplanner.utils.httpClient
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.auth.*
 import io.ktor.client.features.auth.providers.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.launch
 
@@ -55,58 +56,42 @@ class GuestMenu : AppCompatActivity() {
         }
 
         inviteOthers.setOnClickListener {
-            val qrIntent = Intent(this@GuestMenu, InviteByQR::class.java)
-            startActivity(qrIntent)
-//            return@setOnClickListener
-//            val myurl = getConfigValue("backend_url") ?: return@setOnClickListener
-//            val gid = "123"
-//            inviteOthers.isClickable = false
-//            lifecycleScope.launch {
-//
-//                val client = HttpClient(CIO) {
-//                    install(Auth) {
-//                        basic {
-//                            credentials {
-//                                BasicAuthCredentials(username = AccountSignIn.creds[0],
-//                                    password = AccountSignIn.creds[1])
-//                            }
-//
-//                        }
-//                    }
-//                }
-//
-//                try {
-//                    val response: String = client.submitForm (
-//                        url = myurl+ "create_invite/",
-//                        formParameters = Parameters.build {
-//                            append("gid",gid)
-//                        }
-//                    )
-//                    val data = response
-//                    Toast.makeText(applicationContext,
-//                        data,
-//                        Toast.LENGTH_LONG).show()
-//                    var inviteCode = data;
-//                    inviteOthers.isClickable = true
-//
-//                    var dummyLink = "https://coolrouteplanner.test/join/${inviteCode}";
-//                    val shareIntent = Intent()
-//                    shareIntent.action = Intent.ACTION_SEND
-//                    shareIntent.type = "text/plain"
-//                    shareIntent.putExtra(Intent.EXTRA_TEXT,
-//                        "Please join my group using this invite code: ${inviteCode} or click on this link: {$dummyLink}")
-//                    startActivity(Intent.createChooser(shareIntent, "Send To"))
-//
-////                    Toast.makeText(applicationContext, "Successfully created invite link.${data}", Toast.LENGTH_LONG).show()
-//                } catch (E: Exception) {
-//                    Toast.makeText(applicationContext,
-//                        "Exception: No group with gid 123 or ${E.message}",
-//                        Toast.LENGTH_LONG).show()
-//                    inviteOthers.isClickable = true
-//                }
-//
-//
-//            }
+            val backendUrl = getConfigValue("backend_url") ?: return@setOnClickListener
+            val gid = "123"
+            inviteOthers.isClickable = false
+            lifecycleScope.launch {
+
+                try {
+                    val response: String = httpClient.submitForm(
+                        url = backendUrl + "create_invite/",
+                        formParameters = Parameters.build {
+                            append("gid", gid)
+                        }
+                    )
+                    Toast.makeText(applicationContext,
+                        response,
+                        Toast.LENGTH_LONG).show()
+                    var inviteCode = response;
+                    inviteOthers.isClickable = true
+
+                    var dummyLink = "https://coolrouteplanner.test/join/${inviteCode}";
+                    val shareIntent = Intent()
+                    shareIntent.action = Intent.ACTION_SEND
+                    shareIntent.type = "text/plain"
+                    shareIntent.putExtra(Intent.EXTRA_TEXT,
+                        "Please join my group using this invite code: ${inviteCode}")
+                    startActivity(Intent.createChooser(shareIntent, "Send To"))
+
+//                    Toast.makeText(applicationContext, "Successfully created invite link.${data}", Toast.LENGTH_LONG).show()
+                } catch (E: Exception) {
+                    Toast.makeText(applicationContext,
+                        "Exception: No group with gid 123 or ${E.message}",
+                        Toast.LENGTH_LONG).show()
+                    inviteOthers.isClickable = true
+                }
+
+
+            }
         }
     }
 
@@ -127,26 +112,13 @@ class GuestMenu : AppCompatActivity() {
             var m_Text = input.text.toString()
             val my_url = getConfigValue("backend_url") ?: return@OnClickListener
             lifecycleScope.launch {
-
-                val client = HttpClient(CIO) {
-                    install(Auth) {
-                        basic {
-                            credentials {
-                                BasicAuthCredentials(username = AccountSignIn.creds[0], password = AccountSignIn.creds[1])
-                            }
-                        }
-                    }
-                }
-
-                try{
-                    val response: String = client.post(my_url + "delete_group"){
-
+                try {
+                    httpClient.post<HttpResponse>(my_url + "delete_group") {
                         body = m_Text
                     }
-                    val data = response
                     Toast.makeText(applicationContext, "Successfully performed delete action", Toast.LENGTH_LONG).show()
                     dialog.cancel()
-                }catch (E:Exception){
+                } catch (E:Exception) {
                     Toast.makeText(applicationContext,"Failed to delete. Wrong Group Id?",Toast.LENGTH_LONG).show()
                     dialog.cancel()
                 }

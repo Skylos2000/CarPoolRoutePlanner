@@ -7,6 +7,7 @@ import android.widget.Button
 
 class GuestLeaveMembers : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        // TODO: I'm leaving this out of the refactoring for now because I think it should be a message box
         super.onCreate(savedInstanceState)
         setContentView(R.layout.guestleavegroup)
 

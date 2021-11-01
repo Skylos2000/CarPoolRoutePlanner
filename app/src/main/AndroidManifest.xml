@@ -16,7 +16,8 @@
             android:name=".InviteByQR"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+
+            android:name=".ui.MainActivity"
             android:exported="true"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.CarPoolRoutePlanner.NoActionBar" />
@@ -58,7 +59,7 @@
         <activity android:name=".MainMenu" />
         <activity android:name=".Solomon" />
         <activity android:name=".SolomonGroupVote" />
-        <activity android:name=".AccountSignIn">
+        <activity android:name=".ui.AccountSignIn">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

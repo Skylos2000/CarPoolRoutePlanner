@@ -14,7 +14,8 @@ fun Context.getConfigValue(name: String): String? {
         properties.load(rawResource)
         return properties.getProperty(name)
     } catch (e: Resources.NotFoundException) {
-        Log.e("Helper", "Unable to find the config file: " + e.message);
+        // TODO: Come up with a better tag than Helper
+        Log.e("Helper", "Unable to find the config file: " + e.message)
     } catch (e: IOException) {
         Log.e("Helper", "Failed to open config file.");
     }

@@ -3,25 +3,19 @@ package com.devs.carpoolrouteplanner
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.devs.carpoolrouteplanner.utils.getConfigValue
+import com.devs.carpoolrouteplanner.utils.httpClient
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.auth.*
 import io.ktor.client.features.auth.providers.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import org.w3c.dom.Text
 
 class SolomonGroupVote: AppCompatActivity() {
 
     lateinit var locationOptions: String
-
-    // username and password from companion object
-    val userN = AccountSignIn.creds[0]
-    val passW = AccountSignIn.creds[1]
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,22 +37,12 @@ class SolomonGroupVote: AppCompatActivity() {
         var lvVotingOptions: ListView = findViewById(R.id.lvVotingOptions)
 
         runBlocking {
-            val client = HttpClient(CIO) {
-                install(Auth) {
-                    basic {
-                        credentials {
-                            BasicAuthCredentials(username = "aaa", password = "eee")
-                        }
-                    }
-                }
-            }
-
-            locationOptions = client.post(my_url + "votingOptions") {
+            locationOptions = httpClient.post(my_url + "votingOptions") {
                 body = gid.toString()
             }
         }
 
-        if (locationOptions == "-1"){
+        if (locationOptions == "-1") {
             locationOptions = ""
         }
         locationOptions = locationOptions.replace("[", "")
@@ -74,18 +58,7 @@ class SolomonGroupVote: AppCompatActivity() {
 
         btnStartVote.setOnClickListener {
             runBlocking {
-                // authenticates user
-                val client = HttpClient(CIO) {
-                    install(Auth) {
-                        basic {
-                            credentials {
-                                BasicAuthCredentials(username = userN, password = passW)
-                            }
-                        }
-                    }
-                }
-
-                val response: String = client.post(my_url + "startVote") {
+                val response: String = httpClient.post(my_url + "startVote") {
                     body = gid.toString()
                 }
                 if (response == "-2"){
@@ -96,18 +69,7 @@ class SolomonGroupVote: AppCompatActivity() {
 
         btnEndVote.setOnClickListener {
             runBlocking {
-                // authenticates user
-                val client = HttpClient(CIO) {
-                    install(Auth) {
-                        basic {
-                            credentials {
-                                BasicAuthCredentials(username = userN, password = passW)
-                            }
-                        }
-                    }
-                }
-
-                val response: String = client.post(my_url + "voteResult") {
+                val response: String = httpClient.post(my_url + "voteResult") {
                     body = gid.toString()
                 }
                 if (response == "-1"){
@@ -125,18 +87,7 @@ class SolomonGroupVote: AppCompatActivity() {
             }
             else {
                 runBlocking {
-                    // authenticates user
-                    val client = HttpClient(CIO) {
-                        install(Auth) {
-                            basic {
-                                credentials {
-                                    BasicAuthCredentials(username = userN, password = passW)
-                                }
-                            }
-                        }
-                    }
-
-                    val response: String = client.post(my_url + "addVotingLocation") {
+                    val response: String = httpClient.post(my_url + "addVotingLocation") {
                         body = gid.toString() + "," + txtEnterLocation.text
                     }
                     if (response == "-1") {
@@ -152,23 +103,13 @@ class SolomonGroupVote: AppCompatActivity() {
         btnRefresh.setOnClickListener {
             runBlocking {
                 // authenticates user
-                val client = HttpClient(CIO) {
-                    install(Auth) {
-                        basic {
-                            credentials {
-                                BasicAuthCredentials(username = userN, password = passW)
-                            }
-                        }
-                    }
-                }
-
                 if (lvVotingOptions.isEnabled) {
-                    locationOptions = client.post(my_url + "votingOptions") {
+                    locationOptions = httpClient.post(my_url + "votingOptions") {
                         body = gid.toString()
                     }
                 }
                 else{
-                    locationOptions = client.post(my_url + "votingScores") {
+                    locationOptions = httpClient.post(my_url + "votingScores") {
                         body = gid.toString()
                     }
                 }
@@ -190,25 +131,15 @@ class SolomonGroupVote: AppCompatActivity() {
         // fuuuuucckk, make a new route for this too
         lvVotingOptions.setOnItemClickListener { adapterView, view, i, l ->
             runBlocking {
-                // authenticates user
-                val client = HttpClient(CIO) {
-                    install(Auth) {
-                        basic {
-                            credentials {
-                                BasicAuthCredentials(username = userN, password = passW)
-                            }
-                        }
-                    }
-                }
 
                 if(locationOptionsList[i] == "") { locationOptions = "-3" }
                 else {
 
-                    val response: HttpResponse = client.post(my_url + "castVote") {
+                    val response: HttpResponse = httpClient.post(my_url + "castVote") {
                         body = gid.toString() + "," + locationOptionsList[i]
                     }
 
-                    locationOptions = client.post(my_url + "votingScores") {
+                    locationOptions = httpClient.post(my_url + "votingScores") {
                         body = gid.toString()
                     }
                 }

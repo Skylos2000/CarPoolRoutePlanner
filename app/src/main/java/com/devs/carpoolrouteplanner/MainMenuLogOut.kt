@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
+import com.devs.carpoolrouteplanner.ui.AccountSignIn
 
 class MainMenuLogOut : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,8 +48,8 @@ class MainMenuLogOut : AppCompatActivity() {
             }
 
             R.id.action_logout->{
-                AccountSignIn.creds[0]=""
-                AccountSignIn.creds[1]=""
+//                AccountSignIn.creds[0]=""
+//                AccountSignIn.creds[1]=""
                 val intent2 = Intent(this@MainMenuLogOut, AccountSignIn::class.java)
                 startActivity(intent2)
                 true

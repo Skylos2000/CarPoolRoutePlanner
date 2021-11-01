@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.devs.carpoolrouteplanner.adapters.ItemAdapters
 import com.devs.carpoolrouteplanner.adapters.ItemList
 import com.devs.carpoolrouteplanner.utils.getConfigValue
+import com.devs.carpoolrouteplanner.utils.httpClient
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.auth.*
@@ -38,7 +39,7 @@ class SetRoute : AppCompatActivity() , AdapterView.OnItemClickListener{
         itemAdapters = ItemAdapters(applicationContext,arrayList!!)
         listView?.adapter = itemAdapters
         listView?.onItemClickListener = this
-        getData("")
+        getData()
 
     }
     private fun setDataItem() :ArrayList<ItemList>{
@@ -51,28 +52,14 @@ class SetRoute : AppCompatActivity() , AdapterView.OnItemClickListener{
 
         return listItem
     }
-    private fun getData(verb:String?){//:String?
-        val userN = AccountSignIn.creds[0]
-        val passW = AccountSignIn.creds[1]
+    private fun getData() {//:String?
         val url = getConfigValue("backend_url")
         val gid = 456
         lifecycleScope.launch {
-            val client = HttpClient(CIO) {
-                install(Auth) {
-                    basic {
-                        credentials {
-                            BasicAuthCredentials(username = userN, password = passW)
-                        }
-                    }
-                }
-                install(JsonFeature) {
-                    serializer = KotlinxSerializer()
-                }
-            }
             var destinationString = ""
             try {
-                val response: HttpResponse = client.get("$url/get_group_routes/$gid")
-                destinationString += client.get<String>(url + "/get_group_routes/$gid").toString()
+                val response: HttpResponse = httpClient.get("$url/get_group_routes/$gid")
+                destinationString += httpClient.get<String>("$url/get_group_routes/$gid").toString()
                 var data = response.toString()
                 if (response.status.value == 404) {
                     Toast.makeText(this@SetRoute, "404 not found", Toast.LENGTH_SHORT).show()

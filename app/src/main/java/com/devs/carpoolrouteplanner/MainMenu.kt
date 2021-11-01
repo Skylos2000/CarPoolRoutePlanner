@@ -28,8 +28,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.* //////////////////
 import kotlinx.coroutines.runBlocking
 import java.util.*
-import com.devs.carpoolrouteplanner.AccountSignIn.Companion.creds
+import com.devs.carpoolrouteplanner.ui.MainActivity
 import com.devs.carpoolrouteplanner.utils.NoticeDialogFragment
+import com.devs.carpoolrouteplanner.utils.getConfigValue
+import com.devs.carpoolrouteplanner.utils.httpClient
 
 
 class MainMenu : AppCompatActivity(),// FragmentActivity(),
@@ -44,12 +46,7 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     lateinit var locationCallback: LocationCallback
 
-    val my_url = "http://138.47.144.91:8080/"
-
-
-    // username and password from companion object
-    val userN = creds[0]
-    val passW = creds[1]
+    val backendUrl = getConfigValue("backend_url")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,6 +73,7 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
         val intent5 = Intent(this@MainMenu, SetRoute::class.java)
         val intent6 = Intent(this@MainMenu, ViewCurrentMembers::class.java)
 
+
         val solo: Button = findViewById(R.id.solomon)
         val solomonIntent = Intent(this@MainMenu, Solomon::class.java)
         solo.setOnClickListener {
@@ -93,6 +91,7 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
         locationRequest.fastestInterval = 1000 * FAST_UPDATE_INTERVAL
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY // sets the location request to use the GPS
 
+        // TODO: Is this even needed?
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 locationResult ?: return
@@ -100,19 +99,8 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
                 for (location in locationResult.locations) {
                     lifecycleScope.launch {
 
-                        // authenticates user
-                        val client = HttpClient(CIO) {
-                            install(Auth) {
-                                basic {
-                                    credentials {
-                                        BasicAuthCredentials(username = userN, password = passW)
-                                    }
-                                }
-                            }
-                        }
-
                         // sends location to backend
-                        val response: HttpResponse = client.post(my_url + "set_my_pickup_location_by_text") {
+                        httpClient.post(backendUrl + "set_my_pickup_location_by_text") {
                             body = location.latitude.toString() + "," + location.longitude.toString()
                         }
                     }
@@ -154,24 +142,9 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
             //showNoticeDialog()
             runBlocking {
                 launch {
-                    val client = HttpClient(CIO) {
-                        install(Auth) {
-                            basic {
-                                credentials {
-                                    BasicAuthCredentials(username = userN, password = passW)
-                                }
-                            }
-                        }
-                        install(JsonFeature) {
-                            serializer = KotlinxSerializer()
-                        }
-                    }
-
-                    val httpResponse: List<Int> = client.get(my_url + "list_my_groups/")
+                    val httpResponse: List<Int> = httpClient.get(backendUrl + "list_my_groups/")
                     //val stringBody: String = httpResponse.receive()
-                    destinationString = client.get<List<Pair<Double,Double>>>(my_url + "get_group_routes/${httpResponse.first()}").joinToString("|"){ "${it.first},${it.second}" }
-
-                    client.close()
+                    destinationString = httpClient.get<List<Pair<Double,Double>>>(backendUrl + "get_group_routes/${httpResponse.first()}").joinToString("|"){ "${it.first},${it.second}" }
 
                     //tv.text = byteArrayBody.decodeToString() //# if you want the response decoded to a string
                 }
@@ -209,11 +182,11 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
         }
 
         btn_RegDest.setOnClickListener {
-            lifecycleScope.launch { SetRegDest(69.00, 96.00, false) }
+            lifecycleScope.launch { setRegDest(69.00, 96.00, false) }
         }
 
         btn_PriorityDest.setOnClickListener {
-            lifecycleScope.launch { SetRegDest(69.00, 96.00, true) }
+            lifecycleScope.launch { setRegDest(69.00, 96.00, true) }
         }
 
         btn_ViewCurrentMembers.setOnClickListener {
@@ -222,18 +195,8 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
     }
 
 
-    suspend fun SetRegDest(lat: Double, long: Double, isPriority: Boolean){
-        val client = HttpClient(CIO) {
-            install(Auth) {
-                basic {
-                    credentials {
-                        BasicAuthCredentials(username = userN, password = passW)
-                    }
-                }
-            }
-        }
-
-        val response: HttpResponse = client.post(my_url + "submit_location") {
+    suspend fun setRegDest(lat: Double, long: Double, isPriority: Boolean){
+        httpClient.post<HttpResponse>(backendUrl + "submit_location") {
             body = "456,$lat,$long,$isPriority,"
         }
     }
@@ -256,23 +219,10 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
         // User touched the dialog's negative button
         //Toast.makeText(this@MainMenu, "negative button pressed", Toast.LENGTH_LONG).show()
         lifecycleScope.launch {
-
-            // authenticates user
-            val client = HttpClient(CIO) {
-                install(Auth) {
-                    basic {
-                        credentials {
-                            BasicAuthCredentials(username = userN, password = passW)
-                        }
-                    }
-                }
-            }
-
             // sends location to backend
-            val response: HttpResponse = client.post(my_url + "delete_group") {
+            httpClient.post<HttpResponse>(backendUrl + "delete_group") {
                 body = "505"
             }
-            client.close()
         }
     }
 }
