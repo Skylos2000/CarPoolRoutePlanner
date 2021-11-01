@@ -22,7 +22,7 @@ import io.ktor.http.*
 import kotlinx.coroutines.launch
 
 class InviteByQR : AppCompatActivity() {
-
+/*
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,5 +120,7 @@ class InviteByQR : AppCompatActivity() {
 
         }
     }
+
+ */
 }
 
