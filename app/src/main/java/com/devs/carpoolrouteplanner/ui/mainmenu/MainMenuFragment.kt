@@ -41,7 +41,7 @@ import com.devs.carpoolrouteplanner.ui.MainActivity
 import com.devs.carpoolrouteplanner.utils.NoticeDialogFragment
 import com.devs.carpoolrouteplanner.utils.getConfigValue
 import com.devs.carpoolrouteplanner.utils.httpClient
-import com.devs.carpoolrouteplanner.databinding.FragmentMainmenuBinding
+import com.devs.carpoolrouteplanner.databinding.FragmentMainmenuBinding // fragment_mainmenu.xml ~= "Fragment"+"mainmenu"+"Binding"
 
 
 class MainMenuFragment : Fragment() {
