@@ -7,8 +7,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import com.devs.carpoolrouteplanner.ui.AccountSignIn
+//import com.devs.carpoolrouteplanner.ui.mainmenu.MainMenu
 
-class MainMenuLogOut : AppCompatActivity() {
+class MainMenuLogOut : AppCompatActivity() {/*
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mainmenulogout)
@@ -57,5 +58,5 @@ class MainMenuLogOut : AppCompatActivity() {
             else->super.onOptionsItemSelected(item)
         }
 
-    }
+    }*/
 }

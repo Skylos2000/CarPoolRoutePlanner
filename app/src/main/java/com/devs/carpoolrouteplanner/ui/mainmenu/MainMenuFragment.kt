@@ -1,16 +1,25 @@
-package com.devs.carpoolrouteplanner
+package com.devs.carpoolrouteplanner.ui.mainmenu
 
+import android.widget.TextView
+import androidx.lifecycle.Observer
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.devs.carpoolrouteplanner.*
+import com.devs.carpoolrouteplanner.R
 import com.google.android.gms.location.*
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -32,10 +41,60 @@ import com.devs.carpoolrouteplanner.ui.MainActivity
 import com.devs.carpoolrouteplanner.utils.NoticeDialogFragment
 import com.devs.carpoolrouteplanner.utils.getConfigValue
 import com.devs.carpoolrouteplanner.utils.httpClient
+import com.devs.carpoolrouteplanner.databinding.FragmentMainmenuBinding
 
 
-class MainMenu : AppCompatActivity(),// FragmentActivity(),
-    NoticeDialogFragment.NoticeDialogListener {
+class MainMenuFragment : Fragment() {
+    private lateinit var mainMenuViewModel: MainMenuViewModel
+    private var _binding: FragmentMainmenuBinding? = null // just naming it
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        mainMenuViewModel = ViewModelProvider(this).get(MainMenuViewModel::class.java)
+        _binding = FragmentMainmenuBinding.inflate(inflater,container,false)
+        val root: View = binding.root
+
+        val textView: TextView = binding.textMainMenu
+        mainMenuViewModel.text.observe(viewLifecycleOwner, Observer {
+            textView.text = it
+        })
+        return root
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   /* NoticeDialogFragment.NoticeDialogListener {
 
     val DEFAULT_UPDATE_INTERVAL: Long = 10
     val FAST_UPDATE_INTERVAL: Long = 5
@@ -153,7 +212,7 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
             //gmap code here
             val gmmIntentUri =
                 Uri.parse("https://www.google.com/maps/dir/?api=1&destination=18.518496,73.879259&travelmode=driving&waypoints=$destinationString")
-                Uri.parse("https://www.google.com/maps/dir/?api=1&destination=shreveport,la&travelmode=driving&waypoints=monroe,la|louisana+tech")
+            Uri.parse("https://www.google.com/maps/dir/?api=1&destination=shreveport,la&travelmode=driving&waypoints=monroe,la|louisana+tech")
             val intent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
             intent.setPackage("com.google.android.apps.maps")
             try {
@@ -168,13 +227,13 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
                 }
             }
             showNoticeDialog()
-/**
+            /**
             val gmmIntentUri =
-                Uri.parse("google.navigation:q=Taronga+Zoo,+Sydney+Australia")
+            Uri.parse("google.navigation:q=Taronga+Zoo,+Sydney+Australia")
             val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
             mapIntent.setPackage("com.google.android.apps.maps")
             startActivity(mapIntent)
-**/
+             **/
 
         }
         button7.setOnClickListener {
@@ -226,3 +285,4 @@ class MainMenu : AppCompatActivity(),// FragmentActivity(),
         }
     }
 }
+    */

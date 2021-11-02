@@ -38,7 +38,7 @@
         <activity android:name=".GroupManagementType" />
         <activity android:name=".CreateGroup" />
         <activity android:name=".JoinGroup"/>
-        <activity android:name=".MainMenu" />
+        <activity android:name=".ui.mainmenu.MainMenu" />
         <activity android:name=".Solomon" />
         <activity android:name=".SolomonGroupVote" />
         <activity android:name=".ui.AccountSignIn">

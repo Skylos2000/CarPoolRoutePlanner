@@ -50,6 +50,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="text_main_menu">Main Menu</string>
 
     <string name="facebook_app_id">955584248363701</string>
     <string name="fb_login_protocol_scheme">fb955584248363701</string>

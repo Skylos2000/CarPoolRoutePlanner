@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+//import com.devs.carpoolrouteplanner.ui.mainmenu.MainMenu
 import com.devs.carpoolrouteplanner.utils.getConfigValue
 import com.devs.carpoolrouteplanner.utils.httpClient
 import io.ktor.client.*
@@ -20,7 +21,7 @@ import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import kotlinx.coroutines.launch
 
-class SetGroupDest : AppCompatActivity() {
+class SetGroupDest : AppCompatActivity() {/*
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_group_dest)
@@ -70,6 +71,6 @@ class SetGroupDest : AppCompatActivity() {
             }
         }
 
-    }
+    }*/
 }
 
