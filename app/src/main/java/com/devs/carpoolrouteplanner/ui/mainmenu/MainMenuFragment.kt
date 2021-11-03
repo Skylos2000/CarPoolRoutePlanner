@@ -66,6 +66,10 @@ class MainMenuFragment : Fragment() {
         })
         return root
     }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
 }
 
@@ -105,7 +109,8 @@ class MainMenuFragment : Fragment() {
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     lateinit var locationCallback: LocationCallback
 
-    val backendUrl = getConfigValue("backend_url")
+    //val backendUrl = getConfigValue("backend_url")
+    val backendUrl = "http://138.47.132.58:8080"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -159,7 +164,7 @@ class MainMenuFragment : Fragment() {
                     lifecycleScope.launch {
 
                         // sends location to backend
-                        httpClient.post(backendUrl + "set_my_pickup_location_by_text") {
+                        httpClient.post("$backendUrl/set_my_pickup_location_by_text") {
                             body = location.latitude.toString() + "," + location.longitude.toString()
                         }
                     }
@@ -185,7 +190,7 @@ class MainMenuFragment : Fragment() {
             startActivity(intent4)
         }
 
-        // pulls user's currnet GPS location and sends it to the backend
+        // pulls user's current GPS location and sends it to the backend
         button5.setOnClickListener {
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null)
@@ -201,9 +206,9 @@ class MainMenuFragment : Fragment() {
             //showNoticeDialog()
             runBlocking {
                 launch {
-                    val httpResponse: List<Int> = httpClient.get(backendUrl + "list_my_groups/")
+                    val httpResponse: List<Int> = httpClient.get("$backendUrl/list_my_groups/") // i have no idea what this routes to now
                     //val stringBody: String = httpResponse.receive()
-                    destinationString = httpClient.get<List<Pair<Double,Double>>>(backendUrl + "get_group_routes/${httpResponse.first()}").joinToString("|"){ "${it.first},${it.second}" }
+                    destinationString = httpClient.get<List<Pair<Double,Double>>>(backendUrl + "/get_group_routes/${httpResponse.first()}").joinToString("|"){ "${it.first},${it.second}" }
 
                     //tv.text = byteArrayBody.decodeToString() //# if you want the response decoded to a string
                 }
@@ -255,7 +260,7 @@ class MainMenuFragment : Fragment() {
 
 
     suspend fun setRegDest(lat: Double, long: Double, isPriority: Boolean){
-        httpClient.post<HttpResponse>(backendUrl + "submit_location") {
+        httpClient.post<HttpResponse>("$backendUrl/submit_location") { // cant find the route for this
             body = "456,$lat,$long,$isPriority,"
         }
     }
@@ -279,7 +284,7 @@ class MainMenuFragment : Fragment() {
         //Toast.makeText(this@MainMenu, "negative button pressed", Toast.LENGTH_LONG).show()
         lifecycleScope.launch {
             // sends location to backend
-            httpClient.post<HttpResponse>(backendUrl + "delete_group") {
+            httpClient.post<HttpResponse>("$backendUrl/delete_group") {
                 body = "505"
             }
         }
