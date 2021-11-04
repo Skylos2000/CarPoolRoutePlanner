@@ -3,6 +3,8 @@ package com.devs.carpoolrouteplanner.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.devs.carpoolrouteplanner.utils.httpClient
+import io.ktor.client.request.*
 
 class HomeViewModel : ViewModel() {
 
