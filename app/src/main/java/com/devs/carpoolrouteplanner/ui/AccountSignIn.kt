@@ -49,6 +49,11 @@ class AccountSignIn : AppCompatActivity() {
         FacebookSdk.sdkInitialize(applicationContext)
         setContentView(R.layout.accountsignin)
 
+        val accessToken = AccessToken.getCurrentAccessToken()
+        if (accessToken != null && !accessToken.isExpired == true){
+            startActivity(Intent(applicationContext, MainActivity::class.java))
+        }
+
         val usernameTextBox = findViewById<EditText>(R.id.signIn_emailTextBox)
         val passwordTextBox = findViewById<EditText>(R.id.signIn_passwordTextBox)
         val progressBar = findViewById<ProgressBar>(R.id.signInProgressBar)
@@ -132,8 +137,6 @@ class AccountSignIn : AppCompatActivity() {
                         Log.d("MainActivity", "Facebook onError.")
                     }
                 })
-            val accessToken = AccessToken.getCurrentAccessToken()
-            accessToken != null && !accessToken.isExpired
         }
 
     }
