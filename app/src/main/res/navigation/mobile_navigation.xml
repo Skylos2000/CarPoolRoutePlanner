@@ -16,6 +16,11 @@
         android:name="com.devs.carpoolrouteplanner.ui.mainmenu.MainMenuFragment"
         android:label="@string/text_main_menu"
         tools:layout="@layout/fragment_mainmenu" />
+    <fragment
+        android:id="@+id/nav_view_route"
+        android:name="com.devs.carpoolrouteplanner.ui.viewroute.ViewRouteFragment"
+        android:label="View Route"
+        tools:layout="@layout/route_recycler_view"/>
 </navigation>
 
     <!--

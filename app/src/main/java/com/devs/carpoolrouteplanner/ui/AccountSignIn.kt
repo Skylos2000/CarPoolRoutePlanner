@@ -26,6 +26,7 @@ import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.facebook.appevents.AppEventsLogger
+import java.net.ConnectException
 import java.util.*
 
 @Suppress("DEPRECATION")
@@ -107,7 +108,14 @@ class AccountSignIn : AppCompatActivity() {
                 progressBar.visibility = View.VISIBLE
                 signInButton.isClickable = false
                 lifecycleScope.launch {
-                    loginViewModel.login(apiUrl, username.toString(), code.toString())
+                    try {
+                        loginViewModel.login(apiUrl, username.toString(), code.toString())
+                    } catch (e: ConnectException) {
+                        Toast.makeText(this@AccountSignIn, "The backend is currently down", Toast.LENGTH_SHORT).show()
+
+                        progressBar.visibility = View.GONE
+                        signInButton.isClickable = true
+                    }
                 }
             } else {
                 Toast.makeText(this, "One or two fields are empty", Toast.LENGTH_SHORT).show()
