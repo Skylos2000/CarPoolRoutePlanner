@@ -12,9 +12,20 @@ import com.devs.carpoolrouteplanner.R
 class RecyclerAdapter(titlesList: MutableList<String>,descriptionList: MutableList<String>): RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
     private var titles: MutableList<String> = titlesList
     private var des: MutableList<String> = descriptionList
+
+
+    private lateinit var mListener: onItemClickListener
+    interface  onItemClickListener{
+        fun onItemClick(position: Int)
+    }
+
+    fun setOnItemClickListener(listener: onItemClickListener){
+        mListener = listener
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerAdapter.ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.card_layout, parent, false)
-        return ViewHolder(v)
+        return ViewHolder(v, mListener)
     }
 
     override fun onBindViewHolder(holder: RecyclerAdapter.ViewHolder, position: Int) {
@@ -26,12 +37,16 @@ class RecyclerAdapter(titlesList: MutableList<String>,descriptionList: MutableLi
         return titles.size
     }
 
-    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    inner class ViewHolder(itemView: View, listener: onItemClickListener): RecyclerView.ViewHolder(itemView){
         var itemTitle: TextView
         var itemDescription: TextView
         init{
             itemTitle = itemView.findViewById(R.id.title_card_view)
             itemDescription = itemView.findViewById(R.id.description_card_view)
+
+            itemView.setOnClickListener {
+                listener.onItemClick(adapterPosition)
+            }
         }
 
     }

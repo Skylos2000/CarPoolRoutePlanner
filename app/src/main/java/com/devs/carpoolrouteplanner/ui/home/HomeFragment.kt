@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -77,7 +78,15 @@ class HomeFragment : Fragment() {
         descriptionList = unParsedData[1]
         recyclerView = binding.recyclerView
         recyclerAdapter = RecyclerAdapter(titleList,descriptionList)
+        var adapter = recyclerAdapter
         recyclerView.adapter = recyclerAdapter
+        adapter.setOnItemClickListener(object : RecyclerAdapter.onItemClickListener{
+            override fun onItemClick(position: Int) {
+
+                textView.text = "you clicked on item" + groupList[0][position]
+            }
+
+        })
 
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
