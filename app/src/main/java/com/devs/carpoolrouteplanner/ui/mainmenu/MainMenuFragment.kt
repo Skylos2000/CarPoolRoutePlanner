@@ -37,11 +37,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.* //////////////////
 import kotlinx.coroutines.runBlocking
 import java.util.*
-import com.devs.carpoolrouteplanner.ui.MainActivity
+
 import com.devs.carpoolrouteplanner.utils.NoticeDialogFragment
 import com.devs.carpoolrouteplanner.utils.getConfigValue
 import com.devs.carpoolrouteplanner.utils.httpClient
-import com.devs.carpoolrouteplanner.databinding.FragmentMainmenuBinding // fragment_mainmenu.xml ~= "Fragment"+"mainmenu"+"Binding"
+import com.devs.carpoolrouteplanner.ui.MainActivity
+import com.devs.carpoolrouteplanner.databinding.FragmentMainmenuBinding// fragment_mainmenu.xml ~= "Fragment"+"mainmenu"+"Binding"
+import android.content.Context
 
 
 class MainMenuFragment : Fragment() {
@@ -51,18 +53,20 @@ class MainMenuFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val url = this.context?.getConfigValue("backend_url")
         mainMenuViewModel = ViewModelProvider(this).get(MainMenuViewModel::class.java)
         _binding = FragmentMainmenuBinding.inflate(inflater,container,false)
         val root: View = binding.root
 
         val textView: TextView = binding.textMainMenu
         mainMenuViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+            textView.text = url
         })
         return root
     }

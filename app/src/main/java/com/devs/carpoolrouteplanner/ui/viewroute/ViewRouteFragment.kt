@@ -1,26 +1,25 @@
 package com.devs.carpoolrouteplanner.ui.viewroute
 
 import android.os.Bundle
-import android.view.Gravity.apply
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import com.devs.carpoolrouteplanner.ui.viewroute.ViewRouteFragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import android.widget.Button
+import android.widget.Toast
+import androidx.fragment.app.FragmentContainer
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.findFragment
+import androidx.navigation.NavAction
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.devs.carpoolrouteplanner.R
 
-import com.devs.carpoolrouteplanner.ui.viewroute.ViewRouteViewModel
 import java.util.*
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat.apply
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devs.carpoolrouteplanner.adapters.RecyclerAdapter
-import kotlinx.android.synthetic.main.activity_main.view.*
 
 import kotlinx.android.synthetic.main.route_recycler_view.*
 
@@ -58,6 +57,12 @@ class ViewRouteFragment : Fragment() {
             adapter = RecyclerAdapter(titleList,descriptionList)
             //val itemTouchHelper = ItemTouchHelper(simpleCallback)
             //itemTouchHelper.attachToRecyclerView(recyclerView)
+
+            val newdestinationbutton: Button = add_destination
+            newdestinationbutton.setOnClickListener {
+                Toast.makeText(this.context,"hello",Toast.LENGTH_LONG).show()
+               // NavHostFragment.findNavController(this@ViewRouteFragment).
+            }
         }
     }
 
@@ -76,7 +81,7 @@ class ViewRouteFragment : Fragment() {
     private fun getDataFromDb(): List<List<String>>{
         return listOf(listOf("30","-90","Home"),listOf("29","-90","Work"),listOf("29","-89","Louisiana Tech"),listOf("29","-89.5","Tractor Supply"))
     }
-
+/*
     private var simpleCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP.or(
         ItemTouchHelper.DOWN),0){
         override fun onMove(
@@ -95,6 +100,9 @@ class ViewRouteFragment : Fragment() {
         }
 
     }
+
+ */
+}
     /*private lateinit var routeViewModel: ViewRouteViewModel
     private var _binding: FragmentRouteviewBinding? = null // just naming it
     // This property is only valid between onCreateView and
@@ -124,4 +132,4 @@ override fun onDestroyView() {
     }
 
      */
-}
+
