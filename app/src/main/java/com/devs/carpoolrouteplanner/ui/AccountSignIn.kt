@@ -26,6 +26,7 @@ import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.facebook.appevents.AppEventsLogger
+import java.net.ConnectException
 import java.util.*
 
 @Suppress("DEPRECATION")
@@ -48,6 +49,11 @@ class AccountSignIn : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         FacebookSdk.sdkInitialize(applicationContext)
         setContentView(R.layout.accountsignin)
+
+        val accessToken = AccessToken.getCurrentAccessToken()
+        if (accessToken != null && !accessToken.isExpired == true){
+            startActivity(Intent(applicationContext, MainActivity::class.java))
+        }
 
         val usernameTextBox = findViewById<EditText>(R.id.signIn_emailTextBox)
         val passwordTextBox = findViewById<EditText>(R.id.signIn_passwordTextBox)
@@ -102,7 +108,14 @@ class AccountSignIn : AppCompatActivity() {
                 progressBar.visibility = View.VISIBLE
                 signInButton.isClickable = false
                 lifecycleScope.launch {
-                    loginViewModel.login(apiUrl, username.toString(), code.toString())
+                    try {
+                        loginViewModel.login(apiUrl, username.toString(), code.toString())
+                    } catch (e: ConnectException) {
+                        Toast.makeText(this@AccountSignIn, "The backend is currently down", Toast.LENGTH_SHORT).show()
+
+                        progressBar.visibility = View.GONE
+                        signInButton.isClickable = true
+                    }
                 }
             } else {
                 Toast.makeText(this, "One or two fields are empty", Toast.LENGTH_SHORT).show()
@@ -132,8 +145,6 @@ class AccountSignIn : AppCompatActivity() {
                         Log.d("MainActivity", "Facebook onError.")
                     }
                 })
-            val accessToken = AccessToken.getCurrentAccessToken()
-            accessToken != null && !accessToken.isExpired
         }
 
     }
