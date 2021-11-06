@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
  */
 
 @Serializable
-data class SerializedUser(val userId: Int, val email: String, val username: String, val groups: List<SerializedGroup>)
+data class SerializedUser(val userId: Int, val email: String, val username: String, val groups: List<SerializedGroup> = emptyList(),val groupIds:List<Int>)
 
 @Serializable
 data class SerializedGroup(val gid: Int, val label: String, val groupLeaderUid: Int)
