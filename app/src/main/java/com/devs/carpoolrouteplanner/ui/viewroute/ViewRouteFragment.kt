@@ -95,6 +95,7 @@ class ViewRouteFragment : Fragment() {
         return destinations.map { listOf(it.lat.toString(), it.long.toString(), it.label) }
 //         return listOf(listOf("30","-90","Home"),listOf("29","-90","Work"),listOf("29","-89","Louisiana Tech"),listOf("29","-89.5","Tractor Supply"))
     }
+}
 /*
     private var simpleCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP.or(
         ItemTouchHelper.DOWN),0){
@@ -116,7 +117,6 @@ class ViewRouteFragment : Fragment() {
     }
 
  */
-}
     /*private lateinit var routeViewModel: ViewRouteViewModel
     private var _binding: FragmentRouteviewBinding? = null // just naming it
     // This property is only valid between onCreateView and
