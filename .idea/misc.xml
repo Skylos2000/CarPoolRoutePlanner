@@ -8,9 +8,7 @@
         <entry key="..\:/Users/Solo/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/activity_set_group_dest.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Solo/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/card_layout.xml" value="0.33" />
         <entry key="..\:/Users/Solo/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/cardview_set_route_item_layout_list.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Solo/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/fragment_group_voting.xml" value="0.33" />
         <entry key="..\:/Users/Solo/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Solo/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/fragment_manage_group_members.xml" value="0.10030395136778116" />
         <entry key="..\:/Users/Solo/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/grouphostmenu.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Solo/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/groupmanagementtype.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Solo/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/guestmenu.xml" value="0.36666666666666664" />
@@ -22,6 +20,10 @@
         <entry key="..\:/Users/Solo/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/solomon.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Solo/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/solomon_group_vote.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Solo/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/viewcurrentmembers.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/drawable-v24/baseline_alt_route_20.xml" value="0.1" />
+        <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/drawable-v24/baseline_ballot_24.xml" value="0.1" />
+        <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/drawable-v24/baseline_groups_24.xml" value="0.1" />
+        <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.16302083333333334" />
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/layout/activity_invite_by_qr.xml" value="0.146875" />
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/layout/activity_main.xml" value="0.146875" />
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/layout/activity_main_group.xml" value="0.2796875" />
@@ -49,7 +51,7 @@
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/layout/solomon.xml" value="0.2796875" />
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/layout/viewcurrentmembers.xml" value="0.2796875" />
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/menu/activity_main_drawer.xml" value="0.146875" />
-        <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/menu/bottom_nav_menu.xml" value="0.2796875" />
+        <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/menu/homeoptions.xml" value="0.2796875" />
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/menu/main.xml" value="0.2796875" />
         <entry key="..\:/Users/lando/Documents/carpool/app/src/main/res/layout/activity_main.xml" value="0.13601823708206687" />
