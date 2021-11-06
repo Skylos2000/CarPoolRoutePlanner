@@ -51,7 +51,7 @@ suspend fun installAuth(apiUrl: String, username: String, password: String): Log
     }
 
     if (response.status == HttpStatusCode.OK) {
-        val userData = response.receive<User>()
+        val userData = response.receive<SerializedUser>()
         return LoginResult(true, LoggedInUser(userData.userId, userData.username))
     }
 

@@ -5,24 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.devs.carpoolrouteplanner.databinding.FragmentHomeBinding
-import com.devs.carpoolrouteplanner.ui.MainActivity
 import com.devs.carpoolrouteplanner.ui.MainGroupActivity
-import com.devs.carpoolrouteplanner.utils.getConfigValue
-import com.devs.carpoolrouteplanner.utils.httpClient
+import com.devs.carpoolrouteplanner.utils.*
 import io.ktor.client.request.*
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.util.*
-import com.devs.carpoolrouteplanner.utils.getConfigValue
 
 class HomeFragment : Fragment() {
 
@@ -43,10 +36,13 @@ class HomeFragment : Fragment() {
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
-    fun getGroupList() {
-        lifecycleScope.launch {
-
+    private fun getGroupList(): List<SerializedGroup> {
+        var groupList: List<SerializedGroup>
+        runBlocking {
+            val userData = httpClient.get<SerializedUser>("${context?.getConfigValue("backend_url")}/users/me")
+            groupList = userData.groups
         }
+        return groupList
     }
 
     override fun onCreateView(
@@ -62,42 +58,22 @@ class HomeFragment : Fragment() {
         textView = binding.textHome
         //homeViewModel.text.observe(viewLifecycleOwner) { textView.text = it }
 
-        var groups: String
-        runBlocking {
-            groups = httpClient.get<String>(context?.getConfigValue("backend_url") + "users/me/groups")
-        }
-        groups = groups.replace("[", "")
-        groups = groups.replace("]", "")
+        val groupList = getGroupList()
 
-        val groupList: Array<MutableList<String>>
-
-
-        var unParsedData: Array<MutableList<String>>
-        if ("," in groups){
-            groupList = myGetData(groups.split(","))
-        }else{
-            groupList = myGetData(listOf(groups))
-        }
-
-
-       val intent = Intent(this.context, MainGroupActivity::class.java)
-
-        unParsedData = groupList
-        //val unParsedData = getData()
-        titleList = unParsedData[0]
-        descriptionList = unParsedData[1]
+        titleList = groupList.map { it.label }.toMutableList()
+        descriptionList = groupList.map { it.gid.toString() }.toMutableList()
         recyclerView = binding.recyclerView
-        recyclerAdapter = RecyclerAdapter(titleList,descriptionList)
-        var adapter = recyclerAdapter
+        recyclerAdapter = RecyclerAdapter(titleList, descriptionList)
         recyclerView.adapter = recyclerAdapter
-        adapter.setOnItemClickListener { position ->
-            val arr = groupList[0][position].toInt()
-            intent.putExtra("groupId", groupList[0][position].toInt())
+
+        recyclerAdapter.setOnItemClickListener { position ->
+            val intent = Intent(this.context, MainGroupActivity::class.java)
+            intent.putExtra("groupId", groupList[position].gid)
             startActivity(intent)
         }
 
-        //val itemTouchHelper = ItemTouchHelper(simpleCallback)
-        //itemTouchHelper.attachToRecyclerView(recyclerView)
+        val itemTouchHelper = ItemTouchHelper(simpleCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
 
         return root
     }
@@ -107,55 +83,21 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    private fun myGetData(something: List<String>): Array<MutableList<String>> {
-        var cords = mutableListOf<String>()
-        var titles = mutableListOf<String>()
-        for (i in something){
-
-            cords.add("")
-            titles.add(i)
+    private var simpleCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP.or(ItemTouchHelper.DOWN),0){
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            var startPosition = viewHolder.bindingAdapterPosition
+            var endPosition = target.bindingAdapterPosition
+            Collections.swap(titleList, startPosition, endPosition)
+            recyclerView.adapter?.notifyItemMoved(startPosition, endPosition)//send back to db here
+            return true
         }
-        return arrayOf(titles, cords)
-    }
 
-    private fun getData(): Array<MutableList<String>> {
-        var routedata = getDataFromDb()
-        var cords = mutableListOf<String>()
-        var title = mutableListOf<String>()
-        for (aList in routedata) {
-            cords.add("Coordinates: " + aList.elementAt(0) + "," + aList.elementAt(1))
-            title.add("" + aList.elementAt(2))
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         }
-        return arrayOf(title, cords)
 
     }
-
-    private fun getDataFromDb(): List<List<String>>{
-//        val ss: String
-//        runBlocking {
-//            ss = httpClient.get<String>("http://138.47.134.41:8080/users/me")
-//        }
-//        textView.text = "hihcenjk"
-
-
-        return listOf(listOf("30","-90","Home"),listOf("29","-90","Work"),listOf("29","-89","Louisiana Tech"),listOf("29","-89.5","Tractor Supply"))
-    }
-
-//    private var simpleCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP.or(ItemTouchHelper.DOWN),0){
-//        override fun onMove(
-//            recyclerView: RecyclerView,
-//            viewHolder: RecyclerView.ViewHolder,
-//            target: RecyclerView.ViewHolder
-//        ): Boolean {
-//            var startPosition = viewHolder.bindingAdapterPosition
-//            var endPosition = target.bindingAdapterPosition
-//            Collections.swap(titleList, startPosition, endPosition)
-//            recyclerView.adapter?.notifyItemMoved(startPosition, endPosition)//send back to db here
-//            return true
-//        }
-//
-//        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-//        }
-//
-//    }
 }

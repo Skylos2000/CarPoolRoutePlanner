@@ -14,10 +14,7 @@ class RecyclerAdapter(titlesList: MutableList<String>,descriptionList: MutableLi
     private var des: MutableList<String> = descriptionList
 
 
-    lateinit var listener: (Int) -> Unit
-    interface  onItemClickListener{
-        fun onItemClick(position: Int)
-    }
+    private lateinit var listener: (Int) -> Unit
 
     fun setOnItemClickListener(listener: (Int) -> Unit){
         this.listener = listener
