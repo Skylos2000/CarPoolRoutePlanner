@@ -14,7 +14,7 @@ class MainGroupActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainGroupBinding
     //val gid = intent.extras?.getInt("groupId")
-
+    var gid = 456
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

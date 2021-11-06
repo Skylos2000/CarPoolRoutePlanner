@@ -1,6 +1,7 @@
 package com.devs.carpoolrouteplanner.ui
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -13,6 +14,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.devs.carpoolrouteplanner.CreateAccount
 import com.devs.carpoolrouteplanner.CreateGroup
 import com.devs.carpoolrouteplanner.JoinGroup

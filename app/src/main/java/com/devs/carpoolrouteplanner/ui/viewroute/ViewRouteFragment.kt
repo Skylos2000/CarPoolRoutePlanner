@@ -1,5 +1,6 @@
 package com.devs.carpoolrouteplanner.ui.viewroute
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,6 +21,7 @@ import com.devs.carpoolrouteplanner.R
 import java.util.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devs.carpoolrouteplanner.adapters.RecyclerAdapter
+import com.devs.carpoolrouteplanner.ui.MainGroupActivity
 
 import kotlinx.android.synthetic.main.route_recycler_view.*
 
@@ -57,11 +59,12 @@ class ViewRouteFragment : Fragment() {
             adapter = RecyclerAdapter(titleList,descriptionList)
             //val itemTouchHelper = ItemTouchHelper(simpleCallback)
             //itemTouchHelper.attachToRecyclerView(recyclerView)
-
+            val gid = (activity as MainGroupActivity).gid
             val newdestinationbutton: Button = add_destination
             newdestinationbutton.setOnClickListener {
-                Toast.makeText(this.context,"hello",Toast.LENGTH_LONG).show()
+                Toast.makeText(this.context,gid.toString(),Toast.LENGTH_LONG).show()
                // NavHostFragment.findNavController(this@ViewRouteFragment).
+                findNavController().navigate(R.id.action_navigation_group_manage_destinations_to_navigation_maps_fragment)
             }
         }
     }
