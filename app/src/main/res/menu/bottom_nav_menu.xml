@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/navigation_group_manage_destinations"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="@string/title_group_manage_destinations" />
+
+    <item
+        android:id="@+id/navigation_group_manage_members"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="@string/title_group_manage_members" />
+
+    <item
+        android:id="@+id/navigation_group_voting"
+        android:icon="@android:drawable/checkbox_on_background"
+        android:title="@string/title_group_voting" />
+
+</menu>

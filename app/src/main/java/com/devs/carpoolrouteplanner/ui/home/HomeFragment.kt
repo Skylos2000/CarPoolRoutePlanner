@@ -1,5 +1,6 @@
 package com.devs.carpoolrouteplanner.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.devs.carpoolrouteplanner.databinding.FragmentHomeBinding
+import com.devs.carpoolrouteplanner.ui.MainActivity
+import com.devs.carpoolrouteplanner.ui.MainGroupActivity
 import com.devs.carpoolrouteplanner.utils.getConfigValue
 import com.devs.carpoolrouteplanner.utils.httpClient
 import io.ktor.client.request.*
@@ -57,7 +60,7 @@ class HomeFragment : Fragment() {
 
         var groups: String
         runBlocking {
-            groups = httpClient.get<String>("http://192.168.1.160:8080/users/me/groups")
+            groups = httpClient.get<String>("http://192.168.1.10:8080/users/me/groups")
         }
         groups = groups.replace("[", "")
         groups = groups.replace("]", "")
@@ -72,6 +75,9 @@ class HomeFragment : Fragment() {
             groupList = myGetData(listOf(groups))
         }
 
+
+       val intent = Intent(this.context, MainGroupActivity::class.java)
+
         unParsedData = groupList
         //val unParsedData = getData()
         titleList = unParsedData[0]
@@ -84,6 +90,8 @@ class HomeFragment : Fragment() {
             override fun onItemClick(position: Int) {
 
                 textView.text = "you clicked on item" + groupList[0][position]
+//                intent.putExtra("groupId", groupList[0][position].toInt())
+//                startActivity(intent)
             }
 
         })
@@ -103,6 +111,7 @@ class HomeFragment : Fragment() {
         var cords = mutableListOf<String>()
         var titles = mutableListOf<String>()
         for (i in something){
+
             cords.add("")
             titles.add("Group $i")
         }

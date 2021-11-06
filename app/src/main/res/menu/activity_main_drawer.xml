@@ -25,7 +25,7 @@
                     android:id="@+id/joingroup"
                     android:title="Join Group" />
                 <item
-                    android:id="@+id/viewcurrentmembers"
+                    android:id="@+id/nav_member_manage"
                     android:title="View Current Members" />
 
                 <item

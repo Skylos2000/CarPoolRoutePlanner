@@ -1,0 +1,34 @@
+package com.devs.carpoolrouteplanner.ui
+
+import android.os.Bundle
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.devs.carpoolrouteplanner.R
+import com.devs.carpoolrouteplanner.databinding.ActivityMainGroupBinding
+
+class MainGroupActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainGroupBinding
+    //val gid = intent.extras?.getInt("groupId")
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding = ActivityMainGroupBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val navView: BottomNavigationView = binding.navView
+
+        val navController = findNavController(R.id.nav_host_fragment_activity_main_group)
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        val appBarConfiguration = AppBarConfiguration(setOf(
+            R.id.navigation_home, R.id.navigation_group_manage_destinations, R.id.navigation_group_manage_members))
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
+    }
+}
