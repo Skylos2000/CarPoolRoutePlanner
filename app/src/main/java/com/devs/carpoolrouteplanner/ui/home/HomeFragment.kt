@@ -64,7 +64,7 @@ class HomeFragment : Fragment() {
 
         var groups: String
         runBlocking {
-            groups = httpClient.get<String>("http://192.168.1.10:8080/users/me/groups")
+            groups = httpClient.get<String>(context?.getConfigValue("backend_url") + "users/me/groups")
         }
         groups = groups.replace("[", "")
         groups = groups.replace("]", "")
@@ -96,8 +96,8 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
 
-        val itemTouchHelper = ItemTouchHelper(simpleCallback)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
+        //val itemTouchHelper = ItemTouchHelper(simpleCallback)
+        //itemTouchHelper.attachToRecyclerView(recyclerView)
 
         return root
     }
@@ -141,21 +141,21 @@ class HomeFragment : Fragment() {
         return listOf(listOf("30","-90","Home"),listOf("29","-90","Work"),listOf("29","-89","Louisiana Tech"),listOf("29","-89.5","Tractor Supply"))
     }
 
-    private var simpleCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP.or(ItemTouchHelper.DOWN),0){
-        override fun onMove(
-            recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder
-        ): Boolean {
-            var startPosition = viewHolder.bindingAdapterPosition
-            var endPosition = target.bindingAdapterPosition
-            Collections.swap(titleList, startPosition, endPosition)
-            recyclerView.adapter?.notifyItemMoved(startPosition, endPosition)//send back to db here
-            return true
-        }
-
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        }
-
-    }
+//    private var simpleCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP.or(ItemTouchHelper.DOWN),0){
+//        override fun onMove(
+//            recyclerView: RecyclerView,
+//            viewHolder: RecyclerView.ViewHolder,
+//            target: RecyclerView.ViewHolder
+//        ): Boolean {
+//            var startPosition = viewHolder.bindingAdapterPosition
+//            var endPosition = target.bindingAdapterPosition
+//            Collections.swap(titleList, startPosition, endPosition)
+//            recyclerView.adapter?.notifyItemMoved(startPosition, endPosition)//send back to db here
+//            return true
+//        }
+//
+//        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+//        }
+//
+//    }
 }
