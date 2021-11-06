@@ -22,4 +22,10 @@
         android:name="com.devs.carpoolrouteplanner.ui.group_activity.ManageGroupMembersFragment"
         android:label="@string/title_group_manage_members"
         tools:layout="@layout/fragment_manage_group_members" />
+    <fragment
+        android:id="@+id/navigation_group_voting"
+        android:name="com.devs.carpoolrouteplanner.ui.voting.GroupVotingFragment"
+        android:label="@string/title_group_voting"
+        tools:layout="@layout/fragment_group_voting" />
+
 </navigation>

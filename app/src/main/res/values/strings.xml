@@ -63,6 +63,6 @@
     <string name="title_home">Home</string>
     <string name="title_group_manage_members">Manage Members</string>
     <string name="title_group_manage_destinations">Manage Destinations</string>
-    <string name="title_group_voting">Voting</string>
+    <string name="title_group_voting">Group Voting</string>
 
 </resources>
