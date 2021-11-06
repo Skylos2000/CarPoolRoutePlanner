@@ -1,5 +1,7 @@
 package com.devs.carpoolrouteplanner.ui.qrinvite
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
@@ -10,11 +12,19 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.devs.carpoolrouteplanner.R
+import com.devs.carpoolrouteplanner.ui.AccountSignIn
 import com.devs.carpoolrouteplanner.utils.getConfigValue
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.features.auth.*
+import io.ktor.client.features.auth.providers.*
+import io.ktor.client.request.forms.*
+import io.ktor.http.*
 import kotlinx.android.synthetic.main.fragment_invite_qr.*
 import kotlinx.coroutines.launch
 
@@ -33,20 +43,19 @@ class InviteQrFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_invite_qr, container, false)
         //code
-        val buttonShare: Button = btnShare
-        val txtShareText: EditText = shareText
-        val btnReloadQr: Button  = btnReloadQr
-        var gid = intent.getStringExtra("GID")
-        if (gid == null) gid = "0"
+        val v:View =  inflater.inflate(R.layout.fragment_invite_qr, container, false)
 
-        loadQR(gid)
+        val buttonShare: Button = v.findViewById(R.id.btnShare)
+        val txtShareText: EditText = v.findViewById(R.id.shareText)
+        val btnReloadQr: Button  = v.findViewById(R.id.btnReloadQr)
+
 
 
         buttonShare.setOnClickListener {
@@ -60,10 +69,16 @@ class InviteQrFragment : Fragment() {
 
         }
 
+        var gid = activity?.intent?.getStringExtra("GID") //TODO
+        if (gid == null) gid = "123"
+
+        loadQR(gid,v)
+
         btnReloadQr.setOnClickListener{
-            loadQR(gid)
+            loadQR(gid,v)
         }
 
+        return v
     }
 
 
@@ -82,16 +97,16 @@ class InviteQrFragment : Fragment() {
         imageView.setImageBitmap(bitmap)
     }
 
-    fun loadQR(gid: String) {
-        val txtShareText: EditText = shareText
-        val imageView: ImageView = imgQr
-        imageView.setImageResource(ic_launcher_background);
+    fun loadQR(gid: String,view: View) {
+        val txtShareText: EditText = view.findViewById(R.id.shareText)
+        val imageView: ImageView = view.findViewById(R.id.imgQr)
+        imageView.setImageResource(R.drawable.ic_launcher_background);
         txtShareText.setText("loading...")
         val myurl = context?.getConfigValue("backend_url")
         lifecycleScope.launch {
 
             val client = HttpClient(CIO) {
-                install(Auth) {
+                install(Auth ) {
                     basic {
                         credentials {
                             BasicAuthCredentials(username = AccountSignIn.creds[0],
@@ -104,13 +119,13 @@ class InviteQrFragment : Fragment() {
 
             try {
                 val response: String = client.submitForm(
-                    url = myurl + "create_invite/",
+                    url = myurl + "/groups/invites/get_invite",
                     formParameters = Parameters.build {
                         append("gid", gid)
                     }
                 )
                 val data = response
-                Toast.makeText(applicationContext,
+                Toast.makeText(activity?.applicationContext,
                     data,
                     Toast.LENGTH_LONG).show()
                 var inviteCode = data;
@@ -123,7 +138,7 @@ class InviteQrFragment : Fragment() {
                 txtShareText.setText(text)
                 qrToImageView(imageView,dummyLink)
             } catch (E: Exception) {
-                Toast.makeText(applicationContext,
+                Toast.makeText(activity?.applicationContext,
                     "Exception: No group with gid 123 or ${E.message}. Loading dummy data.",
                     Toast.LENGTH_LONG).show()
                 txtShareText.setText("Please join my group using this invite code: invitecode or click on this link: https://coolrouteplanner.test/join/invitecode")
