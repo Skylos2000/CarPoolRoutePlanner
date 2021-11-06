@@ -1,16 +1,22 @@
 package com.devs.carpoolrouteplanner.ui.voting
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.*
 import com.devs.carpoolrouteplanner.R
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import com.devs.carpoolrouteplanner.databinding.FragmentGroupVotingBinding
+import com.devs.carpoolrouteplanner.databinding.FragmentHomeBinding
+import com.devs.carpoolrouteplanner.ui.MainGroupActivity
+import com.devs.carpoolrouteplanner.utils.getConfigValue
+import com.devs.carpoolrouteplanner.utils.httpClient
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import kotlinx.android.synthetic.main.fragment_group_voting.*
+import kotlinx.coroutines.runBlocking
 
 /**
  * A simple [Fragment] subclass.
@@ -18,43 +24,168 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class GroupVotingFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    lateinit var locationOptions: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
+
+
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_group_voting, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment GroupVotingFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            GroupVotingFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val my_url = context?.getConfigValue("backend_url")
+        var gid = (activity as MainGroupActivity).gid
+
+        var btnStartVote: Button = btnStartVote
+        var btnEndVote: Button = btnEndVote
+        var btnSubmitLocation: Button = btnSubmitLocation
+        var btnRefresh: Button = btnRefresh
+        var txtEnterLocation: TextView = txtEnterLocation
+        var lvVotingOptions: ListView = lvVotingOptions
+
+        runBlocking {
+            locationOptions = httpClient.post("$my_url/votingOptions") {
+                body = gid.toString()
+            }
+        }
+
+        if (locationOptions == "-1") {
+            locationOptions = ""
+        }
+        locationOptions = locationOptions.replace("[", "")
+        locationOptions = locationOptions.replace("]", "")
+        locationOptions = locationOptions.replace(34.toChar().toString(), "")
+        var locationOptionsList: List<String> = locationOptions.split(",")
+
+
+        var listAdapter = ArrayAdapter(this.requireContext(), android.R.layout.simple_list_item_1, locationOptionsList)
+        lvVotingOptions.adapter = listAdapter
+
+        // -1: There is no active voting for this group
+        // -2: Only the group leader can start/end a poll
+
+
+        btnStartVote.setOnClickListener {
+
+            val response: String
+            runBlocking {
+                response = httpClient.post("$my_url/startVote") {
+                    body = gid.toString()
                 }
             }
+            if (response == "-2"){
+                Toast.makeText(this.context, "Only the group leader can start/end a poll", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        btnEndVote.setOnClickListener {
+
+            val response: String
+            runBlocking {
+                response = httpClient.post("$my_url/voteResult") {
+                    body = gid.toString()
+                }
+            }
+            if (response == "-1"){
+                Toast.makeText(this.context, "There is no active voting for this group", Toast.LENGTH_SHORT).show()
+            }
+            if (response == "-2"){
+                Toast.makeText(this.context, "Only the group leader can end a poll", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        btnSubmitLocation.setOnClickListener {
+            if (txtEnterLocation.text == ""){
+                Toast.makeText(this.context, "Location field cannot be empty", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                val response: String
+                runBlocking {
+                    response = httpClient.post("$my_url/addVotingLocation") {
+                        body = gid.toString() + "," + txtEnterLocation.text
+                    }
+                }
+                if (response == "-1") {
+                    Toast.makeText(this.context,
+                        "Voting has not started",
+                        Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        // make new route for this in the backend
+        btnRefresh.setOnClickListener {
+            runBlocking {
+                // authenticates user
+                if (lvVotingOptions.isEnabled) {
+                    locationOptions = httpClient.post("$my_url/votingOptions") {
+                        body = gid.toString()
+                    }
+                }
+                else{
+                    locationOptions = httpClient.post("$my_url/votingScores") {
+                        body = gid.toString()
+                    }
+                }
+            }
+            if (locationOptions == "-1"){
+                Toast.makeText(this.context, "There is no active voting for this group", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                locationOptions = locationOptions.replace("[", "")
+                locationOptions = locationOptions.replace("]", "")
+                locationOptions = locationOptions.replace(34.toChar().toString(), "")
+                locationOptionsList = locationOptions.split(",")
+
+                listAdapter = ArrayAdapter(this.requireContext(), android.R.layout.simple_list_item_1, locationOptionsList)
+                lvVotingOptions.adapter = listAdapter
+            }
+        }
+
+        lvVotingOptions.setOnItemClickListener { adapterView, view, i, l ->
+            runBlocking {
+
+                if(locationOptionsList[i] == "") { locationOptions = "-3" }
+                else {
+
+                    val response: HttpResponse = httpClient.post("$my_url/castVote") {
+                        body = gid.toString() + "," + locationOptionsList[i]
+                    }
+
+                    locationOptions = httpClient.post("$my_url/votingScores") {
+                        body = gid.toString()
+                    }
+                }
+            }
+            if (locationOptions == "-3"){
+                Toast.makeText(this.context, "There are no voting locations, try refreshing", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                locationOptions = locationOptions.replace("[", "")
+                locationOptions = locationOptions.replace("]", "")
+                locationOptions = locationOptions.replace(34.toChar().toString(), "")
+                locationOptionsList = locationOptions.split(",")
+
+                listAdapter =
+                    ArrayAdapter(this.requireContext(), android.R.layout.simple_list_item_1, locationOptionsList)
+                lvVotingOptions.adapter = listAdapter
+
+                lvVotingOptions.isClickable = false
+                lvVotingOptions.isEnabled = false
+            }
+        }
     }
+
 }

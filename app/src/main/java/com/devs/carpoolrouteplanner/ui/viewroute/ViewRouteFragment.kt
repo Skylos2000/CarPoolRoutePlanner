@@ -21,9 +21,14 @@ import com.devs.carpoolrouteplanner.R
 import java.util.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devs.carpoolrouteplanner.adapters.RecyclerAdapter
+import com.devs.carpoolrouteplanner.utils.GroupDestination
+import com.devs.carpoolrouteplanner.utils.getConfigValue
+import com.devs.carpoolrouteplanner.utils.httpClient
+import io.ktor.client.request.*
 import com.devs.carpoolrouteplanner.ui.MainGroupActivity
 
 import kotlinx.android.synthetic.main.route_recycler_view.*
+import kotlinx.coroutines.runBlocking
 
 
 class ViewRouteFragment : Fragment() {
@@ -82,7 +87,13 @@ class ViewRouteFragment : Fragment() {
     }
 
     private fun getDataFromDb(): List<List<String>>{
-        return listOf(listOf("30","-90","Home"),listOf("29","-90","Work"),listOf("29","-89","Louisiana Tech"),listOf("29","-89.5","Tractor Supply"))
+        val gid = 123
+        val destinations = runBlocking {
+            httpClient.get<List<GroupDestination>>(requireContext().getConfigValue("backend_url")!! + "/groups/$gid/destinations")
+        }
+
+        return destinations.map { listOf(it.lat.toString(), it.long.toString(), it.label) }
+//         return listOf(listOf("30","-90","Home"),listOf("29","-90","Work"),listOf("29","-89","Louisiana Tech"),listOf("29","-89.5","Tractor Supply"))
     }
 /*
     private var simpleCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP.or(
