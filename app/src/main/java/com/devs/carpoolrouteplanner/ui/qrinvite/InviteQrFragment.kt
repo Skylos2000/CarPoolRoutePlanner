@@ -17,13 +17,16 @@ import androidx.lifecycle.lifecycleScope
 import com.devs.carpoolrouteplanner.R
 import com.devs.carpoolrouteplanner.ui.AccountSignIn
 import com.devs.carpoolrouteplanner.utils.getConfigValue
+import com.devs.carpoolrouteplanner.utils.httpClient
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.auth.*
 import io.ktor.client.features.auth.providers.*
+import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
+import io.ktor.client.request.forms.submitForm
 import io.ktor.http.*
 import kotlinx.android.synthetic.main.fragment_invite_qr.*
 import kotlinx.coroutines.launch
@@ -69,7 +72,7 @@ class InviteQrFragment : Fragment() {
 
         }
 
-        var gid = activity?.intent?.getStringExtra("GID") //TODO
+        var gid = activity?.intent?.getStringExtra("groupId") //TODO
         if (gid == null) gid = "123"
 
         loadQR(gid,v)
@@ -105,25 +108,22 @@ class InviteQrFragment : Fragment() {
         val myurl = context?.getConfigValue("backend_url")
         lifecycleScope.launch {
 
-            val client = HttpClient(CIO) {
-                install(Auth ) {
-                    basic {
-                        credentials {
-                            BasicAuthCredentials(username = AccountSignIn.creds[0],
-                                password = AccountSignIn.creds[1])
-                        }
-
-                    }
-                }
-            }
+//            val client = HttpClient(CIO) {
+//                install(Auth ) {
+//                    basic {
+//                        credentials {
+//                            BasicAuthCredentials(username = AccountSignIn.creds[0],
+//                                password = AccountSignIn.creds[1])
+//                        }
+//
+//                    }
+//                }
+//            }
 
             try {
-                val response: String = client.submitForm(
-                    url = myurl + "/groups/invites/get_invite",
-                    formParameters = Parameters.build {
-                        append("gid", gid)
-                    }
-                )
+                val response: String = httpClient.post(myurl + "/groups/invites/get_invite") {
+                    body = gid.toInt()
+                }
                 val data = response
                 Toast.makeText(activity?.applicationContext,
                     data,
