@@ -29,7 +29,7 @@
                     android:title="View Current Members" />
 
                 <item
-                    android:id="@+id/invitemember"
+                    android:id="@+id/nav_qr_invite"
                     android:title="Invite Members" />
                 <item
                     android:id="@+id/removemember"
