@@ -43,6 +43,12 @@ class HomeFragment : Fragment() {
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
+    fun getGroupList() {
+        lifecycleScope.launch {
+
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -53,10 +59,8 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        //val textView: TextView = binding.textHome
         textView = binding.textHome
         //homeViewModel.text.observe(viewLifecycleOwner) { textView.text = it }
-
 
         var groups: String
         runBlocking {
@@ -86,15 +90,11 @@ class HomeFragment : Fragment() {
         recyclerAdapter = RecyclerAdapter(titleList,descriptionList)
         var adapter = recyclerAdapter
         recyclerView.adapter = recyclerAdapter
-        adapter.setOnItemClickListener(object : RecyclerAdapter.onItemClickListener{
-            override fun onItemClick(position: Int) {
-
-                textView.text = "you clicked on item" + groupList[0][position]
-//                intent.putExtra("groupId", groupList[0][position].toInt())
-//                startActivity(intent)
-            }
-
-        })
+        adapter.setOnItemClickListener { position ->
+            val arr = groupList[0][position].toInt()
+            intent.putExtra("groupId", groupList[0][position].toInt())
+            startActivity(intent)
+        }
 
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
@@ -113,7 +113,7 @@ class HomeFragment : Fragment() {
         for (i in something){
 
             cords.add("")
-            titles.add("Group $i")
+            titles.add(i)
         }
         return arrayOf(titles, cords)
     }

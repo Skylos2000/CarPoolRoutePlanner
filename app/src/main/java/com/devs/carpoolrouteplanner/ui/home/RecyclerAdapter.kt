@@ -14,18 +14,18 @@ class RecyclerAdapter(titlesList: MutableList<String>,descriptionList: MutableLi
     private var des: MutableList<String> = descriptionList
 
 
-    private lateinit var mListener: onItemClickListener
+    lateinit var listener: (Int) -> Unit
     interface  onItemClickListener{
         fun onItemClick(position: Int)
     }
 
-    fun setOnItemClickListener(listener: onItemClickListener){
-        mListener = listener
+    fun setOnItemClickListener(listener: (Int) -> Unit){
+        this.listener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerAdapter.ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.card_layout, parent, false)
-        return ViewHolder(v, mListener)
+        return ViewHolder(v, listener)
     }
 
     override fun onBindViewHolder(holder: RecyclerAdapter.ViewHolder, position: Int) {
@@ -37,7 +37,7 @@ class RecyclerAdapter(titlesList: MutableList<String>,descriptionList: MutableLi
         return titles.size
     }
 
-    inner class ViewHolder(itemView: View, listener: onItemClickListener): RecyclerView.ViewHolder(itemView){
+    inner class ViewHolder(itemView: View, listener: (Int) -> Unit): RecyclerView.ViewHolder(itemView){
         var itemTitle: TextView
         var itemDescription: TextView
         init{
@@ -45,7 +45,7 @@ class RecyclerAdapter(titlesList: MutableList<String>,descriptionList: MutableLi
             itemDescription = itemView.findViewById(R.id.description_card_view)
 
             itemView.setOnClickListener {
-                listener.onItemClick(adapterPosition)
+                listener(adapterPosition)
             }
         }
 
