@@ -20,8 +20,8 @@ import com.devs.carpoolrouteplanner.CreateGroup
 import com.devs.carpoolrouteplanner.JoinGroup
 import com.devs.carpoolrouteplanner.R
 import com.devs.carpoolrouteplanner.databinding.ActivityMainBinding
-import com.facebook.login.LoginManager
 import java.lang.System.exit
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -61,7 +61,6 @@ class MainActivity : AppCompatActivity() {
             R.id.action_manage -> Toast.makeText(this,"Manage Selected",Toast.LENGTH_SHORT).show()
             R.id.action_settings -> Toast.makeText(this,"Settings Selected",Toast.LENGTH_SHORT).show()
             R.id.action_logout -> {
-                LoginManager.getInstance().logOut()
                 AccountSignIn.creds[0]=""
                 AccountSignIn.creds[1]=""
                 startActivity(Intent(this, AccountSignIn::class.java))}

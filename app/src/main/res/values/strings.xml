@@ -52,8 +52,6 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="text_main_menu">Main Menu</string>
 
-    <string name="facebook_app_id">955584248363701</string>
-    <string name="fb_login_protocol_scheme">fb955584248363701</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_group">GroupActivity</string>

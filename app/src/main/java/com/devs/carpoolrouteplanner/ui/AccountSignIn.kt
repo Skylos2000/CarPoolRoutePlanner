@@ -19,18 +19,8 @@ import com.devs.carpoolrouteplanner.utils.getConfigValue
 import com.devs.carpoolrouteplanner.viewmodals.LoginViewModel
 import kotlinx.coroutines.launch
 import android.util.Log
-import com.facebook.*
-import com.facebook.CallbackManager
-import com.facebook.FacebookSdk
-import com.facebook.login.LoginManager
-import com.facebook.login.LoginResult
-import com.facebook.login.widget.LoginButton
-import com.facebook.appevents.AppEventsLogger
 import java.net.ConnectException
 import java.util.*
-
-@Suppress("DEPRECATION")
-
 
 class AccountSignIn : AppCompatActivity() {
 
@@ -40,20 +30,9 @@ class AccountSignIn : AppCompatActivity() {
         val creds = arrayOf("", "")
     }
 
-    //facebook Start
-    var callbackManager: CallbackManager?=null
-    private val fbemail = "email"
-    //facebook end
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        FacebookSdk.sdkInitialize(applicationContext)
         setContentView(R.layout.accountsignin)
-
-        val accessToken = AccessToken.getCurrentAccessToken()
-        if (accessToken != null && !accessToken.isExpired == true){
-            startActivity(Intent(applicationContext, MainActivity::class.java))
-        }
 
         val usernameTextBox = findViewById<EditText>(R.id.signIn_emailTextBox)
         val passwordTextBox = findViewById<EditText>(R.id.signIn_passwordTextBox)
@@ -124,33 +103,5 @@ class AccountSignIn : AppCompatActivity() {
         createAccountButton.setOnClickListener {
             startActivity(createAccountIntent)
         }
-
-        val loginButton = findViewById<LoginButton>(R.id.loginButton)
-        loginButton.setOnClickListener {
-            callbackManager = CallbackManager.Factory.create()
-
-            loginButton.setPermissions(fbemail)
-            loginButton.registerCallback(callbackManager,
-                object: FacebookCallback<LoginResult?> {
-                    override fun onSuccess(loginResult: LoginResult?) {
-                        Log.d("MainActivity", "Facebook token: " + loginResult!!.accessToken.token)
-                        startActivity(Intent(applicationContext, MainActivity::class.java))
-                    }
-
-                    override fun onCancel() {
-                        Log.d("MainActivity", "Facebook onCancel.")
-                    }
-
-                    override fun onError(exception: FacebookException) {
-                        Log.d("MainActivity", "Facebook onError.")
-                    }
-                })
-        }
-
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        callbackManager?.onActivityResult(requestCode, resultCode, data)
-    }
-//facebook end
 }
