@@ -122,7 +122,7 @@ class InviteQrFragment : Fragment() {
 
             try {
                 val response: String = httpClient.post(myurl + "/groups/invites/get_invite") {
-                    body = gid.toInt()
+                    body = gid
                 }
                 val data = response
                 Toast.makeText(activity?.applicationContext,
