@@ -42,14 +42,13 @@ class ViewRouteFragment : Fragment() {
     private var descriptionList = mutableListOf<String>()
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-        ): View? {
-            // Inflate the layout for this fragment
-            return inflater.inflate(R.layout.route_recycler_view, container, false)
-        }
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.route_recycler_view, container, false)
+    }
 
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
@@ -57,24 +56,25 @@ class ViewRouteFragment : Fragment() {
             // set a LinearLayoutManager to handle Android
             // RecyclerView behavior
             layoutManager = LinearLayoutManager(activity)
-            val unParsedData = getData()
-            titleList = unParsedData[0]
-            descriptionList = unParsedData[1]
             // set the custom adapter to the RecyclerView
-            adapter = RecyclerAdapter(titleList,descriptionList)
-            //val itemTouchHelper = ItemTouchHelper(simpleCallback)
-            //itemTouchHelper.attachToRecyclerView(recyclerView)
+            getData()
+            adapter = RecyclerAdapter(titleList, descriptionList)
+            val itemTouchHelper = ItemTouchHelper(simpleCallback)
+            itemTouchHelper.attachToRecyclerView(this)
             val gid = (activity as MainGroupActivity).gid
             val newdestinationbutton: Button = add_destination
+            val startroutebutton: Button = start_navigation
             newdestinationbutton.setOnClickListener {
-                Toast.makeText(this.context,gid.toString(),Toast.LENGTH_LONG).show()
-               // NavHostFragment.findNavController(this@ViewRouteFragment).
+                Toast.makeText(this.context, gid.toString(), Toast.LENGTH_LONG).show()
                 findNavController().navigate(R.id.action_navigation_group_manage_destinations_to_navigation_maps_fragment)
+            }
+            startroutebutton.setOnClickListener {
+                startNavigation()
             }
         }
     }
 
-    private fun getData(): Array<MutableList<String>> {
+    private fun getData() {
         var routedata = getDataFromDb()
         var cords = mutableListOf<String>()
         var title = mutableListOf<String>()
@@ -82,12 +82,14 @@ class ViewRouteFragment : Fragment() {
             cords.add("Coordinates: " + aList.elementAt(0) + "," + aList.elementAt(1))
             title.add("" + aList.elementAt(2))
         }
-        return arrayOf(title, cords)
+        titleList = title
+        descriptionList = cords
+        return
 
     }
 
-    private fun getDataFromDb(): List<List<String>>{
-        val gid = 123
+    private fun getDataFromDb(): List<List<String>> {
+        val gid = (activity as MainGroupActivity).gid
         val destinations = runBlocking {
             httpClient.get<List<GroupDestination>>(requireContext().getConfigValue("backend_url")!! + "/groups/$gid/destinations")
         }
@@ -95,10 +97,9 @@ class ViewRouteFragment : Fragment() {
         return destinations.map { listOf(it.lat.toString(), it.long.toString(), it.label) }
 //         return listOf(listOf("30","-90","Home"),listOf("29","-90","Work"),listOf("29","-89","Louisiana Tech"),listOf("29","-89.5","Tractor Supply"))
     }
-}
-/*
+
     private var simpleCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP.or(
-        ItemTouchHelper.DOWN),0){
+        ItemTouchHelper.DOWN), 1) {
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
@@ -106,44 +107,24 @@ class ViewRouteFragment : Fragment() {
         ): Boolean {
             var startPosition = viewHolder.bindingAdapterPosition
             var endPosition = target.bindingAdapterPosition
-            Collections.swap(titleList, startPosition, endPosition)
             recyclerView.adapter?.notifyItemMoved(startPosition, endPosition)//send back to db here
+            reorderData(startPosition, endPosition)
             return true
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         }
 
+        private fun reorderData(start: Int, end: Int) {
+            Collections.swap(titleList, start, end)
+            Collections.swap(descriptionList, start, end)
+            //TODO sent new order to db here
+        }
     }
 
- */
-    /*private lateinit var routeViewModel: ViewRouteViewModel
-    private var _binding: FragmentRouteviewBinding? = null // just naming it
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+        private fun startNavigation(){
+            //TODO make gmaps open
+        }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        routeViewModel = ViewModelProvider(this).get(ViewRouteViewModel::class.java)
-        _binding = FragmentRouteviewBinding.inflate(inflater,container,false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textViewRoute
-       routeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
-    }
-
-
-override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-     */
+}
 
