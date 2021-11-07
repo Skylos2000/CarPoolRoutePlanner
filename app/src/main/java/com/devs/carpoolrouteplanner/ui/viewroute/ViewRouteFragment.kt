@@ -64,12 +64,15 @@ class ViewRouteFragment : Fragment() {
             val gid = (activity as MainGroupActivity).gid
             val newdestinationbutton: Button = add_destination
             val startroutebutton: Button = start_navigation
+            val optimizeroute: Button = optimize_route
             newdestinationbutton.setOnClickListener {
-                Toast.makeText(this.context, gid.toString(), Toast.LENGTH_LONG).show()
                 findNavController().navigate(R.id.action_navigation_group_manage_destinations_to_navigation_maps_fragment)
             }
             startroutebutton.setOnClickListener {
                 startNavigation()
+            }
+            optimizeroute.setOnClickListener {
+                optimizeRoute()
             }
         }
     }
@@ -121,7 +124,9 @@ class ViewRouteFragment : Fragment() {
             //TODO sent new order to db here
         }
     }
-
+        private fun optimizeRoute(){
+            //TODO add backend call to optimize route
+        }
         private fun startNavigation(){
             //TODO make gmaps open
         }

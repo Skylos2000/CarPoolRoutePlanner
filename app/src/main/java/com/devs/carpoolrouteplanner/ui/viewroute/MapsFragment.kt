@@ -5,7 +5,7 @@ import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.pm.PackageManager
 import androidx.fragment.app.Fragment
-
+import com.devs.carpoolrouteplanner.utils.GroupDestination
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -20,6 +21,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.devs.carpoolrouteplanner.R
 import com.devs.carpoolrouteplanner.ui.MainActivity
 import com.devs.carpoolrouteplanner.ui.MainGroupActivity
+import com.devs.carpoolrouteplanner.utils.getConfigValue
+import com.devs.carpoolrouteplanner.utils.httpClient
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
@@ -30,12 +33,15 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import io.ktor.client.request.*
+import io.ktor.http.*
 import kotlinx.android.synthetic.main.fragment_maps.*
 import kotlinx.android.synthetic.main.route_recycler_view.*
+import kotlinx.coroutines.launch
 
 class MapsFragment : Fragment() {
 
-    private var userlatlng: LatLng? = null
+    private var userlatlng = LatLng(0.0,0.0)
     private val callback = OnMapReadyCallback { googleMap ->
         /**
          * Manipulates the map once available.
@@ -57,7 +63,7 @@ class MapsFragment : Fragment() {
 
 
         var ruston = LatLng(32.5232,-92.6379)//where map opens to
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(ruston))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ruston,12.0F))
 
 
         googleMap.setOnMapClickListener {
@@ -97,9 +103,26 @@ class MapsFragment : Fragment() {
         }
 
     }
-    private fun addDestinationToDb(){
+    private fun addDestinationToDb() {
+        val gid = (activity as MainGroupActivity).gid
+        val myurl = context?.getConfigValue("backend_url")
         //TODO Geocode latlng
         //TODO send dest. to db here
-    }
+        lifecycleScope.launch {
+            try {
+                val response: String = httpClient.post(myurl + "/groups/${gid}/add_destinations") {
+                    contentType(ContentType.Application.Json)
+                    body = listOf(GroupDestination(0,gid,userlatlng.latitude,userlatlng.longitude,"test",99))
 
+                }
+                Toast.makeText(activity?.applicationContext,
+                    "${response}",
+                    Toast.LENGTH_LONG).show()
+            } catch (E: Exception) {
+                Toast.makeText(activity?.applicationContext,
+                    "${E.message}",
+                    Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 }
