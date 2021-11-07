@@ -23,7 +23,10 @@
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/drawable-v24/baseline_alt_route_20.xml" value="0.1" />
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/drawable-v24/baseline_ballot_24.xml" value="0.1" />
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/drawable-v24/baseline_groups_24.xml" value="0.1" />
+        <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.16302083333333334" />
+        <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.1" />
+        <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/layout/activity_invite_by_qr.xml" value="0.146875" />
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/layout/activity_main.xml" value="0.146875" />
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/layout/activity_main_group.xml" value="0.2796875" />
@@ -54,6 +57,8 @@
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/menu/homeoptions.xml" value="0.2796875" />
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/menu/main.xml" value="0.2796875" />
+        <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
         <entry key="..\:/Users/lando/Documents/carpool/app/src/main/res/layout/activity_main.xml" value="0.13601823708206687" />
         <entry key="..\:/Users/lando/Documents/carpool/app/src/main/res/layout/fragment_mainmenu.xml" value="0.1" />
         <entry key="..\:/Users/lando/Documents/carpool/app/src/main/res/layout/fragment_routeview.xml" value="0.128125" />
