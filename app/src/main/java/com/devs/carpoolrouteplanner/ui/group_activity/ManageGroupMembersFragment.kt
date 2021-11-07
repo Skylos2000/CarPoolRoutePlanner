@@ -10,7 +10,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.devs.carpoolrouteplanner.R
 import com.devs.carpoolrouteplanner.adapters.RecyclerAdapter
+import com.devs.carpoolrouteplanner.ui.MainGroupActivity
+import com.devs.carpoolrouteplanner.utils.GroupDestination
+import com.devs.carpoolrouteplanner.utils.getConfigValue
+import com.devs.carpoolrouteplanner.utils.httpClient
+import io.ktor.client.features.*
+import io.ktor.client.features.get
+import io.ktor.client.request.*
 import kotlinx.android.synthetic.main.fragment_manage_group_members.*
+import kotlinx.coroutines.runBlocking
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -49,9 +57,12 @@ class ManageGroupMembersFragment : Fragment() {
             // set a LinearLayoutManager to handle Android
             // RecyclerView behavior
             layoutManager = LinearLayoutManager(activity)
-            val unParsedData = getData()
-            titleList = unParsedData[0]
-            descriptionList = unParsedData[1]
+
+//            val unParsedData = getData()
+//            titleList = unParsedData[0]
+//            descriptionList = unParsedData[1]
+
+            getDataFromDb()
             // set the custom adapter to the RecyclerView
             adapter = RecyclerAdapter(titleList,descriptionList)
             //val itemTouchHelper = ItemTouchHelper(simpleCallback)
@@ -59,20 +70,27 @@ class ManageGroupMembersFragment : Fragment() {
         }
     }
 
-    private fun getData(): Array<MutableList<String>> {
-        var routedata = getDataFromDb()
-        var cords = mutableListOf<String>()
-        var title = mutableListOf<String>()
-        for (aList in routedata) {
-            cords.add("Coordinates: " + aList.elementAt(0) + "," + aList.elementAt(1))
-            title.add("" + aList.elementAt(2))
+//    private fun getData(): Array<MutableList<String>> {
+//        var routedata = getDataFromDb()
+//        var cords = mutableListOf<String>()
+//        var title = mutableListOf<String>()
+//        for (aList in routedata) {
+//            cords.add("Coordinates: " + aList.elementAt(0) + "," + aList.elementAt(1))
+//            title.add("" + aList.elementAt(2))
+//        }
+//        return arrayOf(title, cords)
+//
+//    }
+
+    private fun getDataFromDb() {
+        val gid = (activity as MainGroupActivity).gid
+        val members = runBlocking {
+            httpClient.get<List<Pair<String, Int>>>(requireContext().getConfigValue("backend_url")!! + "/groups/$gid/members")
         }
-        return arrayOf(title, cords)
+        titleList = members.map { it.first }.toMutableList()
+        descriptionList = members.map { it.second.toString() }.toMutableList()
 
-    }
-
-    private fun getDataFromDb(): List<List<String>>{
-        return listOf(listOf("30","-90","Landon"),listOf("29","-90","Kyle"),listOf("29","-89","Solomon"),listOf("29","-89.5","Leron"))
+//        return listOf(listOf("30","-90","Landon"),listOf("29","-90","Kyle"),listOf("29","-89","Solomon"),listOf("29","-89.5","Leron"))
     }
 
     private var simpleCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP.or(
