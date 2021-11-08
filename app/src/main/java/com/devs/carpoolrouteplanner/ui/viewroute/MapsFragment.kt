@@ -41,7 +41,7 @@ import kotlinx.coroutines.launch
 
 class MapsFragment : Fragment() {
 
-    private var userlatlng = LatLng(0.0,0.0)
+    private var userlatlng: LatLng? = null
     private val callback = OnMapReadyCallback { googleMap ->
         /**
          * Manipulates the map once available.
@@ -87,15 +87,13 @@ class MapsFragment : Fragment() {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
         apply {
-
-            val gid = (activity as MainGroupActivity).gid
             val adddestinationbutton: FloatingActionButton = fab
             adddestinationbutton.setOnClickListener {
                 if(userlatlng==null){
                     Toast.makeText(this.context, "You must choose a location first.", Toast.LENGTH_LONG).show()
                 }
                 else{
-                    addDestinationToDb()
+                    addDestinationToDb(userlatlng!!.latitude, userlatlng!!.longitude)
                     Toast.makeText(this.context, "Destination Added", Toast.LENGTH_LONG).show()
                     findNavController().navigate(R.id.action_navigation_maps_fragment_to_navigation_group_manage_destinations)
                 }
@@ -103,7 +101,7 @@ class MapsFragment : Fragment() {
         }
 
     }
-    private fun addDestinationToDb() {
+    private fun addDestinationToDb(lat: Double,long: Double) {
         val gid = (activity as MainGroupActivity).gid
         val myurl = context?.getConfigValue("backend_url")
         //TODO Geocode latlng
@@ -112,7 +110,7 @@ class MapsFragment : Fragment() {
             try {
                 val response: String = httpClient.post(myurl + "/groups/${gid}/add_destinations") {
                     contentType(ContentType.Application.Json)
-                    body = listOf(GroupDestination(0,gid,userlatlng.latitude,userlatlng.longitude,"test",99))
+                    body = listOf(GroupDestination(0,gid,lat,long,"test",99))
 
                 }
                 Toast.makeText(activity?.applicationContext,

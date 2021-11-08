@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -67,6 +68,12 @@ class ManageGroupMembersFragment : Fragment() {
             adapter = RecyclerAdapter(titleList,descriptionList)
             //val itemTouchHelper = ItemTouchHelper(simpleCallback)
             //itemTouchHelper.attachToRecyclerView(recyclerView)
+
+            var invitemembersbutton = invite_members
+            invitemembersbutton.setOnClickListener{
+                findNavController().navigate(R.id.action_navigation_group_manage_members_to_nav_qr_invite)
+            }
+
         }
     }
 
