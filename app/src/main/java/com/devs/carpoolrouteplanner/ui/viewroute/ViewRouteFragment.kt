@@ -43,7 +43,6 @@ class ViewRouteFragment : Fragment() {
     private var adapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>? = null
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var recyclerAdapter: RecyclerAdapter
 
     private var destinations = mutableListOf<GroupDestination>()
 
@@ -145,16 +144,14 @@ class ViewRouteFragment : Fragment() {
             }
         }
     }
-        private fun optimizeRoute(){
-            //TODO add backend call to optimize route
 
-            lifecycleScope.launch {
-                destinations = httpClient.get("$backendUrl/optimize_route/$gid") {
-                    contentType(ContentType.Application.Json)
-                }
-            }
+    private fun optimizeRoute() {
+        lifecycleScope.launch {
+            destinations = httpClient.get("$backendUrl/optimize_route/$gid")
 
         }
+        //recyclerView.adapter?.notifyDataSetChanged()
+    }
 
     private fun deleteDestination(destination: GroupDestination) {
         runBlocking {
@@ -162,12 +159,7 @@ class ViewRouteFragment : Fragment() {
         }
     }
 
-
     private fun startNavigation(){
-        //TODO make gmaps open
-        //destinationString = httpClient.get<List<Pair<Double,Double>>>(backendUrl + "/get_group_routes/${httpResponse.first()}").joinToString("|"){ "${it.first},${it.second}" }
-        //Uri.parse("https://www.google.com/maps/dir/?api=1&destination=18.518496,73.879259&travelmode=driving&waypoints=$destinationString")
-
         var destinationString = ""
         var finalDest = ""
 
