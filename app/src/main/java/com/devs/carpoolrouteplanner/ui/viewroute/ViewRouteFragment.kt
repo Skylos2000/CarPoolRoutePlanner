@@ -84,7 +84,6 @@ class ViewRouteFragment : Fragment() {
             optimizeroute.setOnClickListener {
                 optimizeRoute()
             }
-
         }
     }
 
@@ -129,11 +128,12 @@ class ViewRouteFragment : Fragment() {
         }
 
         private fun reorderData(start: Int, end: Int) {
-            Collections.swap(destinations, start, end)
+            val item = destinations.removeAt(start)
+            destinations.add(end, item)
 
             //TODO sent new order to db here
             val newOrderPairs = destinations.mapIndexed { index, groupDestination ->
-                mapOf("first" to groupDestination.destinationId, "second" to groupDestination.orderNum)
+                mapOf("first" to groupDestination.destinationId, "second" to index)
             }
             runBlocking {
                 httpClient.post<String>("$backendUrl/groups/$gid/reorder_destinations") {

@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../layout/custom_preview.xml" value="0.25241157556270094" />
         <entry key="..\:/Users/Solo/StudioProjects/CarPoolRoutePlanner/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/Solo/StudioProjects/CarPoolRoutePlanner/app/src/main/res/drawable/ic_launcher_background.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/Solo/StudioProjects/CarPoolRoutePlanner/app/src/main/res/layout/activity_set_group_dest.xml" value="0.36666666666666664" />
@@ -40,8 +41,8 @@
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/layout/fragment_home.xml" value="0.146875" />
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/layout/fragment_invite_qr.xml" value="0.25" />
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/layout/fragment_mainmenu.xml" value="0.146875" />
-        <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/layout/fragment_manage_group_members.xml" value="0.25" />
-        <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/layout/fragment_maps.xml" value="0.10126582278481013" />
+        <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/layout/fragment_manage_group_members.xml" value="0.146875" />
+        <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/layout/fragment_maps.xml" value="0.146875" />
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/layout/fragment_notifications.xml" value="0.2796875" />
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/layout/group_member_card.xml" value="0.2796875" />
         <entry key="..\:/Users/lando/Documents/CarPoolRoutePlanner/app/src/main/res/layout/grouphostmenu.xml" value="0.2796875" />
