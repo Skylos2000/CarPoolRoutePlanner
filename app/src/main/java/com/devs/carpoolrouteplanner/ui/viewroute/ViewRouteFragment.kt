@@ -1,6 +1,9 @@
 package com.devs.carpoolrouteplanner.ui.viewroute
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -41,6 +44,8 @@ class ViewRouteFragment : Fragment() {
     private var titleList = mutableListOf<String>()
     private var descriptionList = mutableListOf<String>()
 
+    private lateinit  var routedata: List<List<String>>
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -78,7 +83,7 @@ class ViewRouteFragment : Fragment() {
     }
 
     private fun getData() {
-        var routedata = getDataFromDb()
+        routedata = getDataFromDb()
         var cords = mutableListOf<String>()
         var title = mutableListOf<String>()
         for (aList in routedata) {
@@ -122,6 +127,9 @@ class ViewRouteFragment : Fragment() {
             Collections.swap(titleList, start, end)
             Collections.swap(descriptionList, start, end)
             //TODO sent new order to db here
+
+
+
         }
     }
         private fun optimizeRoute(){
@@ -129,6 +137,40 @@ class ViewRouteFragment : Fragment() {
         }
         private fun startNavigation(){
             //TODO make gmaps open
+            //destinationString = httpClient.get<List<Pair<Double,Double>>>(backendUrl + "/get_group_routes/${httpResponse.first()}").joinToString("|"){ "${it.first},${it.second}" }
+            //Uri.parse("https://www.google.com/maps/dir/?api=1&destination=18.518496,73.879259&travelmode=driving&waypoints=$destinationString")
+
+            var destinationString = ""
+            var finalDest = ""
+
+            for (i in 1 until routedata.size) {
+                if (i == 1) {
+                    destinationString += routedata[i][0] + "," + routedata[i][1]
+                } else if (i != 1 && i != routedata.size -1) {
+                    destinationString += "|" + routedata[i][0] + "," + routedata[i][1]
+                } else {
+                    finalDest += routedata[i][0] + "," + routedata[i][1]
+                }
+            }
+
+            val gmmIntentUri = Uri.parse("https://www.google.com/maps/dir/?api=1&destination=" + finalDest + "&travelmode=driving&waypoints=" + destinationString)
+
+            System.out.println(gmmIntentUri)
+
+            val intent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            intent.setPackage("com.google.android.apps.maps")
+            try {
+                startActivity(intent)
+            } catch (ex: ActivityNotFoundException) {
+                try {
+                    val unrestrictedIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                    startActivity(unrestrictedIntent)
+                } catch (innerEx: ActivityNotFoundException) {
+                    Toast.makeText(this.requireContext(), "Please install a maps application", Toast.LENGTH_LONG)
+                        .show()
+                }
+            }
+
         }
 
 }
