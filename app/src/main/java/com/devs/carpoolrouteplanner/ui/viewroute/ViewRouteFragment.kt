@@ -147,6 +147,13 @@ class ViewRouteFragment : Fragment() {
     }
         private fun optimizeRoute(){
             //TODO add backend call to optimize route
+
+            lifecycleScope.launch {
+                destinations = httpClient.get("$backendUrl/optimize_route/$gid") {
+                    contentType(ContentType.Application.Json)
+                }
+            }
+
         }
         private fun startNavigation(){
             //TODO make gmaps open
