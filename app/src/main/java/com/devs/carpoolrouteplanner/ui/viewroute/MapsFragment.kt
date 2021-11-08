@@ -9,27 +9,19 @@ import android.location.Geocoder
 import androidx.fragment.app.Fragment
 import com.devs.carpoolrouteplanner.utils.GroupDestination
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.devs.carpoolrouteplanner.R
-import com.devs.carpoolrouteplanner.ui.MainActivity
 import com.devs.carpoolrouteplanner.ui.MainGroupActivity
+import com.devs.carpoolrouteplanner.utils.GroupDestination
 import com.devs.carpoolrouteplanner.utils.getConfigValue
 import com.devs.carpoolrouteplanner.utils.httpClient
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
@@ -139,13 +131,15 @@ class MapsFragment : Fragment() {
                     body = listOf(GroupDestination(0,gid,lat,long, address.get(0).getAddressLine(0),99))
 
                 }
-                Toast.makeText(activity?.applicationContext,
-                    "${response}",
-                    Toast.LENGTH_LONG).show()
+//                Toast.makeText(activity?.applicationContext,
+//                    "${response}",
+//                    Toast.LENGTH_LONG).show()
             } catch (E: Exception) {
                 Toast.makeText(activity?.applicationContext,
                     "${E.message}",
                     Toast.LENGTH_LONG).show()
+                System.out.println(E.message)
+                //throw E
             }
         }
     }
