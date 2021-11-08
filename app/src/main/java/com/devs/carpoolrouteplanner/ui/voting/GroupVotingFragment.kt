@@ -122,6 +122,11 @@ class GroupVotingFragment : Fragment() {
                         "Voting has not started",
                         Toast.LENGTH_SHORT).show()
                 }
+                if (response == "-4") {
+                    Toast.makeText(this.context,
+                        "This voting location has already been added",
+                        Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
