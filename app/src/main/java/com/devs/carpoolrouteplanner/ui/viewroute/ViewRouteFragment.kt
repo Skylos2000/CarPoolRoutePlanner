@@ -155,44 +155,52 @@ class ViewRouteFragment : Fragment() {
             }
 
         }
-        private fun startNavigation(){
-            //TODO make gmaps open
-            //destinationString = httpClient.get<List<Pair<Double,Double>>>(backendUrl + "/get_group_routes/${httpResponse.first()}").joinToString("|"){ "${it.first},${it.second}" }
-            //Uri.parse("https://www.google.com/maps/dir/?api=1&destination=18.518496,73.879259&travelmode=driving&waypoints=$destinationString")
 
-            var destinationString = ""
-            var finalDest = ""
-
-            for (i in 1 until destinations.size) {
-                if (i == 1) {
-                    destinationString += destinations[i].lat.toString() + "," + destinations[i].long.toString()
-                } else if (i != 1 && i != destinations.size -1) {
-                    destinationString += "|" + destinations[i].lat.toString() + "," + destinations[i].long.toString()
-                } else {
-                    finalDest += destinations[i].lat.toString() + "," + destinations[i].long.toString()
-                }
-            }
-
-            val gmmIntentUri = Uri.parse("https://www.google.com/maps/dir/?api=1&destination=" + finalDest + "&travelmode=driving&waypoints=" + destinationString)
-
-            System.out.println(gmmIntentUri)
-
-            val intent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-            intent.setPackage("com.google.android.apps.maps")
-            try {
-                startActivity(intent)
-            } catch (ex: ActivityNotFoundException) {
-                try {
-                    val unrestrictedIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                    startActivity(unrestrictedIntent)
-                } catch (innerEx: ActivityNotFoundException) {
-                    Toast.makeText(this.requireContext(), "Please install a maps application", Toast.LENGTH_LONG)
-                        .show()
-                }
-            }
-            //testing git
-
+    private fun deleteDestination(destination: GroupDestination) {
+        runBlocking {
+            httpClient.post<String>("$backendUrl/groups/${gid}/destinations/${destination.destinationId}/delete")
         }
+    }
+
+
+    private fun startNavigation(){
+        //TODO make gmaps open
+        //destinationString = httpClient.get<List<Pair<Double,Double>>>(backendUrl + "/get_group_routes/${httpResponse.first()}").joinToString("|"){ "${it.first},${it.second}" }
+        //Uri.parse("https://www.google.com/maps/dir/?api=1&destination=18.518496,73.879259&travelmode=driving&waypoints=$destinationString")
+
+        var destinationString = ""
+        var finalDest = ""
+
+        for (i in 1 until destinations.size) {
+            if (i == 1) {
+                destinationString += destinations[i].lat.toString() + "," + destinations[i].long.toString()
+            } else if (i != 1 && i != destinations.size -1) {
+                destinationString += "|" + destinations[i].lat.toString() + "," + destinations[i].long.toString()
+            } else {
+                finalDest += destinations[i].lat.toString() + "," + destinations[i].long.toString()
+            }
+        }
+
+        val gmmIntentUri = Uri.parse("https://www.google.com/maps/dir/?api=1&destination=" + finalDest + "&travelmode=driving&waypoints=" + destinationString)
+
+        System.out.println(gmmIntentUri)
+
+        val intent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+        intent.setPackage("com.google.android.apps.maps")
+        try {
+            startActivity(intent)
+        } catch (ex: ActivityNotFoundException) {
+            try {
+                val unrestrictedIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                startActivity(unrestrictedIntent)
+            } catch (innerEx: ActivityNotFoundException) {
+                Toast.makeText(this.requireContext(), "Please install a maps application", Toast.LENGTH_LONG)
+                    .show()
+            }
+        }
+        //testing git
+
+    }
 
 }
 
