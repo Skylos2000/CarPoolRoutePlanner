@@ -18,31 +18,23 @@ import com.devs.carpoolrouteplanner.utils.httpClient
 import io.ktor.client.features.*
 import io.ktor.client.features.get
 import io.ktor.client.request.*
+import io.ktor.http.*
 import kotlinx.android.synthetic.main.fragment_manage_group_members.*
 import kotlinx.coroutines.runBlocking
 import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ManageGroupMembersFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ManageGroupMembersFragment : Fragment() {
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>? = null
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerAdapter: RecyclerAdapter
-
+    private val backendUrl get() = requireContext().getConfigValue("backend_url")!!
     private var titleList = mutableListOf<String>()
     private var descriptionList = mutableListOf<String>()
-
-
+    private var users = listOf<String>()
+    val gid get() = (activity as MainGroupActivity).gid
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,17 +58,43 @@ class ManageGroupMembersFragment : Fragment() {
             getDataFromDb()
             // set the custom adapter to the RecyclerView
             adapter = RecyclerAdapter(titleList,descriptionList)
-            //val itemTouchHelper = ItemTouchHelper(simpleCallback)
-            //itemTouchHelper.attachToRecyclerView(recyclerView)
+            val itemTouchHelper = ItemTouchHelper(simpleCallback)
+            itemTouchHelper.attachToRecyclerView(recyclerView)
 
             var invitemembersbutton = invite_members
             invitemembersbutton.setOnClickListener{
                 findNavController().navigate(R.id.action_navigation_group_manage_members_to_nav_qr_invite)
             }
 
+
         }
     }
-
+    var simpleCallback = object : ItemTouchHelper.SimpleCallback(
+        ItemTouchHelper.RIGHT.or(ItemTouchHelper.LEFT),1) {
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder,
+        ): Boolean {
+            var startPosition = viewHolder.bindingAdapterPosition
+            var endPosition = target.bindingAdapterPosition
+            recyclerView.adapter?.notifyItemMoved(startPosition, endPosition)//send back to db here
+            return true
+        }
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            deleteMember(gid,users[viewHolder.bindingAdapterPosition].toInt())
+        }
+    }
+    private fun deleteMember(gid: Int,uid: Int){
+        //TODO add route to db
+        runBlocking {
+            httpClient.get<String>("/groups/${gid}/members/${uid}/delete")
+        }
+        reload()
+    }
+    private fun reload(){
+        findNavController().navigate(R.id.action_reload_members)
+    }
 //    private fun getData(): Array<MutableList<String>> {
 //        var routedata = getDataFromDb()
 //        var cords = mutableListOf<String>()
@@ -96,26 +114,8 @@ class ManageGroupMembersFragment : Fragment() {
         }
         titleList = members.map { it.first }.toMutableList()
         descriptionList = members.map { it.second.toString() }.toMutableList()
+        users=descriptionList
 
-//        return listOf(listOf("30","-90","Landon"),listOf("29","-90","Kyle"),listOf("29","-89","Solomon"),listOf("29","-89.5","Leron"))
-    }
-
-    private var simpleCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP.or(
-        ItemTouchHelper.DOWN),0){
-        override fun onMove(
-            recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder
-        ): Boolean {
-            var startPosition = viewHolder.bindingAdapterPosition
-            var endPosition = target.bindingAdapterPosition
-            Collections.swap(titleList, startPosition, endPosition)
-            recyclerView.adapter?.notifyItemMoved(startPosition, endPosition)//send back to db here
-            return true
-        }
-
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        }
-
+//        return listOf(listOf("30","-90","Landon"),listOf("29","-90","Kyle"),listOf("29","-89","Solomon"),listOf("29","-89.5","Leron")
     }
 }

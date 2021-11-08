@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_navigation_group_manage_members_to_nav_qr_invite"
             app:destination="@id/nav_qr_invite" />
+        <action
+            android:id="@+id/action_reload_members"
+            app:destination="@+id/navigation_group_manage_members"/>
     </fragment>
     <fragment
         android:id="@+id/navigation_group_voting"

@@ -71,7 +71,6 @@ class ViewRouteFragment : Fragment() {
             adapter = RecyclerAdapter(titleList, descriptionList)
             val itemTouchHelper = ItemTouchHelper(simpleCallback)
             itemTouchHelper.attachToRecyclerView(this)
-            val gid = (activity as MainGroupActivity).gid
             val newdestinationbutton: Button = add_destination
             val startroutebutton: Button = start_navigation
             val optimizeroute: Button = optimize_route
