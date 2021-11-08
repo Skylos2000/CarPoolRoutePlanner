@@ -21,6 +21,7 @@ import com.devs.carpoolrouteplanner.R
 import com.devs.carpoolrouteplanner.ui.MainGroupActivity
 import com.devs.carpoolrouteplanner.utils.getConfigValue
 import com.devs.carpoolrouteplanner.utils.httpClient
+import com.google.android.gms.common.api.Status
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -29,11 +30,13 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.*
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.ktor.client.features.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import io.ktor.http.ContentDisposition.Parameters.Name
 import kotlinx.android.synthetic.main.fragment_maps.*
 import kotlinx.android.synthetic.main.route_recycler_view.*
 import kotlinx.coroutines.launch
@@ -122,14 +125,31 @@ class MapsFragment : Fragment() {
                 }
             }
         }
+        autocompleteFragment.setPlaceFields(listOf(Place.Field.NAME,Place.Field.LAT_LNG))
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onPlaceSelected(place: Place) {
+                // TODO: Get info about the selected place.
+                //Toast.makeText(requireContext(), place.name, Toast.LENGTH_LONG).show()
+                addDestinationToDb(place.latLng.latitude,place.latLng.longitude,place.name)
+                findNavController().navigate(R.id.action_navigation_maps_fragment_to_navigation_group_manage_destinations)
+            }
 
+            override fun onError(status: Status) {
+                // TODO: Handle the error.
+                Toast.makeText(requireContext(),"An error occured: $status", Toast.LENGTH_LONG).show()
+            }
+        })
     }
-    private fun addDestinationToDb(lat: Double,long: Double) {
+    private fun addDestinationToDb(lat: Double,long: Double,title: String?=null) {
         val gid = (activity as MainGroupActivity).gid
         val myurl = context?.getConfigValue("backend_url")
         //TODO Geocode latlng
-        val geocoder = Geocoder(this.requireContext())
-        val address: List<Address> = geocoder.getFromLocation(lat, long, 1)
+        val label = if (title != null) title else {
+            val geocoder = Geocoder(this.requireContext())
+            geocoder.getFromLocation(lat, long, 1)[0].getAddressLine(0)
+        }
+
 //        try
 //        {
 //        val address: List<Address> = geocoder.getFromLocation(lat, long, 1)
@@ -144,7 +164,7 @@ class MapsFragment : Fragment() {
             try {
                 val response: String = httpClient.post(myurl + "/groups/${gid}/add_destinations") {
                     contentType(ContentType.Application.Json)
-                    body = listOf(GroupDestination(0,gid,lat,long, address.get(0).getAddressLine(0),99))
+                    body = listOf(GroupDestination(0,gid,lat,long, label,99))
 
                 }
 //                Toast.makeText(activity?.applicationContext,

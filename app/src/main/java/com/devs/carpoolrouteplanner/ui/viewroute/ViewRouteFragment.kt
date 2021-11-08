@@ -110,8 +110,8 @@ class ViewRouteFragment : Fragment() {
 //         return listOf(listOf("30","-90","Home"),listOf("29","-90","Work"),listOf("29","-89","Louisiana Tech"),listOf("29","-89.5","Tractor Supply"))
     }
 
-    private var simpleCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP.or(
-        ItemTouchHelper.DOWN), 1) {
+    private var simpleCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP.or(ItemTouchHelper.DOWN),
+    ItemTouchHelper.RIGHT.or(ItemTouchHelper.LEFT)) {
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
@@ -125,6 +125,8 @@ class ViewRouteFragment : Fragment() {
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            deleteDestination(destinations[viewHolder.bindingAdapterPosition])
+            reload()
         }
 
         private fun reorderData(start: Int, end: Int) {
@@ -155,6 +157,7 @@ class ViewRouteFragment : Fragment() {
         findNavController().navigate(R.id.action_reload)
     }
     private fun deleteDestination(destination: GroupDestination) {
+
         runBlocking {
             httpClient.post<String>("$backendUrl/groups/${gid}/destinations/${destination.destinationId}/delete")
         }
