@@ -1,33 +1,19 @@
 package com.devs.carpoolrouteplanner.ui.viewroute
 
-import android.Manifest
-import android.app.Activity
-import android.content.ContentValues.TAG
-import android.content.pm.PackageManager
-import androidx.fragment.app.Fragment
-import com.devs.carpoolrouteplanner.utils.GroupDestination
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.devs.carpoolrouteplanner.R
-import com.devs.carpoolrouteplanner.ui.MainActivity
 import com.devs.carpoolrouteplanner.ui.MainGroupActivity
+import com.devs.carpoolrouteplanner.utils.GroupDestination
 import com.devs.carpoolrouteplanner.utils.getConfigValue
 import com.devs.carpoolrouteplanner.utils.httpClient
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
@@ -36,7 +22,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.android.synthetic.main.fragment_maps.*
-import kotlinx.android.synthetic.main.route_recycler_view.*
 import kotlinx.coroutines.launch
 
 class MapsFragment : Fragment() {

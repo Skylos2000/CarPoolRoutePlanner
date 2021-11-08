@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.fragment.app.FragmentContainer
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.findFragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavAction
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -29,8 +30,11 @@ import com.devs.carpoolrouteplanner.utils.getConfigValue
 import com.devs.carpoolrouteplanner.utils.httpClient
 import io.ktor.client.request.*
 import com.devs.carpoolrouteplanner.ui.MainGroupActivity
+import io.ktor.http.*
 
 import kotlinx.android.synthetic.main.route_recycler_view.*
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 
@@ -41,11 +45,15 @@ class ViewRouteFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerAdapter: RecyclerAdapter
 
+    private var destinations = mutableListOf<GroupDestination>()
+
     private var titleList = mutableListOf<String>()
     private var descriptionList = mutableListOf<String>()
 
     private lateinit  var routedata: List<List<String>>
 
+    val gid get() = (activity as MainGroupActivity).gid
+    val backendUrl get() = requireContext().getConfigValue("backend_url")!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -97,12 +105,11 @@ class ViewRouteFragment : Fragment() {
     }
 
     private fun getDataFromDb(): List<List<String>> {
-        val gid = (activity as MainGroupActivity).gid
-        val destinations = runBlocking {
-            httpClient.get<List<GroupDestination>>(requireContext().getConfigValue("backend_url")!! + "/groups/$gid/destinations")
-        }
+        destinations = runBlocking {
+            httpClient.get<List<GroupDestination>>("$backendUrl/groups/$gid/destinations")
+        }.toMutableList()
 
-        return destinations.map { listOf(it.lat.toString(), it.long.toString(), it.label) }
+        return destinations.sortedBy { it.orderNum }.map { listOf(it.lat.toString(), it.long.toString(), it.label) }
 //         return listOf(listOf("30","-90","Home"),listOf("29","-90","Work"),listOf("29","-89","Louisiana Tech"),listOf("29","-89.5","Tractor Supply"))
     }
 
@@ -124,12 +131,18 @@ class ViewRouteFragment : Fragment() {
         }
 
         private fun reorderData(start: Int, end: Int) {
-            Collections.swap(titleList, start, end)
-            Collections.swap(descriptionList, start, end)
+            Collections.swap(destinations, start, end)
+
             //TODO sent new order to db here
-
-
-
+            val newOrderPairs = destinations.mapIndexed { index, groupDestination ->
+                mapOf("first" to groupDestination.destinationId, "second" to index)
+            }
+            lifecycleScope.launch {
+                httpClient.post<String>("$backendUrl/groups/$gid/reorder_destinations") {
+                    contentType(ContentType.Application.Json)
+                    body = newOrderPairs
+                }
+            }
         }
     }
         private fun optimizeRoute(){
