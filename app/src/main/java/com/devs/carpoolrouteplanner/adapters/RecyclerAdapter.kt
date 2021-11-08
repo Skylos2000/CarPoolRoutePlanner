@@ -18,12 +18,15 @@ class RecyclerAdapter(titlesList: MutableList<String>,descriptionList: MutableLi
     override fun onBindViewHolder(holder: RecyclerAdapter.ViewHolder, position: Int) {
         holder.itemTitle.text = titles[position]
         holder.itemDescription.text = des[position]
+
     }
 
     override fun getItemCount(): Int {
         return titles.size
     }
-
+    fun getTitle(position: Int): String {
+        return titles[position]
+    }
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         var itemTitle: TextView
         var itemDescription: TextView
