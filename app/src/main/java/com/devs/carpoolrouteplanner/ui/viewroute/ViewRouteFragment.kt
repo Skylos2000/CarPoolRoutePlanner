@@ -5,19 +5,17 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
-import androidx.fragment.app.FragmentContainer
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.findFragment
+import androidx.fragment.app.*
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavAction
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.devs.carpoolrouteplanner.R
@@ -56,7 +54,7 @@ class ViewRouteFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.route_recycler_view, container, false)
@@ -86,6 +84,7 @@ class ViewRouteFragment : Fragment() {
             optimizeroute.setOnClickListener {
                 optimizeRoute()
             }
+
         }
     }
 
@@ -117,7 +116,7 @@ class ViewRouteFragment : Fragment() {
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder
+            target: RecyclerView.ViewHolder,
         ): Boolean {
             var startPosition = viewHolder.bindingAdapterPosition
             var endPosition = target.bindingAdapterPosition
@@ -134,7 +133,7 @@ class ViewRouteFragment : Fragment() {
 
             //TODO sent new order to db here
             val newOrderPairs = destinations.mapIndexed { index, groupDestination ->
-                mapOf("first" to groupDestination.destinationId, "second" to index)
+                mapOf("first" to groupDestination.destinationId, "second" to groupDestination.orderNum)
             }
             runBlocking {
                 httpClient.post<String>("$backendUrl/groups/$gid/reorder_destinations") {
@@ -148,11 +147,13 @@ class ViewRouteFragment : Fragment() {
     private fun optimizeRoute() {
         lifecycleScope.launch {
             destinations = httpClient.get("$backendUrl/optimize_route/$gid")
-
+            reload()
         }
-        //recyclerView.adapter?.notifyDataSetChanged()
-    }
 
+    }
+    private fun reload(){
+        findNavController().navigate(R.id.action_reload)
+    }
     private fun deleteDestination(destination: GroupDestination) {
         runBlocking {
             httpClient.post<String>("$backendUrl/groups/${gid}/destinations/${destination.destinationId}/delete")

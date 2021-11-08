@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_navigation_group_manage_destinations_to_navigation_maps_fragment"
             app:destination="@id/navigation_maps_fragment" />
+        <action
+            android:id="@+id/action_reload"
+            app:destination="@+id/navigation_group_manage_destinations"/>
     </fragment>
 
     <fragment
