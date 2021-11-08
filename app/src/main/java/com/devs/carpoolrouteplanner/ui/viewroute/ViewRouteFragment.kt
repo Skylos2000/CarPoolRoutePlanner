@@ -156,13 +156,13 @@ class ViewRouteFragment : Fragment() {
             var destinationString = ""
             var finalDest = ""
 
-            for (i in 1 until routedata.size) {
+            for (i in 1 until destinations.size) {
                 if (i == 1) {
-                    destinationString += routedata[i][0] + "," + routedata[i][1]
-                } else if (i != 1 && i != routedata.size -1) {
-                    destinationString += "|" + routedata[i][0] + "," + routedata[i][1]
+                    destinationString += destinations[i].lat.toString() + "," + destinations[i].long.toString()
+                } else if (i != 1 && i != destinations.size -1) {
+                    destinationString += "|" + destinations[i].lat.toString() + "," + destinations[i].long.toString()
                 } else {
-                    finalDest += routedata[i][0] + "," + routedata[i][1]
+                    finalDest += destinations[i].lat.toString() + "," + destinations[i].long.toString()
                 }
             }
 

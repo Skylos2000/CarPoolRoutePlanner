@@ -13,12 +13,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.devs.carpoolrouteplanner.R
 import com.devs.carpoolrouteplanner.ui.MainGroupActivity
-import com.devs.carpoolrouteplanner.utils.GroupDestination
 import com.devs.carpoolrouteplanner.utils.getConfigValue
 import com.devs.carpoolrouteplanner.utils.httpClient
 import com.google.android.gms.maps.CameraUpdateFactory
