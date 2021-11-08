@@ -1,6 +1,7 @@
 package com.devs.carpoolrouteplanner.ui.viewroute
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.pm.PackageManager
@@ -24,7 +25,11 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.ktor.client.features.*
 import io.ktor.client.request.*
@@ -32,10 +37,13 @@ import io.ktor.http.*
 import kotlinx.android.synthetic.main.fragment_maps.*
 import kotlinx.android.synthetic.main.route_recycler_view.*
 import kotlinx.coroutines.launch
+import java.util.*
 
 class MapsFragment : Fragment() {
 
     private var userlatlng: LatLng? = null
+
+    @SuppressLint("MissingPermission")
     private val callback = OnMapReadyCallback { googleMap ->
         /**
          * Manipulates the map once available.
@@ -64,16 +72,17 @@ class MapsFragment : Fragment() {
         }
         else if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             requestPermissions(arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION), 70)
+
         }
-        //googleMap.isMyLocationEnabled=true
-
-
+        googleMap.isMyLocationEnabled=true
+        var marker: Marker? = null
         var ruston = LatLng(32.5232,-92.6379)//where map opens to
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ruston,12.0F))
 
 
         googleMap.setOnMapClickListener {
-            googleMap.addMarker(MarkerOptions().position(it))
+            marker?.remove()
+            marker = googleMap.addMarker(MarkerOptions().position(it))
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(it))
             userlatlng = it
         }
@@ -90,7 +99,15 @@ class MapsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val apiKey = getString(R.string.api_key)
+
+        if (!Places.isInitialized()) {
+            Places.initialize(requireContext(), apiKey)
+        }
+        // Create a new Places client instance.
+        val autocompleteFragment = childFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME))
         mapFragment?.getMapAsync(callback)
         apply {
             val adddestinationbutton: FloatingActionButton = fab

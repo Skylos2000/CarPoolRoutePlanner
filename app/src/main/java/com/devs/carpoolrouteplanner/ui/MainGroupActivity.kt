@@ -11,6 +11,13 @@ import androidx.navigation.ui.setupWithNavController
 import com.devs.carpoolrouteplanner.R
 import com.devs.carpoolrouteplanner.databinding.ActivityMainGroupBinding
 import kotlinx.serialization.descriptors.PrimitiveKind
+import com.google.android.libraries.places.api.Places
+
+import com.google.android.libraries.places.api.net.PlacesClient
+
+
+
+
 
 class MainGroupActivity : AppCompatActivity() {
 
@@ -34,5 +41,25 @@ class MainGroupActivity : AppCompatActivity() {
              R.id.navigation_group_manage_destinations, R.id.navigation_group_manage_members,R.id.navigation_group_voting))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        val apiKey = getString(R.string.api_key)
+
+
+        /**
+         * Initialize Places. For simplicity, the API key is hard-coded. In a production
+         * environment we recommend using a secure mechanism to manage API keys.
+         */
+        /**
+         * Initialize Places. For simplicity, the API key is hard-coded. In a production
+         * environment we recommend using a secure mechanism to manage API keys.
+         */
+        if (!Places.isInitialized()) {
+            Places.initialize(applicationContext, apiKey)
+        }
+
+// Create a new Places client instance.
+
+// Create a new Places client instance.
+        val placesClient = Places.createClient(this)
+
     }
 }
