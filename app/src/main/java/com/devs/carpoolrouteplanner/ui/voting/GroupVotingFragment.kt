@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.view.isVisible
 import com.devs.carpoolrouteplanner.R
 import com.devs.carpoolrouteplanner.databinding.FragmentGroupVotingBinding
 import com.devs.carpoolrouteplanner.databinding.FragmentHomeBinding
 import com.devs.carpoolrouteplanner.ui.MainGroupActivity
 import com.devs.carpoolrouteplanner.utils.getConfigValue
 import com.devs.carpoolrouteplanner.utils.httpClient
+import com.google.android.material.snackbar.Snackbar
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import kotlinx.android.synthetic.main.fragment_group_voting.*
@@ -52,8 +54,13 @@ class GroupVotingFragment : Fragment() {
         var btnEndVote: Button = btnEndVote
         var btnSubmitLocation: Button = btnSubmitLocation
         var btnRefresh: Button = btnRefresh
+        var btnTutorial: ImageButton = btnTutorial
+        var txtTutorial: TextView = txtTutorial
         var txtEnterLocation: TextView = txtEnterLocation
         var lvVotingOptions: ListView = lvVotingOptions
+        txtTutorial.isVisible = false
+
+        var isSnackbarShowing = false
 
         runBlocking {
             locationOptions = httpClient.post("$my_url/votingOptions") {
@@ -76,6 +83,47 @@ class GroupVotingFragment : Fragment() {
         // -1: There is no active voting for this group
         // -2: Only the group leader can start/end a poll
 
+//        val snackbar = Snackbar.make(this.requireView(), "Rules for voting:\n- Only the group leader can start and stop voting\n" +
+//                "\n- You cannot submit a location for voting if it is already an option\n" +
+//                "\n- Press the 'Refresh Voting Locations' button to see to see newly added voting locations\n" +
+//                "\n- Once you vote, current voting scores are shown\n" +
+//                "\n- Press the 'Refresh Voting Locations' to update scores after voting\n" +
+//                "\n- You may only vote once\n" +
+//                "\nPress the 'i' button again to close this window", Snackbar.LENGTH_INDEFINITE).setAction("dismiss"){}
+        btnTutorial.setOnClickListener{
+            //snackbar.show()
+            if (!txtTutorial.isVisible) {
+                btnStartVote.isClickable = false
+                btnEndVote.isClickable = false
+                btnSubmitLocation.isClickable = false
+                btnRefresh.isClickable = false
+                lvVotingOptions.isClickable = false
+                txtEnterLocation.isClickable = false
+
+
+                txtTutorial.isVisible = true
+                txtTutorial.text = "Rules for voting:\n" +
+                        "\n- Only the group leader can start and stop voting" +
+                        "\n- You cannot submit a location for voting if it is already an option" +
+                        "\n- Press the 'Refresh Voting Locations' button to see to see newly added voting locations" +
+                        "\n- Once you vote, current voting scores are shown" +
+                        "\n- Press the 'Refresh Voting Locations' to update scores after voting" +
+                        "\n- You may only vote once\n" +
+                        "\nPress the 'i' button again to close this window"
+            }
+            else {
+                //txtTutorial.text = ""
+                txtTutorial.isVisible = false
+
+                btnStartVote.isClickable = true
+                btnEndVote.isClickable = true
+                btnSubmitLocation.isClickable = true
+                btnRefresh.isClickable = true
+                lvVotingOptions.isClickable = true
+                txtEnterLocation.isClickable = true
+            }
+
+        }
 
         btnStartVote.setOnClickListener {
 
@@ -174,21 +222,26 @@ class GroupVotingFragment : Fragment() {
                     }
                 }
             }
-            if (locationOptions == "-3"){
-                Toast.makeText(this.context, "There are no voting locations, try refreshing", Toast.LENGTH_SHORT).show()
-            }
-            else {
-                locationOptions = locationOptions.replace("[", "")
-                locationOptions = locationOptions.replace("]", "")
-                locationOptions = locationOptions.replace(34.toChar().toString(), "")
-                locationOptionsList = locationOptions.split(",")
+            when (locationOptions) {
+                "-1" -> {
+                    Toast.makeText(this.context, "There is no active voting for this group", Toast.LENGTH_SHORT).show()
+                }
+                "-3" -> {
+                    Toast.makeText(this.context, "There are no voting locations, try refreshing", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    locationOptions = locationOptions.replace("[", "")
+                    locationOptions = locationOptions.replace("]", "")
+                    locationOptions = locationOptions.replace(34.toChar().toString(), "")
+                    locationOptionsList = locationOptions.split(",")
 
-                listAdapter =
-                    ArrayAdapter(this.requireContext(), android.R.layout.simple_list_item_1, locationOptionsList)
-                lvVotingOptions.adapter = listAdapter
+                    listAdapter =
+                        ArrayAdapter(this.requireContext(), android.R.layout.simple_list_item_1, locationOptionsList)
+                    lvVotingOptions.adapter = listAdapter
 
-                lvVotingOptions.isClickable = false
-                lvVotingOptions.isEnabled = false
+                    lvVotingOptions.isClickable = false
+                    lvVotingOptions.isEnabled = false
+                }
             }
         }
     }
