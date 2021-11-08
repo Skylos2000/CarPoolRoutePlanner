@@ -27,10 +27,6 @@
                 <item
                     android:id="@+id/nav_member_manage"
                     android:title="View Current Members" />
-
-                <item
-                    android:id="@+id/nav_qr_invite"
-                    android:title="Invite Members" />
                 <item
                     android:id="@+id/removemember"
                     android:title="Remove Members" />

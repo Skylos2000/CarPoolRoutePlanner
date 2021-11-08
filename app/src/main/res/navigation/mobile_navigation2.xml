@@ -25,7 +25,11 @@
         android:id="@+id/navigation_group_manage_members"
         android:name="com.devs.carpoolrouteplanner.ui.group_activity.ManageGroupMembersFragment"
         android:label="@string/title_group_manage_members"
-        tools:layout="@layout/fragment_manage_group_members" />
+        tools:layout="@layout/fragment_manage_group_members" >
+        <action
+            android:id="@+id/action_navigation_group_manage_members_to_nav_qr_invite"
+            app:destination="@id/nav_qr_invite" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_group_voting"
         android:name="com.devs.carpoolrouteplanner.ui.voting.GroupVotingFragment"
@@ -40,5 +44,13 @@
             android:id="@+id/action_navigation_maps_fragment_to_navigation_group_manage_destinations"
             app:destination="@id/navigation_group_manage_destinations" />
     </fragment>
-
+    <fragment
+        android:id="@+id/nav_qr_invite"
+        android:name="com.devs.carpoolrouteplanner.ui.qrinvite.InviteQrFragment"
+        android:label="Manage Members"
+        tools:layout="@layout/fragment_invite_qr" >
+        <action
+            android:id="@+id/action_nav_qr_invite_to_navigation_group_manage_members"
+            app:destination="@id/navigation_group_manage_members" />
+    </fragment>
 </navigation>
