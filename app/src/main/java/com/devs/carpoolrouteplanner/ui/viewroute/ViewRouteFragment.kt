@@ -106,9 +106,9 @@ class ViewRouteFragment : Fragment() {
     private fun getDataFromDb(): List<List<String>> {
         destinations = runBlocking {
             httpClient.get<List<GroupDestination>>("$backendUrl/groups/$gid/destinations")
-        }.toMutableList()
+        }.sortedBy { it.orderNum }.toMutableList()
 
-        return destinations.sortedBy { it.orderNum }.map { listOf(it.lat.toString(), it.long.toString(), it.label) }
+        return destinations.map { listOf(it.lat.toString(), it.long.toString(), it.label) }
 //         return listOf(listOf("30","-90","Home"),listOf("29","-90","Work"),listOf("29","-89","Louisiana Tech"),listOf("29","-89.5","Tractor Supply"))
     }
 
@@ -136,7 +136,7 @@ class ViewRouteFragment : Fragment() {
             val newOrderPairs = destinations.mapIndexed { index, groupDestination ->
                 mapOf("first" to groupDestination.destinationId, "second" to index)
             }
-            lifecycleScope.launch {
+            runBlocking {
                 httpClient.post<String>("$backendUrl/groups/$gid/reorder_destinations") {
                     contentType(ContentType.Application.Json)
                     body = newOrderPairs
