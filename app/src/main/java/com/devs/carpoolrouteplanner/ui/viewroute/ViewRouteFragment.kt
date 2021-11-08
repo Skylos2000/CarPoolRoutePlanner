@@ -145,47 +145,55 @@ class ViewRouteFragment : Fragment() {
             }
         }
     }
-        private fun optimizeRoute(){
-            //TODO add backend call to optimize route
+
+    private fun optimizeRoute() {
+        //TODO add backend call to optimize route
+    }
+
+    private fun deleteDestination(destination: GroupDestination) {
+        runBlocking {
+            httpClient.post<String>("$backendUrl/groups/${gid}/destinations/${destination.destinationId}/delete")
         }
-        private fun startNavigation(){
-            //TODO make gmaps open
-            //destinationString = httpClient.get<List<Pair<Double,Double>>>(backendUrl + "/get_group_routes/${httpResponse.first()}").joinToString("|"){ "${it.first},${it.second}" }
-            //Uri.parse("https://www.google.com/maps/dir/?api=1&destination=18.518496,73.879259&travelmode=driving&waypoints=$destinationString")
+    }
 
-            var destinationString = ""
-            var finalDest = ""
+    private fun startNavigation(){
+        //TODO make gmaps open
+        //destinationString = httpClient.get<List<Pair<Double,Double>>>(backendUrl + "/get_group_routes/${httpResponse.first()}").joinToString("|"){ "${it.first},${it.second}" }
+        //Uri.parse("https://www.google.com/maps/dir/?api=1&destination=18.518496,73.879259&travelmode=driving&waypoints=$destinationString")
 
-            for (i in 1 until routedata.size) {
-                if (i == 1) {
-                    destinationString += routedata[i][0] + "," + routedata[i][1]
-                } else if (i != 1 && i != routedata.size -1) {
-                    destinationString += "|" + routedata[i][0] + "," + routedata[i][1]
-                } else {
-                    finalDest += routedata[i][0] + "," + routedata[i][1]
-                }
+        var destinationString = ""
+        var finalDest = ""
+
+        for (i in 1 until routedata.size) {
+            if (i == 1) {
+                destinationString += routedata[i][0] + "," + routedata[i][1]
+            } else if (i != 1 && i != routedata.size -1) {
+                destinationString += "|" + routedata[i][0] + "," + routedata[i][1]
+            } else {
+                finalDest += routedata[i][0] + "," + routedata[i][1]
             }
+        }
 
-            val gmmIntentUri = Uri.parse("https://www.google.com/maps/dir/?api=1&destination=" + finalDest + "&travelmode=driving&waypoints=" + destinationString)
+        val gmmIntentUri = Uri.parse("https://www.google.com/maps/dir/?api=1&destination=" + finalDest + "&travelmode=driving&waypoints=" + destinationString)
 
-            System.out.println(gmmIntentUri)
+        System.out.println(gmmIntentUri)
 
-            val intent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-            intent.setPackage("com.google.android.apps.maps")
+        val intent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+        intent.setPackage("com.google.android.apps.maps")
+        try {
+            startActivity(intent)
+        } catch (ex: ActivityNotFoundException) {
             try {
-                startActivity(intent)
-            } catch (ex: ActivityNotFoundException) {
-                try {
-                    val unrestrictedIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                    startActivity(unrestrictedIntent)
-                } catch (innerEx: ActivityNotFoundException) {
-                    Toast.makeText(this.requireContext(), "Please install a maps application", Toast.LENGTH_LONG)
-                        .show()
-                }
+                val unrestrictedIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                startActivity(unrestrictedIntent)
+            } catch (innerEx: ActivityNotFoundException) {
+                Toast.makeText(this.requireContext(), "Please install a maps application", Toast.LENGTH_LONG)
+                    .show()
             }
-            //testing git
-
         }
+        //testing git
+
+    }
 
 }
 
