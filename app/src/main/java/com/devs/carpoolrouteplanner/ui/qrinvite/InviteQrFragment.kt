@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.devs.carpoolrouteplanner.R
 import com.devs.carpoolrouteplanner.ui.AccountSignIn
+import com.devs.carpoolrouteplanner.ui.MainGroupActivity
 import com.devs.carpoolrouteplanner.utils.getConfigValue
 import com.devs.carpoolrouteplanner.utils.httpClient
 import com.google.zxing.BarcodeFormat
@@ -72,8 +73,9 @@ class InviteQrFragment : Fragment() {
 
         }
 
-        var gid = activity?.intent?.getStringExtra("groupId") //TODO
-        if (gid == null) gid = "123"
+        val gid = (activity as MainGroupActivity).gid.toString()
+//        var gid = activity?.intent?.getStringExtra("groupId") //TODO
+//        if (gid == null) gid = "123"
 
         loadQR(gid,v)
 

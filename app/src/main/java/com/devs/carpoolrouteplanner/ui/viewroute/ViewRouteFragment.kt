@@ -164,15 +164,15 @@ class ViewRouteFragment : Fragment() {
         var destinationString = ""
         var finalDest = ""
 
-        for (i in 1 until routedata.size) {
-            if (i == 1) {
-                destinationString += routedata[i][0] + "," + routedata[i][1]
-            } else if (i != 1 && i != routedata.size -1) {
-                destinationString += "|" + routedata[i][0] + "," + routedata[i][1]
-            } else {
-                finalDest += routedata[i][0] + "," + routedata[i][1]
+            for (i in 1 until destinations.size) {
+                if (i == 1) {
+                    destinationString += destinations[i].lat.toString() + "," + destinations[i].long.toString()
+                } else if (i != 1 && i != destinations.size -1) {
+                    destinationString += "|" + destinations[i].lat.toString() + "," + destinations[i].long.toString()
+                } else {
+                    finalDest += destinations[i].lat.toString() + "," + destinations[i].long.toString()
+                }
             }
-        }
 
         val gmmIntentUri = Uri.parse("https://www.google.com/maps/dir/?api=1&destination=" + finalDest + "&travelmode=driving&waypoints=" + destinationString)
 

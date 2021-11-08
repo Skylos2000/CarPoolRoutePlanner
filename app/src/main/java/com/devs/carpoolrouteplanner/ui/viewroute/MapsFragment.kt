@@ -1,16 +1,23 @@
 package com.devs.carpoolrouteplanner.ui.viewroute
 
+import android.Manifest
+import android.app.Activity
+import android.content.ContentValues.TAG
+import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
+import androidx.fragment.app.Fragment
+import com.devs.carpoolrouteplanner.utils.GroupDestination
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.devs.carpoolrouteplanner.R
 import com.devs.carpoolrouteplanner.ui.MainGroupActivity
-import com.devs.carpoolrouteplanner.utils.GroupDestination
 import com.devs.carpoolrouteplanner.utils.getConfigValue
 import com.devs.carpoolrouteplanner.utils.httpClient
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -19,9 +26,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import io.ktor.client.features.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.android.synthetic.main.fragment_maps.*
+import kotlinx.android.synthetic.main.route_recycler_view.*
 import kotlinx.coroutines.launch
 
 class MapsFragment : Fragment() {
@@ -44,7 +53,19 @@ class MapsFragment : Fragment() {
 //                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
 //        )
 
-        googleMap.isMyLocationEnabled=true
+        if (ActivityCompat.checkSelfPermission(this.requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            //fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null)
+        }
+        else if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 69)
+        }
+        if (ActivityCompat.checkSelfPermission(this.requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            //fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null)
+        }
+        else if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            requestPermissions(arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION), 70)
+        }
+        //googleMap.isMyLocationEnabled=true
 
 
         var ruston = LatLng(32.5232,-92.6379)//where map opens to
@@ -90,12 +111,23 @@ class MapsFragment : Fragment() {
         val gid = (activity as MainGroupActivity).gid
         val myurl = context?.getConfigValue("backend_url")
         //TODO Geocode latlng
+        val geocoder = Geocoder(this.requireContext())
+        val address: List<Address> = geocoder.getFromLocation(lat, long, 1)
+//        try
+//        {
+//        val address: List<Address> = geocoder.getFromLocation(lat, long, 1)
+//            Toast.makeText(this.requireContext(), address.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show()
+//        }catch (E: Exception){
+//            Toast.makeText(this.requireContext(), E.message, Toast.LENGTH_SHORT).show()
+//        }
+
+
         //TODO send dest. to db here
         lifecycleScope.launch {
             try {
                 val response: String = httpClient.post(myurl + "/groups/${gid}/add_destinations") {
-                    contentType(ContentType.Application.Json)           //groups/{groupId}/add_destinations
-                    body = listOf(GroupDestination(0,gid,lat,long,"test",99))
+                    contentType(ContentType.Application.Json)
+                    body = listOf(GroupDestination(0,gid,lat,long, address.get(0).getAddressLine(0),99))
 
                 }
 //                Toast.makeText(activity?.applicationContext,
