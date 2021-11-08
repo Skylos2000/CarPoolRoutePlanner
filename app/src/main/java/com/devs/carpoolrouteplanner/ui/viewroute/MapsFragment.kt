@@ -109,17 +109,19 @@ class MapsFragment : Fragment() {
         lifecycleScope.launch {
             try {
                 val response: String = httpClient.post(myurl + "/groups/${gid}/add_destinations") {
-                    contentType(ContentType.Application.Json)
+                    contentType(ContentType.Application.Json)           //groups/{groupId}/add_destinations
                     body = listOf(GroupDestination(0,gid,lat,long,"test",99))
 
                 }
-                Toast.makeText(activity?.applicationContext,
-                    "${response}",
-                    Toast.LENGTH_LONG).show()
+//                Toast.makeText(activity?.applicationContext,
+//                    "${response}",
+//                    Toast.LENGTH_LONG).show()
             } catch (E: Exception) {
                 Toast.makeText(activity?.applicationContext,
                     "${E.message}",
                     Toast.LENGTH_LONG).show()
+                System.out.println(E.message)
+                //throw E
             }
         }
     }

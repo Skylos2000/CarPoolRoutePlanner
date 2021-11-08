@@ -18,7 +18,8 @@ data class User(val userId: Int, val email: String, val username: String, val gr
 private var authCredentials: BasicAuthCredentials? = null
 private var bearerToken: BearerTokens? = null
 
-lateinit var httpClient: HttpClient
+var httpClient: HttpClient = HttpClient(CIO)
+
 
 suspend fun installAuth(apiUrl: String, username: String, password: String): LoginResult {
     // Load credentials
