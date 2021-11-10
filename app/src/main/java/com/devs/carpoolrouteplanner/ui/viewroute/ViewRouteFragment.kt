@@ -75,7 +75,9 @@ class ViewRouteFragment : Fragment() {
             val startroutebutton: Button = start_navigation
             val optimizeroute: Button = optimize_route
             newdestinationbutton.setOnClickListener {
+
                 findNavController().navigate(R.id.action_navigation_group_manage_destinations_to_navigation_maps_fragment)
+
             }
             startroutebutton.setOnClickListener {
                 startNavigation()

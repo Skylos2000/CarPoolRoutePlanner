@@ -59,7 +59,7 @@ class ManageGroupMembersFragment : Fragment() {
             // set the custom adapter to the RecyclerView
             adapter = RecyclerAdapter(titleList,descriptionList)
             val itemTouchHelper = ItemTouchHelper(simpleCallback)
-            itemTouchHelper.attachToRecyclerView(recyclerView)
+            itemTouchHelper.attachToRecyclerView(this)
 
             var invitemembersbutton = invite_members
             invitemembersbutton.setOnClickListener{
@@ -70,7 +70,7 @@ class ManageGroupMembersFragment : Fragment() {
         }
     }
     var simpleCallback = object : ItemTouchHelper.SimpleCallback(
-        ItemTouchHelper.RIGHT.or(ItemTouchHelper.LEFT),1) {
+        ItemTouchHelper.RIGHT,ItemTouchHelper.LEFT) {
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
@@ -87,10 +87,10 @@ class ManageGroupMembersFragment : Fragment() {
     }
     private fun deleteMember(gid: Int,uid: Int){
         //TODO add route to db
-        runBlocking {
-            httpClient.get<String>("/groups/${gid}/members/${uid}/delete")
-        }
-        reload()
+//        runBlocking {
+//            httpClient.get<String>("/groups/$gid/members/$uid/delete")
+//        }
+//        reload()
     }
     private fun reload(){
         findNavController().navigate(R.id.action_reload_members)
