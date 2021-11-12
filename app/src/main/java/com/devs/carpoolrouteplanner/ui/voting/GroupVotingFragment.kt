@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.devs.carpoolrouteplanner.R
 import com.devs.carpoolrouteplanner.databinding.FragmentGroupVotingBinding
 import com.devs.carpoolrouteplanner.databinding.FragmentHomeBinding
@@ -18,6 +19,8 @@ import com.google.android.material.snackbar.Snackbar
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import kotlinx.android.synthetic.main.fragment_group_voting.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 /**
@@ -79,6 +82,34 @@ class GroupVotingFragment : Fragment() {
 
         var listAdapter = ArrayAdapter(this.requireContext(), android.R.layout.simple_list_item_1, locationOptionsList)
         lvVotingOptions.adapter = listAdapter
+
+        val tmpContext = this.requireContext()
+        lifecycleScope.launch {
+            while (true){
+                if (lvVotingOptions.isEnabled) {
+                    locationOptions = httpClient.post("$my_url/votingOptions") {
+                        body = gid.toString()
+                    }
+                }
+                else{
+                    locationOptions = httpClient.post("$my_url/votingScores") {
+                        body = gid.toString()
+                    }
+                }
+
+                if (locationOptions != "-1"){
+
+                    locationOptions = locationOptions.replace("[", "")
+                    locationOptions = locationOptions.replace("]", "")
+                    locationOptions = locationOptions.replace(34.toChar().toString(), "")
+                    locationOptionsList = locationOptions.split(",")
+
+                    listAdapter = ArrayAdapter(tmpContext, android.R.layout.simple_list_item_1, locationOptionsList)
+                    lvVotingOptions.adapter = listAdapter
+                }
+                delay(50)
+            }
+        }
 
         // -1: There is no active voting for this group
         // -2: Only the group leader can start/end a poll
@@ -155,7 +186,7 @@ class GroupVotingFragment : Fragment() {
         }
 
         btnSubmitLocation.setOnClickListener {
-            if (txtEnterLocation.text == ""){
+            if (txtEnterLocation.text.isEmpty()){
                 Toast.makeText(this.context, "Location field cannot be empty", Toast.LENGTH_SHORT).show()
             }
             else {
@@ -179,7 +210,8 @@ class GroupVotingFragment : Fragment() {
         }
 
         // make new route for this in the backend
-        btnRefresh.setOnClickListener {
+        //btnRefresh.setOnClickListener {
+        fun Refresh() {
             runBlocking {
                 // authenticates user
                 if (lvVotingOptions.isEnabled) {
@@ -194,7 +226,7 @@ class GroupVotingFragment : Fragment() {
                 }
             }
             if (locationOptions == "-1"){
-                Toast.makeText(this.context, "There is no active voting for this group", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.requireContext(), "There is no active voting for this group", Toast.LENGTH_SHORT).show()
             }
             else {
                 locationOptions = locationOptions.replace("[", "")
