@@ -53,10 +53,11 @@ class GroupVotingFragment : Fragment() {
         val my_url = context?.getConfigValue("backend_url")
         var gid = (activity as MainGroupActivity).gid
 
+        var parsedLocations:List<String>
+
         var btnStartVote: Button = btnStartVote
         var btnEndVote: Button = btnEndVote
         var btnSubmitLocation: Button = btnSubmitLocation
-        var btnRefresh: Button = btnRefresh
         var btnTutorial: ImageButton = btnTutorial
         var txtTutorial: TextView = txtTutorial
         var txtEnterLocation: TextView = txtEnterLocation
@@ -127,7 +128,6 @@ class GroupVotingFragment : Fragment() {
                 btnStartVote.isClickable = false
                 btnEndVote.isClickable = false
                 btnSubmitLocation.isClickable = false
-                btnRefresh.isClickable = false
                 lvVotingOptions.isClickable = false
                 txtEnterLocation.isClickable = false
 
@@ -149,7 +149,6 @@ class GroupVotingFragment : Fragment() {
                 btnStartVote.isClickable = true
                 btnEndVote.isClickable = true
                 btnSubmitLocation.isClickable = true
-                btnRefresh.isClickable = true
                 lvVotingOptions.isClickable = true
                 txtEnterLocation.isClickable = true
             }
