@@ -135,6 +135,7 @@ class MapsFragment : Fragment() {
                 //Toast.makeText(requireContext(), place.name, Toast.LENGTH_LONG).show()
                 addDestinationToDb(place.latLng.latitude,place.latLng.longitude,place.name)
                 findNavController().navigate(R.id.action_navigation_maps_fragment_to_navigation_group_manage_destinations)
+                findNavController().navigate(R.id.action_reload)
             }
 
             override fun onError(status: Status) {
@@ -147,10 +148,8 @@ class MapsFragment : Fragment() {
         val gid = (activity as MainGroupActivity).gid
         val myurl = context?.getConfigValue("backend_url")
         //TODO Geocode latlng
-        val label = if (title != null) title else {
-            val geocoder = Geocoder(this.requireContext())
-            geocoder.getFromLocation(lat, long, 1)[0].getAddressLine(0)
-        }
+        val geocoder = Geocoder(this.requireContext())
+
 
 //        try
 //        {
@@ -164,6 +163,10 @@ class MapsFragment : Fragment() {
         //TODO send dest. to db here
         lifecycleScope.launch {
             try {
+                val label = if (title != null) title else {
+
+                    geocoder.getFromLocation(lat, long, 1)[0].getAddressLine(0)
+                }
                 val response: String = httpClient.post(myurl + "/groups/${gid}/add_destinations") {
                     contentType(ContentType.Application.Json)
                     body = listOf(GroupDestination(0,gid,lat,long, label,99))
