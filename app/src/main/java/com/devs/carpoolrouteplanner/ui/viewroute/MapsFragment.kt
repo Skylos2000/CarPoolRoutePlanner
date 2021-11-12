@@ -64,19 +64,7 @@ class MapsFragment : Fragment() {
 //                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
 //        )
 
-        if (ActivityCompat.checkSelfPermission(this.requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            //fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null)
-        }
-        else if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 69)
-        }
-        if (ActivityCompat.checkSelfPermission(this.requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            //fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null)
-        }
-        else if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            requestPermissions(arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION), 70)
 
-        }
         googleMap.isMyLocationEnabled=true
         var marker: Marker? = null
         var ruston = LatLng(32.5232,-92.6379)//where map opens to
@@ -92,6 +80,7 @@ class MapsFragment : Fragment() {
     }
 
     override fun onCreateView(
+
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -101,6 +90,19 @@ class MapsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (ActivityCompat.checkSelfPermission(this.requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            //fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null)
+        }
+        else if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 69)
+        }
+        if (ActivityCompat.checkSelfPermission(this.requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            //fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null)
+        }
+        else if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            requestPermissions(arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION), 70)
+
+        }
         super.onViewCreated(view, savedInstanceState)
         val apiKey = getString(R.string.api_key)
 
